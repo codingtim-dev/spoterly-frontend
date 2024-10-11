@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import {circle, latLng, marker, polygon, tileLayer} from 'leaflet';
+import {Map, circle, latLng, marker, polygon, tileLayer, Icon, icon} from 'leaflet';
 
 @Component({
   selector: 'app-map-view',
@@ -13,7 +13,9 @@ import {circle, latLng, marker, polygon, tileLayer} from 'leaflet';
 })
 export class MapViewComponent {
 
-
+  onMapReady(map: Map) {
+    // when map is initialized and ready for manipulation, get all coordinates to create markers
+  }
 
 
   options = {
@@ -21,7 +23,14 @@ export class MapViewComponent {
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
       }),
-      marker([0,0])
+      marker([0,0], {
+        icon: icon({
+          ...Icon.Default.prototype.options,
+          iconUrl: 'assets/marker-icon.png',
+          iconRetinaUrl: 'assets/marker-icon-2x.png',
+          shadowUrl: 'assets/marker-shadow.png'
+        })
+      })
     ],
     zoom: 10,
     center: latLng(0, 0),
@@ -37,6 +46,7 @@ export class MapViewComponent {
       'Big Square': polygon([[ 46.8, -121.55 ], [ 46.9, -121.55 ], [ 46.9, -121.7 ], [ 46.8, -121.7 ]])
     }
   }
+
 
   onMapClick(event: any) {
     const { lat, lng } = event.leafletEvent.latlng;
