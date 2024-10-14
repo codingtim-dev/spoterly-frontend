@@ -1,32 +1,37 @@
 <div class="overlay">
-  <mat-card class="<form-card>">
+  <mat-card class="form-card">
     <mat-card-header>
       <h1>Welcome back!</h1>
     </mat-card-header>
-    <mat-card-content>
-      <mat-form-field>
+    <mat-card-content class="login-content">
+      <form class="login-form">
+        <mat-form-field class="form-input">
+          <input
+            matInput
+            type="text"
+            placeholder="Enter your E-Mail"
+            [formControl]="email"
+            required
+          >
+        </mat-form-field>
+        <mat-form-field class="form-input">
+          <input
+            matInput
+            placeholder="Enter your password"
+            [formControl]="password"
+            required
+          >
+        </mat-form-field>
+        <mat-form-field class="login-submit">
+          <button type="submit" mat-flat-button>Login</button>
+        </mat-form-field>
+      </form>
 
-
-        <input
-          matInput
-          type="text"
-          placeholder="Enter your E-Mail"
-          [formControl]="email"
-          required
-        >
-        <input
-          matInput
-          placeholder="Enter your password"
-          [formControl]="password"
-          required
-        >
-
-        <button mat-button>Login</button>
-      </mat-form-field>
       <mat-divider></mat-divider>
       <div class="register-row">
-        You do not have an account yet?
-        <button mat-flat-button>Sign up</button>
+        <p>You do not have an account yet?</p>
+        <button mat-button>Sign up</button>
+
       </div>
 
     </mat-card-content>
