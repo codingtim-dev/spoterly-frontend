@@ -14,11 +14,14 @@ import {RegisterComponent} from '../components/auth/register/register.component'
 export class AppComponent {
   title = 'spoterly-frontend';
 
+  auth: boolean = false;
   hasAccount = true;
 
-  showRegister(register: boolean) {
-    this.hasAccount = false;
+  showRegister(hasAccount: boolean) {
+    this.hasAccount = hasAccount;
+  }
 
-    console.log(this.hasAccount);
+  isAuthenticated(auth: boolean) {
+    this.auth = auth;
   }
 }
