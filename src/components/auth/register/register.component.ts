@@ -3,7 +3,7 @@ import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angula
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
-import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
+import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
 
 @Component({
@@ -17,7 +17,8 @@ import {MatInput, MatInputModule} from "@angular/material/input";
     MatButton,
     MatCardHeader,
     MatCardContent,
-    MatDivider
+    MatDivider,
+    MatLabel
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -31,7 +32,7 @@ export class RegisterComponent {
   @Output() registerVis = new EventEmitter<boolean>();
   @Output() authenticate = new EventEmitter<boolean>();
 
-  setRegisterVis(value: boolean) {
+  showSignUpForm(value: boolean) {
     this.registerVis.emit(value);
   }
 

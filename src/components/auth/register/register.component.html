@@ -3,43 +3,39 @@
     <mat-card-header>
       <h1>Welcome to spoterly!</h1>
     </mat-card-header>
-    <mat-card-content class="register-content">
-      <form class="register-form">
-        <mat-form-field class="form-input">
+    <mat-card-content>
+        <mat-form-field class="form-input" appearance="outline">
+          <mat-label>Enter your Username</mat-label>
           <input
             matInput
             type="text"
-            placeholder="Enter your Username"
-            [formControl]="username"
             required
           >
         </mat-form-field>
-        <mat-form-field class="form-input">
+        <mat-form-field class="form-input" appearance="outline">
+          <mat-label>Enter your E-Mail</mat-label>
           <input
             matInput
             type="text"
             placeholder="Enter your E-Mail"
-            [formControl]="email"
             required
           >
         </mat-form-field>
-        <mat-form-field class="form-input">
+        <mat-form-field class="form-input" appearance="outline">
+          <mat-label>Enter your Password</mat-label>
           <input
             matInput
             placeholder="Enter your password"
-            [formControl]="password"
             required
           >
         </mat-form-field>
-        <mat-form-field class="register-submit">
           <button type="submit" mat-flat-button (click)="onsubmit()">Sign up</button>
-        </mat-form-field>
-      </form>
+
 
       <mat-divider></mat-divider>
       <div class="register-row">
         <p>You do not have an account yet?</p>
-        <button mat-button (click)="setRegisterVis(false)">Sign in</button>
+        <button mat-button (click)="showSignUpForm(false)">Sign in</button>
 
       </div>
 

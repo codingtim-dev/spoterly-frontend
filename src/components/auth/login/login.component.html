@@ -3,34 +3,32 @@
     <mat-card-header>
       <h1>Welcome back!</h1>
     </mat-card-header>
-    <mat-card-content class="login-content">
-      <form class="login-form">
-        <mat-form-field class="form-input">
+    <mat-card-content>
+
+        <mat-form-field class="form-input" appearance="outline">
+          <mat-label>Enter your E-Mail</mat-label>
           <input
             matInput
-            type="text"
-            placeholder="Enter your E-Mail"
-            [formControl]="email"
             required
           >
         </mat-form-field>
-        <mat-form-field class="form-input">
+
+        <mat-form-field class="form-input" appearance="outline">
+          <mat-label>Enter your Password</mat-label>
           <input
             matInput
-            placeholder="Enter your password"
-            [formControl]="password"
             required
           >
         </mat-form-field>
-        <mat-form-field class="login-submit">
-          <button type="submit" mat-flat-button (click)="onsubmit()">Login</button>
-        </mat-form-field>
-      </form>
+
+
+        <button type="submit" mat-flat-button (click)="onsubmit()">Login</button>
+
 
       <mat-divider></mat-divider>
       <div class="register-row">
         <p>You do not have an account yet?</p>
-        <button mat-button (click)="setRegisterVis(true)">Sign up</button>
+        <button mat-button (click)="showSignUpForm(true)">Sign up</button>
 
       </div>
 
