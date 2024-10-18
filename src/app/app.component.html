@@ -1,6 +1,12 @@
 
 <div class="main-content">
+
+    @if(!showSignUp){
+      <app-login (showSignUp)="showRegister($event)" (authenticate)="isAuthenticated($event)"></app-login>
+    } @else {
+      <app-register (registerVis)="showRegister($event)"></app-register>
+    }
+
   <app-navbar></app-navbar>
 </div>
-
 <router-outlet></router-outlet>
