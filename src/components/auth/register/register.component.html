@@ -17,7 +17,6 @@
           <input
             matInput
             type="text"
-            placeholder="Enter your E-Mail"
             required
           >
         </mat-form-field>
@@ -25,20 +24,16 @@
           <mat-label>Enter your Password</mat-label>
           <input
             matInput
-            placeholder="Enter your password"
+            type="password"
             required
           >
         </mat-form-field>
           <button type="submit" mat-flat-button (click)="onsubmit()">Sign up</button>
-
-
       <mat-divider></mat-divider>
       <div class="register-row">
         <p>You do not have an account yet?</p>
         <button mat-button (click)="showSignUpForm(false)">Sign in</button>
-
       </div>
-
     </mat-card-content>
 
   </mat-card>
