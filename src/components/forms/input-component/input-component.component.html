@@ -1,0 +1,14 @@
+<div *ngIf="control" class="input-container">
+  <ng-container *ngIf="inputType !== 'textArea'">
+    <input
+      [class.disabled]="isDisabled"
+      [class.isvalid]="errors !== null"
+      [disabled]="isDisabled"
+      [formControl]="control"
+      [placeholder]="placeholder"
+      [type]="inputType"
+      matInput
+      class="input-element"
+    />
+  </ng-container>
+</div>

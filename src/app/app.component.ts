@@ -12,4 +12,12 @@ import {LoginComponent} from '../components/auth/login/login.component';
 })
 export class AppComponent {
   title = 'spoterly-frontend';
+
+  hasAccount = true;
+
+  showRegister(register: boolean) {
+    this.hasAccount = false;
+
+    console.log(this.hasAccount);
+  }
 }

@@ -23,14 +23,14 @@
           >
         </mat-form-field>
         <mat-form-field class="login-submit">
-          <button type="submit" mat-flat-button>Login</button>
+          <button type="submit" mat-flat-button (click)="onsubmit">Login</button>
         </mat-form-field>
       </form>
 
       <mat-divider></mat-divider>
       <div class="register-row">
         <p>You do not have an account yet?</p>
-        <button mat-button>Sign up</button>
+        <button mat-button (click)="setRegisterVis(true)">Sign up</button>
 
       </div>
 
