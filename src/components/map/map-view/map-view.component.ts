@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import {Map, circle, latLng, marker, polygon, tileLayer, Icon, icon} from 'leaflet';
+import {Map, circle, latLng, marker, polygon, tileLayer, Icon, icon, Marker, Layer} from 'leaflet';
+import {map} from 'rxjs';
 
 @Component({
   selector: 'app-map-view',
@@ -17,6 +18,7 @@ export class MapViewComponent {
     // when map is initialized and ready for manipulation, get all coordinates to create markers
   }
 
+  layer: Layer = new Layer();
 
   options = {
     layers: [
@@ -49,8 +51,17 @@ export class MapViewComponent {
 
 
   onMapClick(event: any) {
-    const { lat, lng } = event.leafletEvent.latlng;
+    console.log(event.latlng);
     // Add marker logic here
-    console.log(`Clicked at: ${lat}, ${lng}`);
+
+    const newMarker =  marker([event.latlng.lat, event.latlng.lng], {
+      icon: icon({
+        ...Icon.Default.prototype.options,
+        iconUrl: 'assets/marker-icon.png',
+        iconRetinaUrl: 'assets/marker-icon-2x.png',
+        shadowUrl: 'assets/marker-shadow.png'
+      })
+    } );
+
   }
 }
