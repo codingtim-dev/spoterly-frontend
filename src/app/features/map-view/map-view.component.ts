@@ -1,6 +1,16 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
+import {icon} from 'leaflet';
+
+
+const locationIcon = L.icon({
+    iconUrl: '../',
+    iconSize: [25, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+  }
+)
 
 @Component({
   selector: 'app-map-view',
@@ -15,9 +25,13 @@ export class MapViewComponent implements AfterViewInit {
 
   private map!: L.Map;
   markers: L.Marker[] = [
-    L.marker([31.9539, 35.9106]), // Amman
-    L.marker([32.5568, 35.8469]) // Irbid
+    L.marker([31.9539, 35.9106], {icon: locationIcon}),
+    L.marker([32.5568, 35.8469])
   ];
+
+  size =  20;
+
+
 
   // instantiate the map when the DOM is fully loaded
   ngAfterViewInit() {
@@ -49,37 +63,7 @@ export class MapViewComponent implements AfterViewInit {
 
 
 
-  // layer: Layer = new Layer();
-  //
-  //
-  // options = {
-  //   layers: [
-  //     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  //       maxZoom: 18,
-  //     }),
-  //     marker([0,0], {
-  //       icon: icon({
-  //         ...Icon.Default.prototype.options,
-  //         iconUrl: 'assets/marker-icon.png',
-  //         iconRetinaUrl: 'assets/marker-icon-2x.png',
-  //         shadowUrl: 'assets/marker-shadow.png'
-  //       })
-  //     })
-  //   ],
-  //   zoom: 10,
-  //   center: latLng(0, 0),
-  // };
-  //
-  // layersControl = {
-  //   baseLayers: {
-  //     'Open Street Map': tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
-  //     'Open Cycle Map': tileLayer('https://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-  //   },
-  //   overlays: {
-  //     'Big Circle': circle([ 0, 0 ], { radius: 5000 }),
-  //     'Big Square': polygon([[ 46.8, -121.55 ], [ 46.9, -121.55 ], [ 46.9, -121.7 ], [ 46.8, -121.7 ]])
-  //   }
-  // }
+
 
 
   // onMapClick(event: any) {
