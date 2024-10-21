@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {NavbarComponent} from '../components/navbar/navbar.component';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import {MapViewComponent} from '../components/map/map-view/map-view.component';
 import {LoginComponent} from '../components/auth/login/login.component';
 import {RegisterComponent} from '../components/auth/register/register.component';
-import {MatFormField, MatFormFieldModule, MatHint, MatLabel, MatSuffix} from '@angular/material/form-field';
-import {MatIcon} from '@angular/material/icon';
-import {MatInput, MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, LoginComponent, RegisterComponent, MatFormFieldModule, MatInputModule],
+  imports: [RouterOutlet, NavbarComponent, LeafletModule, MapViewComponent, LoginComponent, RegisterComponent, MatFormFieldModule, MatInputModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
