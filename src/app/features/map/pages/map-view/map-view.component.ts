@@ -1,7 +1,11 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
-import {icon} from 'leaflet';
+import Spot from '../../models/Spot';
+import {mockSpotList} from '../../models/mockSpotList';
+import {SpotDetailsComponent} from '../../components/spot-details/spot-details.component';
+import {LeafletMouseEvent} from 'leaflet';
+import {FormsModule} from '@angular/forms';
 
 
 const locationIcon = L.icon({
@@ -13,11 +17,15 @@ const locationIcon = L.icon({
   }
 )
 
+
+
 @Component({
   selector: 'app-map-view',
   standalone: true,
   imports: [
-    LeafletModule
+    LeafletModule,
+    SpotDetailsComponent,
+    FormsModule
   ],
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss'
@@ -25,12 +33,17 @@ const locationIcon = L.icon({
 export class MapViewComponent implements AfterViewInit {
 
   private map!: L.Map;
-  markers: L.Marker[] = [
-    L.marker([31.9539, 35.9106], {icon: locationIcon}),
-  ];
+  mockSpot: Spot[] = mockSpotList;
+  selectedSpot: any;
 
-  size =  20;
 
+  // async call to http get method, retrieving the spots from the database
+  private mockMarkersList = this.mockSpot.map(value =>
+    new L.Marker(
+      [value.latitude, value.longitude],
+      {icon: locationIcon}).bindPopup(value.title).on('click', () => this.onClickMarker(value) ));
+
+  markers: L.Marker[] = this.mockMarkersList;
 
 
   // instantiate the map when the DOM is fully loaded
@@ -44,7 +57,7 @@ export class MapViewComponent implements AfterViewInit {
   private initMap() {
     const baseMapURl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     this.map = L.map('map');
-    L.tileLayer(baseMapURl).addTo(this.map);
+    L.tileLayer(baseMapURl, {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(this.map);
   }
 
 
@@ -61,23 +74,8 @@ export class MapViewComponent implements AfterViewInit {
     this.map.fitBounds(bounds);
   }
 
-
-
-
-
-
-  // onMapClick(event: any) {
-  //   console.log(event.latlng);
-  //   // Add marker logic here
-  //
-  //   const newMarker =  marker([event.latlng.lat, event.latlng.lng], {
-  //     icon: icon({
-  //       ...Icon.Default.prototype.options,
-  //       iconUrl: 'assets/marker-icon.png',
-  //       iconRetinaUrl: 'assets/marker-icon-2x.png',
-  //       shadowUrl: 'assets/marker-shadow.png'
-  //     })
-  //   } );
-  //
-  // }
+  onClickMarker(spot: Spot): void {
+    this.selectedSpot = spot
+    console.log(this.selectedSpot)
+  }
 }

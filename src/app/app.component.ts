@@ -2,7 +2,7 @@ import {Component, importProvidersFrom} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {NavbarComponent} from './features/navbar/navbar.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import {MapViewComponent} from './features/map-view/map-view.component';
+import {MapViewComponent} from './features/map/pages/map-view/map-view.component';
 import {LoginComponent} from './core/auth/pages/login/login.component';
 import {RegisterComponent} from './core/auth/pages/register/register.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
