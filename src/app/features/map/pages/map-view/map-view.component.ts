@@ -41,7 +41,7 @@ export class MapViewComponent implements AfterViewInit {
   private mockMarkersList = this.mockSpot.map(value =>
     new L.Marker(
       [value.latitude, value.longitude],
-      {icon: locationIcon}).bindPopup(value.title).on('click', () => this.onClickMarker(value) ));
+      {icon: locationIcon}).bindPopup(value.title).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
 
   markers: L.Marker[] = this.mockMarkersList;
 
@@ -72,6 +72,11 @@ export class MapViewComponent implements AfterViewInit {
 
     // Fit the map view to the bounds
     this.map.fitBounds(bounds);
+  }
+
+  onPopupClose() {
+    this.selectedSpot = null;
+    console.log(this.selectedSpot)
   }
 
   onClickMarker(spot: Spot): void {
