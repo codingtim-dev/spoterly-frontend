@@ -5,10 +5,11 @@ import {icon} from 'leaflet';
 
 
 const locationIcon = L.icon({
-    iconUrl: '../',
-    iconSize: [25, 40],
+    iconUrl: 'assets/icons/map-icon.svg',
+    iconSize: [40, 40],
     iconAnchor: [12, 41],
-    popupAnchor: [1, -34]
+    popupAnchor: [1, -34],
+    className: "marker"
   }
 )
 
@@ -26,7 +27,6 @@ export class MapViewComponent implements AfterViewInit {
   private map!: L.Map;
   markers: L.Marker[] = [
     L.marker([31.9539, 35.9106], {icon: locationIcon}),
-    L.marker([32.5568, 35.8469])
   ];
 
   size =  20;
