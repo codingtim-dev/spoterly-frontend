@@ -15,6 +15,27 @@ html, body { height: 100%; }
   box-sizing: border-box;
 }
 
-body { padding: 0; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { padding: 0; margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
 
 
+mat-form-field {
+  &.form-input {
+    ::ng-deep .mat-form-field-outline {
+      color: $primary-color !important;
+    }
+  }
+}
+
+.input-element {
+  width: 100%;
+  padding: 16px;
+  font-size: 1rem;
+  font-family: Inter, sans-serif;
+  color: #201a1b;
+
+  &:focus {
+    outline: none !important;
+    border: 2px solid $primary-color;
+
+  }
+}

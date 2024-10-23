@@ -1,4 +1,4 @@
-
+@import '../../../../../styles/variables';
 
 .overlay {
   position: absolute;
@@ -7,7 +7,7 @@
 
   z-index: 9999;
 
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(137, 137, 137, .24);
   backdrop-filter: blur(3px);
 
   display: flex;
@@ -22,6 +22,7 @@
     width: 500px;
     height: 680px;
     padding: 68px 36px;
+    border-radius: 0;
 
     background-color: white;
 
@@ -35,6 +36,7 @@ mat-card-header {
   display: flex;
   justify-content: center;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .login-content {
@@ -51,7 +53,16 @@ mat-card-content {
   padding-top: 30px;
 
 
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
   button[type="submit"] {
+
+    background: $secondary-color;
+    border-radius: 0;
     left: 25%;
     width: 50%;
   }
@@ -63,6 +74,30 @@ mat-card-content {
   align-items: center;
   justify-content: space-between;
 
+
+  button {
+    color: $primary-color;
+  }
 }
 
+mat-form-field {
+  &.form-input {
+    ::ng-deep .mat-form-field-outline {
+      color: $primary-color !important;
+    }
+  }
+}
+
+.input-element {
+  padding: 16px;
+  font-size: 1rem;
+  font-family: Inter, sans-serif;
+  color: #201a1b;
+
+  &:focus {
+  outline: none !important;
+  border: 2px solid $primary-color;
+
+}
+}
 
