@@ -4,7 +4,6 @@ import * as L from 'leaflet';
 import Spot from '../../models/Spot';
 import {mockSpotList} from '../../models/mockSpotList';
 import {SpotDetailsComponent} from '../../components/spot-details/spot-details.component';
-import {LeafletMouseEvent} from 'leaflet';
 import {FormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';

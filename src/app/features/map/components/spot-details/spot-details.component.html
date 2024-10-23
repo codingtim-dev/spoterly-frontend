@@ -2,12 +2,34 @@
   <mat-card class="spot-card">
     <mat-card-header>
       <mat-card-title>{{spot?.title}}</mat-card-title>
-      <mat-card-subtitle>{{spot?.description}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div class="spot-gallery">
-
+      <mat-divider></mat-divider>
+      <div class="description-container">
+        <table>
+          <tr>
+            <td>Latitude:</td>
+            <td class="right">{{spot?.latitude}}°</td>
+          </tr>
+          <tr>
+            <td>Longitude:</td>
+            <td class="right">{{spot?.latitude}}°</td>
+          </tr>
+          <tr>
+            <td>City:</td>
+            <td class="right">{{spot?.latitude}}°</td>
+          </tr>
+          <tr>
+            <td>Posts:</td>
+            <td class="right">{{spot?.latitude}}°</td>
+          </tr>
+        </table>
+        <a [routerLink]="['/post', spot.id]"  >See more</a>
       </div>
+      <div class="post-list-container">
+        <button mat-flat-button class="add-spot-button"><mat-icon>add</mat-icon></button>
+      </div>
+
     </mat-card-content>
   </mat-card>
 </div>
