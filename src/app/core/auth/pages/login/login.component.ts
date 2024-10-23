@@ -8,45 +8,45 @@ import {
   MatLabel
 } from '@angular/material/form-field';
 import {MatInput, MatInputModule} from '@angular/material/input';
-import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {MatDivider} from '@angular/material/divider';
 import {MatIcon} from '@angular/material/icon';
+import {InputComponent} from '../../../../components/input/input.component';
+import {control} from 'leaflet';
 
 
 
 @Component({
   selector: 'app-login',
+  templateUrl: './login.component.html',
   standalone: true,
   imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatIcon,
+    ReactiveFormsModule,
     MatCardContent,
-    MatCardModule,
     MatCardHeader,
+    MatCard,
     MatDivider,
-    MatButton,
-    MatLabel,
-    MatHint
+    MatButton
   ],
-  templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 
-  readonly email = new FormControl('', [Validators.required, Validators.email]);
-  readonly password = new FormControl('', [Validators.required]);
+  form = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+  })
 
   @Output() showSignUp = new EventEmitter<boolean>();
   @Output() authenticate = new EventEmitter<boolean>();
+
 
   showSignUpForm(value: boolean) {
     this.showSignUp.emit(value);
   }
 
-  onsubmit() {
-    // send login data to backend for logging in
-    this.authenticate.emit(true);
-  }
+
+  onSubmit() {
+    console.warn(this.form.value);  }
 }

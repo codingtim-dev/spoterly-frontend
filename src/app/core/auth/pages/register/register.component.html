@@ -4,31 +4,16 @@
       <h1>Welcome to spoterly!</h1>
     </mat-card-header>
     <mat-card-content>
-        <mat-form-field class="form-input" appearance="outline">
-          <mat-label>Enter your Username</mat-label>
-          <input
-            matInput
-            type="text"
-            required
-          >
-        </mat-form-field>
-        <mat-form-field class="form-input" appearance="outline">
-          <mat-label>Enter your E-Mail</mat-label>
-          <input
-            matInput
-            type="text"
-            required
-          >
-        </mat-form-field>
-        <mat-form-field class="form-input" appearance="outline">
-          <mat-label>Enter your Password</mat-label>
-          <input
-            matInput
-            type="password"
-            required
-          >
-        </mat-form-field>
-          <button type="submit" mat-flat-button (click)="onsubmit()">Sign up</button>
+
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <input class="input-element" formControlName="username" placeholder="Enter your username">
+        <input class="input-element" formControlName="email" placeholder="Enter your E-Mail">
+        <input class="input-element" formControlName="password" placeholder="Enter your password">
+        <button type="submit" mat-flat-button>Sign up</button>
+      </form>
+
+
       <mat-divider></mat-divider>
       <div class="register-row">
         <p>You do not have an account yet?</p>

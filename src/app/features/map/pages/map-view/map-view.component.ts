@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, inject} from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import Spot from '../../models/Spot';
@@ -6,10 +6,14 @@ import {mockSpotList} from '../../models/mockSpotList';
 import {SpotDetailsComponent} from '../../components/spot-details/spot-details.component';
 import {LeafletMouseEvent} from 'leaflet';
 import {FormsModule} from '@angular/forms';
+import {MatIcon} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
+import {MatDialog} from '@angular/material/dialog';
+import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 
 
 const locationIcon = L.icon({
-    iconUrl: 'assets/icons/map-icon.svg',
+    iconUrl: 'assets/icons/Marker.svg',
     iconSize: [40, 40],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
@@ -25,7 +29,9 @@ const locationIcon = L.icon({
   imports: [
     LeafletModule,
     SpotDetailsComponent,
-    FormsModule
+    FormsModule,
+    MatIcon,
+    MatIconButton
   ],
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss'
@@ -35,6 +41,7 @@ export class MapViewComponent implements AfterViewInit {
   private map!: L.Map;
   mockSpot: Spot[] = mockSpotList;
   selectedSpot: any;
+  readonly dialog = inject(MatDialog);
 
 
   // async call to http get method, retrieving the spots from the database
@@ -82,5 +89,17 @@ export class MapViewComponent implements AfterViewInit {
   onClickMarker(spot: Spot): void {
     this.selectedSpot = spot
     console.log(this.selectedSpot)
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(AddSpotDialogComponent, {
+      data: "test",
+      height: '620px',
+      width: '520px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("Dialog was closed")
+    })
   }
 }

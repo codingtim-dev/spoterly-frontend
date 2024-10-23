@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
@@ -25,9 +25,12 @@ import {MatInput, MatInputModule} from "@angular/material/input";
 })
 export class RegisterComponent {
 
-  readonly username = new FormControl('', [Validators.required]);
-  readonly email = new FormControl('', [Validators.required, Validators.email]);
-  readonly password = new FormControl('', [Validators.required]);
+  form: FormGroup = new FormGroup({
+    username: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+
+  });
 
   @Output() registerVis = new EventEmitter<boolean>();
   @Output() authenticate = new EventEmitter<boolean>();
@@ -36,8 +39,8 @@ export class RegisterComponent {
     this.registerVis.emit(value);
   }
 
-  onsubmit() {
-    // send login data to backend for logging in
-    return;
+  onSubmit() {
+    // send register data to backend for signing in
+    console.warn(this.form.value);
   }
 }

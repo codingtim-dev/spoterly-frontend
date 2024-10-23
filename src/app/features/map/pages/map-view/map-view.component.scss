@@ -24,3 +24,18 @@ div {
   top: 0;
   right: 0;
 }
+
+.add-spot-button {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  bottom: 39px;
+  right: 39px;
+  color: white;
+  background: $secondary-color;
+  border-radius: 0;
+  z-index: 9999;
+
+}
+
+
