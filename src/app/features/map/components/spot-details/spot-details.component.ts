@@ -2,13 +2,21 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {MatCard, MatCardContent, MatCardHeader, MatCardModule} from '@angular/material/card';
 import Spot from '../../models/Spot';
 import {NgIf} from '@angular/common';
+import {MatDivider} from '@angular/material/divider';
+import {MatButton} from '@angular/material/button';
+import {RouterLink} from '@angular/router';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
-  selector: 'app-spot-details',
+  selector: 'spot-details',
   standalone: true,
   imports: [
     MatCardModule,
     NgIf,
+    MatDivider,
+    MatButton,
+    RouterLink,
+    MatIcon
   ],
   templateUrl: './spot-details.component.html',
   styleUrl: './spot-details.component.scss'
