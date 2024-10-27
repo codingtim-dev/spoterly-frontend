@@ -3,8 +3,8 @@ export const mockSpotList = [
     id: 1,
     title: "Völkerschlachtdenkmal",
     description: "Monument commemorating the Battle of Leipzig.",
-    latitude: 51.3216,
-    longitude: 12.3847
+    latitude: 51.31251170422981,
+    longitude: 12.413324584808134
   },
   {
     id: 2,

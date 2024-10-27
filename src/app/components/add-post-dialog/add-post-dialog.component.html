@@ -5,11 +5,30 @@
 
       <textarea class="textarea-element" id="description" formControlName="description" placeholder="Enter your description"></textarea>
 
-      <input class="file-select-button" type="file" id="file" (change)="onFileChange($event)"  placeholder="Upload your File"/>
+      <div class="dropzone">
+        <input #fileInput class="file-select-button" type="file" id="file" formControlName="file" (change)="handleChange($event)" [accept]="allowedFileTypes"/>
+        <p>Drag and drop <br/>
+          file here to upload <br/>
+          (PNG or JPG)
+        </p>
+
+        <button type="button" (click)="fileInput.click()" mat-flat-button> Browse File</button>
+      </div>
+
+    <div class="preview-image-container" *ngIf="fileUrl && uploadFile" [ngStyle]="{'background-image': 'url(' + fileUrl + ')'}">
+      <div class="preview">
+        <p>{{ uploadFile?.name }}</p>
+        <div class="preview-actions">
+          <button mat-flat-button type="button" [disabled]="isUploading" (click)="handleUploadFile()">{{!isUploading ? 'UPLOAD' : 'UPLOADING...'}}</button>
+          <button mat-flat-button type="button" [disabled]="isUploading" (click)="handleRemoveFile()">REMOVE</button>
+        </div>
+      </div>
+    </div>
+
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button type="submit">Publish</button>
+  <button mat-flat-button type="submit" (click)="onSubmit()">Publish</button>
   <button mat-flat-button class="close-button" (click)="onCloseClick()">Close</button>
 
 </mat-dialog-actions>

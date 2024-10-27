@@ -30,16 +30,30 @@
   height: 70px;
   bottom: 60px;
   right: 60px;
-  color: white;
-  background: $secondary-color-2;
+  color: $primary-color-V2;
+  background: $secondary-color;
   border-radius: 0;
   z-index: 9999;
 
   transition: all 1s ease-in-out;
 }
 
+.add-icon {
+  height: 50px;
+  width: 50px;
+  font-size: 50px;
+  color: $primary-color-V2;
+  transition: all .5s ease-in-out;
+}
+
+.button-rotate{
+  background-color: $secondary-color-2;
+
+}
+
 .rotate {
-  transition: all 1s ease-in-out;
+  color: $primary-color-2;
+  transition: all .5s ease-in-out;
   transform: rotate(45deg);
 }
 
@@ -59,7 +73,21 @@
     background-color: white;
     color: black;
     border-radius: 0;
-
+    opacity: 0;
     font-weight: 500;
+
+    animation:  .5s ease-in-out forwards showActionButtons;
   }
+
+}
+
+
+@keyframes showActionButtons {
+  from {
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+
 }

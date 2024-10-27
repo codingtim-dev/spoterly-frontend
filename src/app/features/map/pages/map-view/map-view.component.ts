@@ -22,8 +22,6 @@ const locationIcon = L.icon({
   }
 )
 
-
-
 @Component({
   selector: 'app-map-view',
   standalone: true,
@@ -105,7 +103,7 @@ export class MapViewComponent implements AfterViewInit {
   openCreateNewPostDialog() {
     const dialogRef = this.dialog.open(AddPostDialogComponent, {
       data: "test",
-      height: '620px',
+      height: '800px',
       width: '520px',
     });
 

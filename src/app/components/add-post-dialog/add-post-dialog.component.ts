@@ -13,7 +13,13 @@ import {MatButton} from '@angular/material/button';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DndDirective} from '../../directives/dnd.directive';
 import {ProgressUploadComponent} from '../progress-upload/progress-upload.component';
-import {NgIf} from '@angular/common';
+import {NgIf, NgStyle} from '@angular/common';
+
+const ALLOWED_FILE_TYPES = [
+  'image/jpeg',
+  'image/png',
+];
+
 
 @Component({
   selector: 'app-add-post-dialog',
@@ -30,7 +36,8 @@ import {NgIf} from '@angular/common';
     ReactiveFormsModule,
     DndDirective,
     ProgressUploadComponent,
-    NgIf
+    NgIf,
+    NgStyle
   ],
   templateUrl: './add-post-dialog.component.html',
   styleUrl: './add-post-dialog.component.scss'
@@ -39,6 +46,13 @@ export class AddPostDialogComponent {
 
   readonly dialogRef = inject(MatDialogRef<AddPostDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
+
+  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
+  isUploading = false;
+  fileUrl!: string | null;
+  uploadFile!: File | null;
+  allowedFileTypes = ALLOWED_FILE_TYPES;
+
 
   onCloseClick() {
     this.dialogRef.close();
@@ -54,17 +68,23 @@ export class AddPostDialogComponent {
     });
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const allowedTypes = ['image/jpeg', 'image/png'];
-      if (allowedTypes.includes(file.type)) {
-        this.uploadForm.patchValue({ file: file });
-      } else {
-        alert('Only .jpg and .png files are allowed.');
-        this.uploadForm.patchValue({ file: null });
-      }
+  handleChange(event: any) {
+    const file = event.target.files[0] as File;
+    this.fileUrl = URL.createObjectURL(file);
+    this.uploadFile = file;
+  }
+
+  handleRemoveFile() {
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = null;
     }
+
+    this.uploadFile = null;
+    this.fileUrl = null;
+  }
+
+  handleUploadFile() {
+    // logic to upload file
   }
 
   onSubmit() {
