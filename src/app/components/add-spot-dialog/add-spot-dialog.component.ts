@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
+import Spot from '../../features/map/models/Spot';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -38,16 +39,25 @@ export class AddSpotDialogComponent {
     this.uploadForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
+      longitude: ['', [Validators.required]],
+      latitude: ['', [Validators.required]],
+
     });
   }
 
   onSubmit(){
     if(this.uploadForm.valid){
-      const formData = new FormData();
-      formData.append('title', this.data.title);
-      formData.append('description', this.data.description);
 
-      console.log(formData);
+      const spot: Spot = {
+        title: this.uploadForm.get('title')?.value ? this.uploadForm.get('title')?.value : '',
+        description: this.uploadForm.get('description')?.value ? this.uploadForm.get('description')?.value : '',
+        latitude: this.uploadForm.get('latitude')?.value ? this.uploadForm.get('latitude')?.value : 0,
+        longitude: this.uploadForm.get('longitude')?.value ? this.uploadForm.get('longitude')?.value : 0,
+
+      };
+
+      console.log(spot);
+
     } else {
       alert('Please fill out the form correctly.');
     }

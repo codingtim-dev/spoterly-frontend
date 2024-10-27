@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add a new Post</h2>
+<h2 mat-dialog-title class="dialog-title">Add a new Post</h2>
 <mat-dialog-content>
   <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
       <input class="input-element" id="title" formControlName="title" placeholder="Enter your title"/>
@@ -6,13 +6,10 @@
       <textarea class="textarea-element" id="description" formControlName="description" placeholder="Enter your description"></textarea>
 
       <input class="file-select-button" type="file" id="file" (change)="onFileChange($event)"  placeholder="Upload your File"/>
-
-
-    <button type="submit">Submit</button>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-flat-button type="submit">Publish</button>
-  <button mat-flat-button (click)="onCloseClick()">Close</button>
+  <button mat-flat-button class="close-button" (click)="onCloseClick()">Close</button>
 
 </mat-dialog-actions>

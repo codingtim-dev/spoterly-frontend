@@ -46,6 +46,7 @@ export class MapViewComponent implements AfterViewInit {
   mockSpot: Spot[] = mockSpotList;
   selectedSpot: any;
   readonly dialog = inject(MatDialog);
+  showDetails = false;
 
   showActions: boolean = true;
 
@@ -89,12 +90,12 @@ export class MapViewComponent implements AfterViewInit {
 
   onPopupClose() {
     this.selectedSpot = null;
-    console.log(this.selectedSpot)
+    this.showDetails = false
   }
 
   onClickMarker(spot: Spot): void {
     this.selectedSpot = spot
-    console.log(this.selectedSpot)
+    this.showDetails = true;
   }
 
   toggleActions() {
@@ -120,6 +121,7 @@ export class MapViewComponent implements AfterViewInit {
       data: "test",
       height: '620px',
       width: '520px',
+      panelClass: 'custom-dialog-panel'
     });
 
     this.showActions = false;

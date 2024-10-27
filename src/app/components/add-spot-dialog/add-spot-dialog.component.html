@@ -2,13 +2,13 @@
 <mat-dialog-content>
   <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
     <input class="input-element" id="name" formControlName="title" placeholder="Enter Spot Name"/>
-    <input class="input-element" id="longitude" formControlName="longitude" placeholder="Enter Longitude"/>
-    <input class="input-element" id="latitude" formControlName="latitude" placeholder="Enter Longitude"/>
+    <input class="input-element" id="longitude" formControlName="longitude" type="number" placeholder="Enter Longitude"/>
+    <input class="input-element" id="latitude" formControlName="latitude" type="number" placeholder="Enter Longitude"/>
     <textarea class="textarea-element" id="description" formControlName="description" placeholder="Enter your description"></textarea>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button type="submit">Publish</button>
-  <button mat-flat-button (click)="onCloseClick()">Close</button>
+  <button mat-flat-button type="submit" (click)="onSubmit()">Publish</button>
+  <button mat-flat-button class="close-button" (click)="onCloseClick()">Close</button>
 
 </mat-dialog-actions>

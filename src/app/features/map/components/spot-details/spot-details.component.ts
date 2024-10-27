@@ -20,16 +20,11 @@ import {MatIcon} from '@angular/material/icon';
   templateUrl: './spot-details.component.html',
   styleUrl: './spot-details.component.scss'
 })
-export class SpotDetailsComponent implements OnChanges{
+export class SpotDetailsComponent{
 
   @Input() spot: any;
-  isVisible = false;
   previewSize: number = 4;
 
   // fetch 4 posts with the current spot id
   postsImages: any;
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.isVisible = !(changes['spot'].currentValue == null || changes['spot'].currentValue == undefined);
-  }
 }

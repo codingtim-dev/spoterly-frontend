@@ -1,10 +1,9 @@
-<div class="details-container" *ngIf="isVisible">
+<div class="details-container">
   <mat-card class="spot-card">
     <mat-card-header>
       <mat-card-title>{{spot?.title}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-divider></mat-divider>
       <div class="description-container">
         <table>
           <tr>
@@ -24,10 +23,13 @@
             <td class="right">{{spot?.latitude}}°</td>
           </tr>
         </table>
-        <a [routerLink]="['/post', spot.id]"  >See more</a>
+        <button mat-flat-button>
+          <a [routerLink]="['/post', spot.id]"  >See more</a>
+        </button>
+
       </div>
       <div class="post-list-container">
-        <button mat-flat-button class="add-spot-button"><mat-icon>add</mat-icon></button>
+        <button mat-flat-button class="add-spot-button"><mat-icon>add</mat-icon><span>Add A New Post</span></button>
       </div>
 
     </mat-card-content>

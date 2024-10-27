@@ -2,26 +2,24 @@
 
 .map-container {
   position: relative;
-
+  padding: 0 34px 34px 34px;
 }
 
-div {
+#map {
   width: 100%;
-  height: calc(100vh - $navbar-height);
-}
-
-
-.marker {
-  color: #123524;
-  fill: #123524;
+  height: calc(100vh - $navbar-height - $padding-component);
 }
 
 
 .details-card-container {
   position: absolute;
   z-index: 9999;
-  padding: 33px 39px 33px 49px;
+  padding-right: $padding-component ;
+  background-color: $primary-color-V2;
+  height: calc(100vh - $navbar-height - $padding-component);
+  width: 32%;
   top: 0;
+  bottom: 0;
   right: 0;
 }
 
@@ -30,10 +28,10 @@ div {
   position: absolute;
   width: 70px;
   height: 70px;
-  bottom: 39px;
-  right: 39px;
+  bottom: 60px;
+  right: 60px;
   color: white;
-  background: $secondary-color;
+  background: $secondary-color-2;
   border-radius: 0;
   z-index: 9999;
 
@@ -49,7 +47,7 @@ div {
 .actions-container {
   position: absolute;
   z-index: 9999;
-  right: 39px;
+  right: 60px;
   bottom: 125px;
   width: 258px;
   height: 120px;

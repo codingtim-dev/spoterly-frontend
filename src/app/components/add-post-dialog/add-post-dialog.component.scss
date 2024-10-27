@@ -1,17 +1,15 @@
 @import '../../../styles/variables';
 
-
-
-button {
-
-  background: $secondary-color;
-  color: white;
-  fill: white;
-  border-radius: 0;
-
+h2 {
+  color: $primary-color-2 !important;
+  font-weight: bold;
+  font-size: 36px !important;
 }
 
+
+
 form {
+  padding: $padding-component 0;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -42,7 +40,6 @@ form {
     width: 180px;
     height: 44px;
     border-radius: 0;
-    background-color: $primary-color;
     padding: 8px 16px;
   }
 
