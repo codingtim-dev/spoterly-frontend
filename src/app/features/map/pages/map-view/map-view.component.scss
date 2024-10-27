@@ -25,7 +25,8 @@ div {
   right: 0;
 }
 
-.add-spot-button {
+.show-actions-button {
+
   position: absolute;
   width: 70px;
   height: 70px;
@@ -36,6 +37,31 @@ div {
   border-radius: 0;
   z-index: 9999;
 
+  transition: all 1s ease-in-out;
+}
+
+.rotate {
+  transition: all 1s ease-in-out;
+  transform: rotate(45deg);
 }
 
 
+.actions-container {
+  position: absolute;
+  z-index: 9999;
+  right: 39px;
+  bottom: 125px;
+  width: 258px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+
+  button {
+    background-color: white;
+    color: black;
+    border-radius: 0;
+
+    font-weight: 500;
+  }
+}

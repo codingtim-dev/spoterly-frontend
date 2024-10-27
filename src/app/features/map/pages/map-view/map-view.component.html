@@ -1,8 +1,12 @@
 
 <div class="map-container">
   <div id="map" ></div>
-  <button mat-icon-button class="add-spot-button" (click)="openDialog()">
-    <mat-icon>add</mat-icon></button>
+  <button mat-icon-button class="show-actions-button" (click)="toggleActions()">
+    <mat-icon [ngClass]="{'rotate': showActions}">add</mat-icon></button>
+  <div class="actions-container" *ngIf="showActions">
+    <button mat-flat-button class="action-button" (click)="openCreateNewPostDialog()">Create a new Post</button>
+    <button mat-flat-button class="action-button" (click)="openCreateNewSpotDialog()">Create a new Spot</button>
+  </div>
   <spot-details class="details-card-container" [spot]=selectedSpot></spot-details>
 </div>
 
