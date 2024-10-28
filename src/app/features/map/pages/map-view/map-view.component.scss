@@ -2,40 +2,92 @@
 
 .map-container {
   position: relative;
-
+  padding: 0 34px 34px 34px;
 }
 
-div {
+#map {
   width: 100%;
-  height: calc(100vh - $navbar-height);
-}
-
-
-.marker {
-  color: #123524;
-  fill: #123524;
+  height: calc(100vh - $navbar-height - $padding-component);
 }
 
 
 .details-card-container {
   position: absolute;
   z-index: 9999;
-  padding: 33px 39px 33px 49px;
+  padding-right: $padding-component ;
+  background-color: $primary-color-V2;
+  height: calc(100vh - $navbar-height - $padding-component);
+  width: 32%;
   top: 0;
+  bottom: 0;
   right: 0;
 }
 
-.add-spot-button {
+.show-actions-button {
+
   position: absolute;
   width: 70px;
   height: 70px;
-  bottom: 39px;
-  right: 39px;
-  color: white;
+  bottom: 60px;
+  right: 60px;
+  color: $primary-color-V2;
   background: $secondary-color;
   border-radius: 0;
   z-index: 9999;
 
+  transition: all 1s ease-in-out;
+}
+
+.add-icon {
+  height: 50px;
+  width: 50px;
+  font-size: 50px;
+  color: $primary-color-V2;
+  transition: all .5s ease-in-out;
+}
+
+.button-rotate{
+  background-color: $secondary-color-2;
+
+}
+
+.rotate {
+  color: $primary-color-2;
+  transition: all .5s ease-in-out;
+  transform: rotate(45deg);
 }
 
 
+.actions-container {
+  position: absolute;
+  z-index: 9999;
+  right: 60px;
+  bottom: 125px;
+  width: 258px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+
+  button {
+    background-color: white;
+    color: black;
+    border-radius: 0;
+    opacity: 0;
+    font-weight: 500;
+
+    animation:  .5s ease-in-out forwards showActionButtons;
+  }
+
+}
+
+
+@keyframes showActionButtons {
+  from {
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+
+}
