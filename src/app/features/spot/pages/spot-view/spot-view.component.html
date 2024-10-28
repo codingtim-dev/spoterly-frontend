@@ -1,0 +1,38 @@
+<div class="content-container" *ngIf="spot">
+  <div class="spot-header-container">
+    <div class="col back">
+      <img ngSrc="assets/icons/arrow-back-icon.svg" alt="back icon" height="37" width="37" [routerLink]="['/']">
+    </div>
+    <div class="col information">
+
+
+        <span>{{spot?.title}}</span>
+
+      <table>
+        <tr>
+          <td>Latitude:</td>
+          <td class="right">{{spot?.latitude}}°</td>
+        </tr>
+        <tr>
+          <td>Longitude:</td>
+          <td class="right">{{spot?.latitude}}°</td>
+        </tr>
+        <tr>
+          <td>City:</td>
+          <td class="right">{{spot?.latitude}}°</td>
+        </tr>
+        <tr>
+          <td>Posts:</td>
+          <td class="right">{{spot?.latitude}}°</td>
+        </tr>
+      </table>
+    </div>
+    <div class="preview-image">
+
+
+    </div>
+  </div>
+  <div class="spot-post-list-container">
+
+  </div>
+</div>
