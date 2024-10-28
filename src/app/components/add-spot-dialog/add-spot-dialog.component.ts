@@ -39,8 +39,8 @@ export class AddSpotDialogComponent {
     this.uploadForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
-      longitude: ['', [Validators.required]],
-      latitude: ['', [Validators.required]],
+      longitude: ['', [Validators.required, Validators.min(0)]],
+      latitude: ['', [Validators.required, Validators.min(0)]],
 
     });
   }

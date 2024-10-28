@@ -15,11 +15,12 @@
         <button type="button" (click)="fileInput.click()" mat-flat-button> Browse File</button>
       </div>
 
-    <div class="preview-image-container" *ngIf="fileUrl && uploadFile" [ngStyle]="{'background-image': 'url(' + fileUrl + ')'}">
+    <div class="preview-image-container" *ngIf="fileUrl && uploadFile">
+      <div class="image-preview"  [ngStyle]="{'background-image': 'url(' + fileUrl + ')'}"></div>
       <div class="preview">
         <p>{{ uploadFile?.name }}</p>
         <div class="preview-actions">
-          <button mat-flat-button type="button" [disabled]="isUploading" (click)="handleUploadFile()">{{!isUploading ? 'UPLOAD' : 'UPLOADING...'}}</button>
+<!--          <button mat-flat-button type="button" [disabled]="isUploading" (click)="handleUploadFile()">{{!isUploading ? 'UPLOADED' : 'UPLOADING...'}}</button>-->
           <button mat-flat-button type="button" [disabled]="isUploading" (click)="handleRemoveFile()">REMOVE</button>
         </div>
       </div>

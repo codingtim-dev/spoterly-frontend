@@ -86,6 +86,10 @@ export class MapViewComponent implements AfterViewInit {
     this.map.fitBounds(bounds);
   }
 
+  closeDialog(value: boolean) {
+    this.showDetails = value;
+  }
+
   onPopupClose() {
     this.selectedSpot = null;
     this.showDetails = false
