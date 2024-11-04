@@ -7,6 +7,7 @@ import {RouterLink} from '@angular/router';
 import {MatIcon} from '@angular/material/icon';
 import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import Spot from '../../models/Spot';
 
 @Component({
   selector: 'spot-details',
@@ -24,7 +25,7 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class SpotDetailsComponent{
 
-  @Input() spot: any;
+  @Input() spot!: Spot;
   readonly dialog = inject(MatDialog);
   @Output() isOpen = new EventEmitter<boolean>();
   previewSize: number = 4;

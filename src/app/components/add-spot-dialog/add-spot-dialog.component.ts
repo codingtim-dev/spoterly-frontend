@@ -49,11 +49,12 @@ export class AddSpotDialogComponent {
     if(this.uploadForm.valid){
 
       const spot: Spot = {
+        id: 0,
         title: this.uploadForm.get('title')?.value ? this.uploadForm.get('title')?.value : '',
         description: this.uploadForm.get('description')?.value ? this.uploadForm.get('description')?.value : '',
         latitude: this.uploadForm.get('latitude')?.value ? this.uploadForm.get('latitude')?.value : 0,
         longitude: this.uploadForm.get('longitude')?.value ? this.uploadForm.get('longitude')?.value : 0,
-
+        city: this.uploadForm.get('city')?.value ? this.uploadForm.get('city')?.value : '',
       };
 
       console.log(spot);

@@ -46,7 +46,7 @@ export class MapViewComponent implements AfterViewInit {
   readonly dialog = inject(MatDialog);
   showDetails = false;
 
-  showActions: boolean = true;
+  showActions: boolean = false;
 
 
   // async call to http get method, retrieving the spots from the database
