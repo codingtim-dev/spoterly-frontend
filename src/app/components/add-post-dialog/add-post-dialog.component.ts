@@ -12,7 +12,11 @@ import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ProgressUploadComponent} from '../progress-upload/progress-upload.component';
-import {NgIf, NgStyle} from '@angular/common';
+import {AsyncPipe, NgIf, NgStyle} from '@angular/common';
+import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
+import {mockSpotList} from '../../features/map/models/mockSpotList';
+import {map, Observable, startWith} from 'rxjs';
+import Spot from '../../features/map/models/Spot';
 
 const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -35,7 +39,11 @@ const ALLOWED_FILE_TYPES = [
     ReactiveFormsModule,
     ProgressUploadComponent,
     NgIf,
-    NgStyle
+    NgStyle,
+    MatAutocomplete,
+    MatOption,
+    MatAutocompleteTrigger,
+    AsyncPipe
   ],
   templateUrl: './add-post-dialog.component.html',
   styleUrl: './add-post-dialog.component.scss'
@@ -58,8 +66,16 @@ export class AddPostDialogComponent {
 
   uploadForm: FormGroup;
 
+  displaySpotList(options: Spot[]): (id: number) => string {
+    return (id:number) => {
+      const correspondingOption = Array.isArray(options) ? options.find(value => value.id === id) : null;
+      return correspondingOption ? correspondingOption.title : '';
+    }
+  }
+
   constructor(private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
+      selectedSpot: ['', [Validators.required]],
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
       file: [null, [Validators.required]],
@@ -100,4 +116,5 @@ export class AddPostDialogComponent {
   }
 
 
+  protected readonly mockSpotList = mockSpotList;
 }

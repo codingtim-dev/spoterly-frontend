@@ -41,27 +41,28 @@ const locationIcon = L.icon({
 export class MapViewComponent implements AfterViewInit {
 
   private map!: L.Map;
-  mockSpot: Spot[] = mockSpotList;
+  spotList: Spot[] = mockSpotList;
   selectedSpot: any;
   readonly dialog = inject(MatDialog);
-  showDetails = false;
+  showSpotDetails = false;
 
   showActions: boolean = false;
 
 
   // async call to http get method, retrieving the spots from the database
-  private mockMarkersList = this.mockSpot.map(value =>
+  private markerList = this.spotList.map(value =>
     new L.Marker(
       [value.latitude, value.longitude],
       {icon: locationIcon}).bindPopup(value.title).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
 
-  markers: L.Marker[] = this.mockMarkersList;
+
+  markers: L.Marker[] = this.markerList;
 
 
   // instantiate the map when the DOM is fully loaded
   ngAfterViewInit() {
     this.initMap();
-    this.addMarkers();
+    this.initMarker();
     this.centerMap();
   }
 
@@ -73,9 +74,22 @@ export class MapViewComponent implements AfterViewInit {
   }
 
 
-  private addMarkers() {
+  private initMarker() {
     // Add your markers to the map
     this.markers.forEach(marker => marker.addTo(this.map));
+  }
+
+  private updateMarker(){
+
+    //
+    this.markers = this.spotList.map(value =>
+      new L.Marker(
+        [value.latitude, value.longitude],
+        {icon: locationIcon}).bindPopup(value.title).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
+
+
+    // refresh marker on map
+    this.initMarker()
   }
 
   private centerMap() {
@@ -87,17 +101,17 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   closeDialog(value: boolean) {
-    this.showDetails = value;
+    this.showSpotDetails = value;
   }
 
   onPopupClose() {
     this.selectedSpot = null;
-    this.showDetails = false
+    this.showSpotDetails = false
   }
 
   onClickMarker(spot: Spot): void {
     this.selectedSpot = spot
-    this.showDetails = true;
+    this.showSpotDetails = true;
   }
 
   toggleActions() {
@@ -129,7 +143,16 @@ export class MapViewComponent implements AfterViewInit {
     this.showActions = false;
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Dialog was closed")
+
+      if(result) {
+        // if the dialog is succeeding and returning a spot object, append it to the current list
+        // TODO: When backend is implemented this is not necessary
+
+        this.spotList.push(result);
+        this.updateMarker();
+
+        console.log(this.markerList)
+      }
     })
   }
 }

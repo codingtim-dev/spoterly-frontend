@@ -29,8 +29,9 @@ export class AddSpotDialogComponent {
   readonly dialogRef = inject(MatDialogRef<AddSpotDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
 
-  onCloseClick() {
-    this.dialogRef.close();
+  onCloseClick(spot?: any) {
+
+    spot ? this.dialogRef.close(spot) : this.dialogRef.close();
   }
 
   uploadForm: FormGroup;
@@ -41,7 +42,7 @@ export class AddSpotDialogComponent {
       description: ['', [Validators.required]],
       longitude: ['', [Validators.required, Validators.min(0)]],
       latitude: ['', [Validators.required, Validators.min(0)]],
-
+      city: ['', [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -57,8 +58,7 @@ export class AddSpotDialogComponent {
         city: this.uploadForm.get('city')?.value ? this.uploadForm.get('city')?.value : '',
       };
 
-      console.log(spot);
-
+      this.onCloseClick(spot);
     } else {
       alert('Please fill out the form correctly.');
     }
