@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import {MatIcon} from '@angular/material/icon';
-import {MatButtonToggleGroup} from '@angular/material/button-toggle';
-import {MatIconButton} from '@angular/material/button';
-import {NgOptimizedImage} from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatButtonToggleGroup } from '@angular/material/button-toggle';
+import { MatIconButton } from '@angular/material/button';
+import { NgOptimizedImage } from '@angular/common';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-navbar',
@@ -11,11 +12,12 @@ import {NgOptimizedImage} from '@angular/common';
     MatIcon,
     MatButtonToggleGroup,
     MatIconButton,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
   ],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
-
-}
+export class NavbarComponent {}

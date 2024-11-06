@@ -1,7 +1,11 @@
-
 <nav class="navbar">
-
-    <img ngSrc="assets/icons/application-logo-icon.svg" alt="application logo" height="41" width="150">
-    <button mat-icon-button class="small-icon-button"><mat-icon fontIcon="person" class="icon"></mat-icon></button>
-
+  <img alt="application logo" height="41" ngSrc="assets/icons/application-logo-icon.svg" width="150">
+  <button [matMenuTriggerFor]="menu" class="small-icon-button" mat-icon-button>
+    <mat-icon class="icon" fontIcon="person"></mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Profile</button>
+    <button mat-menu-item>Posts</button>
+    <button class="logout-button" mat-menu-item>Logout</button>
+  </mat-menu>
 </nav>
