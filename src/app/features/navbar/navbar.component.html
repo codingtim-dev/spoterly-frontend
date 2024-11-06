@@ -4,7 +4,7 @@
     <mat-icon class="icon" fontIcon="person"></mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>Profile</button>
+    <button [routerLink]="['/profile', 1]" mat-menu-item>Profile</button>
     <button mat-menu-item>Posts</button>
     <button class="logout-button" mat-menu-item>Logout</button>
   </mat-menu>
