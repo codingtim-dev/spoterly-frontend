@@ -9,6 +9,7 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
+import {SpotServiceService} from '../../services/spot/spot-service.service';
 
 @Component({
   selector: 'app-add-spot-dialog',
@@ -35,13 +36,13 @@ export class AddSpotDialogComponent {
 
   uploadForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private spotService: SpotServiceService, private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
       longitude: ['', [Validators.required, Validators.min(0)]],
       latitude: ['', [Validators.required, Validators.min(0)]],
-
+      city: ['', [Validators.required]],
     });
   }
 
@@ -49,14 +50,15 @@ export class AddSpotDialogComponent {
     if(this.uploadForm.valid){
 
       const spot: Spot = {
-        title: this.uploadForm.get('title')?.value ? this.uploadForm.get('title')?.value : '',
+        name: this.uploadForm.get('title')?.value ? this.uploadForm.get('title')?.value : '',
         description: this.uploadForm.get('description')?.value ? this.uploadForm.get('description')?.value : '',
         latitude: this.uploadForm.get('latitude')?.value ? this.uploadForm.get('latitude')?.value : 0,
         longitude: this.uploadForm.get('longitude')?.value ? this.uploadForm.get('longitude')?.value : 0,
-
+        city: this.uploadForm.get('city')?.value ? this.uploadForm.get('city')?.value : '',
       };
 
       console.log(spot);
+      this.spotService.addSpot(spot).subscribe()
 
     } else {
       alert('Please fill out the form correctly.');

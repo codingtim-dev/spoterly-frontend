@@ -1,9 +1,10 @@
 <h2 mat-dialog-title>Add a new Spot</h2>
 <mat-dialog-content>
   <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-    <input class="input-element" id="name" formControlName="title" placeholder="Enter Spot Name"/>
+    <input class="input-element" id="name" formControlName="name" placeholder="Enter Spot Name"/>
     <input class="input-element" id="longitude" [min]="0" formControlName="longitude" type="number" placeholder="Enter Longitude"/>
     <input class="input-element" id="latitude" [min]="0" formControlName="latitude" type="number" placeholder="Enter Longitude"/>
+    <input class="input-element" id="city" formControlName="city" placeholder="Enter City"/>
     <textarea class="textarea-element" id="description" formControlName="description" placeholder="Enter your description"></textarea>
   </form>
 </mat-dialog-content>

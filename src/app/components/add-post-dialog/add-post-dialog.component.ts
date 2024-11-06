@@ -12,7 +12,6 @@ import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DndDirective} from '../../directives/dnd.directive';
-import {ProgressUploadComponent} from '../progress-upload/progress-upload.component';
 import {NgIf, NgStyle} from '@angular/common';
 
 const ALLOWED_FILE_TYPES = [
@@ -35,7 +34,6 @@ const ALLOWED_FILE_TYPES = [
     FormsModule,
     ReactiveFormsModule,
     DndDirective,
-    ProgressUploadComponent,
     NgIf,
     NgStyle
   ],

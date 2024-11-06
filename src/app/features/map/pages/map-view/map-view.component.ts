@@ -53,7 +53,7 @@ export class MapViewComponent implements AfterViewInit {
   private mockMarkersList = this.mockSpot.map(value =>
     new L.Marker(
       [value.latitude, value.longitude],
-      {icon: locationIcon}).bindPopup(value.title).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
+      {icon: locationIcon}).bindPopup(value.name).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
 
   markers: L.Marker[] = this.mockMarkersList;
 
