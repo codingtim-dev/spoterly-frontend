@@ -1,6 +1,7 @@
 export default interface Spot {
-  title: string,
+  name: string,
   description: string,
   latitude: number,
   longitude: number,
+  city: string,
 }

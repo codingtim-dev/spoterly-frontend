@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {catchError, Observable} from 'rxjs';
+import Spot from '../../features/map/models/Spot';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SpotService {
+
+
+  public baseURl = "http://localhost:8080/spots";
+
+
+  constructor(private http: HttpClient) { }
+
+  public addSpot(spot: Spot): Observable<Spot> {
+    return this.http.post<Spot>(this.baseURl, spot).pipe(
+      catchError((err) => {console.log('Error fetching data:', err); throw  err})
+    );
+  }
+
+  public getSpots(): Observable<Spot[]> {
+    return this.http.get<Spot[]>(this.baseURl).pipe(
+      catchError((err) => {console.log('Error fetching data:', err); throw  err})
+    );
+  }
+}
