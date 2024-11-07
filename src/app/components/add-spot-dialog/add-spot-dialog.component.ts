@@ -9,7 +9,7 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {SpotServiceService} from '../../services/spot/spot-service.service';
+import {SpotService} from '../../services/spot/spot.service';
 
 @Component({
   selector: 'app-add-spot-dialog',
@@ -36,7 +36,7 @@ export class AddSpotDialogComponent {
 
   uploadForm: FormGroup;
 
-  constructor(private spotService: SpotServiceService, private fb: FormBuilder) {
+  constructor(private spotService: SpotService, private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
@@ -57,8 +57,10 @@ export class AddSpotDialogComponent {
         city: this.uploadForm.get('city')?.value ? this.uploadForm.get('city')?.value : '',
       };
 
-      console.log(spot);
-      this.spotService.addSpot(spot).subscribe()
+      this.spotService.addSpot(spot).subscribe(value =>
+      console.log(value));
+
+      this.dialogRef.close();
 
     } else {
       alert('Please fill out the form correctly.');
