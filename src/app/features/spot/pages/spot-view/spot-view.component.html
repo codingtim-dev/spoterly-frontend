@@ -4,19 +4,19 @@
       <img ngSrc="assets/icons/arrow-back-icon.svg" alt="back icon" height="37" width="37" [routerLink]="['/']">
     </div>
     <div class="col information">
-      <span>{{spot?.title}}</span>
+      <span>{{spot.name}}</span>
       <table>
         <tr>
           <td>Latitude:</td>
-          <td class="right">{{spot?.latitude}}°</td>
+          <td class="right">{{spot.latitude}}°</td>
         </tr>
         <tr>
           <td>Longitude:</td>
-          <td class="right">{{spot?.longitude}}°</td>
+          <td class="right">{{spot.longitude}}°</td>
         </tr>
         <tr>
           <td>City:</td>
-          <td class="right">{{spot?.city}}</td>
+          <td class="right">{{spot.city}}</td>
         </tr>
         <tr>
           <td>Posts:</td>

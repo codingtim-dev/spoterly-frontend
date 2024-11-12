@@ -11,11 +11,9 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ProgressUploadComponent} from '../progress-upload/progress-upload.component';
 import {AsyncPipe, NgIf, NgStyle} from '@angular/common';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {mockSpotList} from '../../features/map/models/mockSpotList';
-import {map, Observable, startWith} from 'rxjs';
 import Spot from '../../features/map/models/Spot';
 
 const ALLOWED_FILE_TYPES = [
@@ -37,7 +35,6 @@ const ALLOWED_FILE_TYPES = [
     MatLabel,
     FormsModule,
     ReactiveFormsModule,
-    ProgressUploadComponent,
     NgIf,
     NgStyle,
     MatAutocomplete,
@@ -69,7 +66,7 @@ export class AddPostDialogComponent {
   displaySpotList(options: Spot[]): (id: number) => string {
     return (id:number) => {
       const correspondingOption = Array.isArray(options) ? options.find(value => value.id === id) : null;
-      return correspondingOption ? correspondingOption.title : '';
+      return correspondingOption ? correspondingOption.name : '';
     }
   }
 

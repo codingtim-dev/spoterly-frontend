@@ -6,6 +6,7 @@ import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import PostModel from '../../../../core/post/PostModel';
 import {mockPostList} from '../../../../core/post/mockPostList';
 import {MatCard, MatCardContent} from '@angular/material/card';
+import {SpotService} from '../../../../services/spot/spot.service';
 
 @Component({
   selector: 'app-spot-view',
@@ -23,34 +24,33 @@ import {MatCard, MatCardContent} from '@angular/material/card';
 })
 export class SpotViewComponent implements OnDestroy, OnInit {
 
-  id?: number;
+  id: string = "";
   private sub: any;
-  spot?: Spot;
+  spot: any;
   posts?: PostModel[]
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private spotService: SpotService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.id = +params['id'];
+    this.sub = this.route.paramMap.subscribe(paramMap => {
+      this.id = paramMap.get('id')!;
+    })
 
+    console.log(this.id);
+
+    this.spotService.getSpotById(this.id.toString()).subscribe(result => {
+      this.spot = result;
+      console.log(this.spot);
     });
 
-    this.spot = mockSpotList.find(value => value.id === this.id);
 
     // TODO: Redirect to 404 page
-    if(!this.spot){
-      this.router.navigate(['/']);
-    }
 
-    this.getPosts()
   }
 
   getPosts() {
     // TODO: Create service for fetching posts from database
 
-    this.posts = mockPostList.filter(value => value.spotId === this.id);
-    console.log(this.posts);
   }
 
   ngOnDestroy() {

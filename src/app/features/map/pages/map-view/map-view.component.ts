@@ -11,6 +11,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {AddPostDialogComponent} from '../../../../components/add-post-dialog/add-post-dialog.component';
 import {NgClass, NgIf} from '@angular/common';
 import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
+import {SpotService} from '../../../../services/spot/spot.service';
+import {Marker} from 'leaflet';
 
 
 const locationIcon = L.icon({
@@ -38,23 +40,23 @@ const locationIcon = L.icon({
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss'
 })
-export class MapViewComponent implements AfterViewInit {
+export class MapViewComponent implements  AfterViewInit {
 
   private map!: L.Map;
-  spotList: Spot[] = mockSpotList;
   selectedSpot: any;
   readonly dialog = inject(MatDialog);
   showSpotDetails = false;
-
+  spotList:Spot[] = [];
   showActions: boolean = false;
 
+  constructor(private spotService: SpotService) {
 
+  }
   // async call to http get method, retrieving the spots from the database
   private markerList = this.spotList.map(value =>
     new L.Marker(
       [value.latitude, value.longitude],
-      {icon: locationIcon}).bindPopup(value.title).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
-
+      {icon: locationIcon}).bindPopup(value.name).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
 
   markers: L.Marker[] = this.markerList;
 
@@ -62,8 +64,7 @@ export class MapViewComponent implements AfterViewInit {
   // instantiate the map when the DOM is fully loaded
   ngAfterViewInit() {
     this.initMap();
-    this.initMarker();
-    this.centerMap();
+
   }
 
 
@@ -71,33 +72,59 @@ export class MapViewComponent implements AfterViewInit {
     const baseMapURl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     this.map = L.map('map');
     L.tileLayer(baseMapURl, {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(this.map);
+
+    this.fetchSpotList()
+
   }
 
+  fetchSpotList() {
+    // fetch spots and put markers on map
+    this.spotService.getSpots().subscribe(
+      (data) => {
 
-  private initMarker() {
+        data.map(value => {
+          this.markerList.push(
+            new L.Marker([value.latitude, value.longitude], {icon: locationIcon}).bindPopup(value.name).on('click', () => this.onClickMarker(value)).on('popupclose', () => this.onPopupClose()));
+        })
+
+        this.updateMarker();
+        this.centerMap();
+      }
+    )
+  }
+
+  private addMarkers() {
     // Add your markers to the map
-    this.markers.forEach(marker => marker.addTo(this.map));
+    this.markerList.forEach(marker => marker.addTo(this.map));
   }
 
   private updateMarker(){
-
-    //
     this.markers = this.spotList.map(value =>
       new L.Marker(
         [value.latitude, value.longitude],
-        {icon: locationIcon}).bindPopup(value.title).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
-
+        {icon: locationIcon}).bindPopup(value.name).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
 
     // refresh marker on map
-    this.initMarker()
+    this.addMarkers()
   }
 
   private centerMap() {
     // Create a LatLngBounds object to encompass all the marker locations
-    const bounds = L.latLngBounds(this.markers.map(marker => marker.getLatLng()));
 
+  if(this.markerList.length > 0){
+      const bounds = L.latLngBounds(this.markerList.map(marker => marker.getLatLng()));
+
+      this.map.fitBounds(bounds);
+      return;
+    }
+
+    // no spots found ? set map view and bounds to Leipzig
+    const leipzigBounds = L.latLngBounds(
+      [51.297, 12.296],  // Southwest corner
+      [51.423, 12.504]   // Northeast corner
+    );
     // Fit the map view to the bounds
-    this.map.fitBounds(bounds);
+    this.map.fitBounds(leipzigBounds)
   }
 
   closeDialog(value: boolean) {
@@ -134,7 +161,6 @@ export class MapViewComponent implements AfterViewInit {
 
   openCreateNewSpotDialog() {
     const dialogRef = this.dialog.open(AddSpotDialogComponent, {
-      data: "test",
       height: '620px',
       width: '520px',
       panelClass: 'custom-dialog-panel'
@@ -144,15 +170,8 @@ export class MapViewComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
 
-      if(result) {
-        // if the dialog is succeeding and returning a spot object, append it to the current list
-        // TODO: When backend is implemented this is not necessary
-
-        this.spotList.push(result);
-        this.updateMarker();
-
-        console.log(this.markerList)
-      }
+      // refresh map markers
+      this.fetchSpotList();
     })
   }
 }

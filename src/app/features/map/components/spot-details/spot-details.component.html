@@ -1,22 +1,22 @@
 <div class="details-container">
   <mat-card class="spot-card">
     <mat-card-header>
-      <mat-card-title>{{spot?.title}}</mat-card-title>
+      <mat-card-title>{{spot.name}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="description-container">
         <table>
           <tr>
             <td>Latitude:</td>
-            <td class="right">{{spot?.latitude}}°</td>
+            <td class="right">{{spot.latitude}}°</td>
           </tr>
           <tr>
             <td>Longitude:</td>
-            <td class="right">{{spot?.longitude}}°</td>
+            <td class="right">{{spot.longitude}}°</td>
           </tr>
           <tr>
             <td>City:</td>
-            <td class="right">{{spot?.city}}°</td>
+            <td class="right">{{spot.city}}°</td>
           </tr>
           <tr>
             <td>Posts:</td>
@@ -24,7 +24,7 @@
           </tr>
         </table>
         <button mat-flat-button>
-          <a [routerLink]="['/spot', spot?.id]"  >See more</a>
+          <a [routerLink]="['/spot', spot.id]">See more</a>
         </button>
 
       </div>
