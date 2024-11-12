@@ -1,5 +1,5 @@
 import {Component, importProvidersFrom} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NavbarComponent} from './features/navbar/navbar.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {MapViewComponent} from './features/map/pages/map-view/map-view.component';
@@ -14,7 +14,7 @@ import {AngularSvgIconModule} from 'angular-svg-icon';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, LeafletModule, MapViewComponent, LoginComponent, RegisterComponent, MatFormFieldModule, MatInputModule, HttpClientModule, AngularSvgIconModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NavbarComponent, LeafletModule, MapViewComponent, LoginComponent, RegisterComponent, MatFormFieldModule, MatInputModule, HttpClientModule, AngularSvgIconModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

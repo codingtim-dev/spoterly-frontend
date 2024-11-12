@@ -1,5 +1,4 @@
-export default interface Spot {
-  id: number;
+export default interface CreateSpotModel {
   name: string,
   description: string,
   latitude: number,

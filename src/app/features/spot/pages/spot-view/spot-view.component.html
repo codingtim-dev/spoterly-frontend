@@ -1,0 +1,45 @@
+<div class="content-container" *ngIf="spot">
+  <div class="spot-header-container">
+    <div class="col back">
+      <img ngSrc="assets/icons/arrow-back-icon.svg" alt="back icon" height="37" width="37" [routerLink]="['/']">
+    </div>
+    <div class="col information">
+      <span>{{spot.name}}</span>
+      <table>
+        <tr>
+          <td>Latitude:</td>
+          <td class="right">{{spot.latitude}}°</td>
+        </tr>
+        <tr>
+          <td>Longitude:</td>
+          <td class="right">{{spot.longitude}}°</td>
+        </tr>
+        <tr>
+          <td>City:</td>
+          <td class="right">{{spot.city}}</td>
+        </tr>
+        <tr>
+          <td>Posts:</td>
+          <td class="right">0</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="spot-post-list-container">
+    <mat-card *ngFor="let post of posts" appearance="outlined" class="post-card">
+      <mat-card-content>
+        <div class="card-content">
+              <span class="card-headline">
+                {{post.title}}
+              </span><br>
+          <span class="author">
+                von {{post.authorId}}
+              </span><br>
+          <span class="card-description">
+                {{post.content}}
+              </span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

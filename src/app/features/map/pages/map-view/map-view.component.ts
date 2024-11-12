@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, inject} from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import Spot from '../../models/Spot';
@@ -40,26 +40,25 @@ const locationIcon = L.icon({
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss'
 })
-export class MapViewComponent implements OnInit,  AfterViewInit {
+export class MapViewComponent implements  AfterViewInit {
 
   private map!: L.Map;
-  mockSpot: Spot[] = mockSpotList;
   selectedSpot: any;
   readonly dialog = inject(MatDialog);
-  showDetails = false;
+  showSpotDetails = false;
   spotList:Spot[] = [];
-  markerList: Marker<any>[] = [];
-
   showActions: boolean = false;
-
 
   constructor(private spotService: SpotService) {
 
   }
+  // async call to http get method, retrieving the spots from the database
+  private markerList = this.spotList.map(value =>
+    new L.Marker(
+      [value.latitude, value.longitude],
+      {icon: locationIcon}).bindPopup(value.name).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
 
-  ngOnInit() {
-
-  }
+  markers: L.Marker[] = this.markerList;
 
 
   // instantiate the map when the DOM is fully loaded
@@ -82,48 +81,64 @@ export class MapViewComponent implements OnInit,  AfterViewInit {
     // fetch spots and put markers on map
     this.spotService.getSpots().subscribe(
       (data) => {
-        console.log(data);
 
         data.map(value => {
           this.markerList.push(
             new L.Marker([value.latitude, value.longitude], {icon: locationIcon}).bindPopup(value.name).on('click', () => this.onClickMarker(value)).on('popupclose', () => this.onPopupClose()));
         })
 
-        this.addMarkers();
+        this.updateMarker();
         this.centerMap();
       }
     )
   }
 
-
   private addMarkers() {
     // Add your markers to the map
+    this.markerList.forEach(marker => marker.addTo(this.map));
+  }
 
-    if(this.markerList){
-      this.markerList.forEach(marker => marker.addTo(this.map));
-    }
+  private updateMarker(){
+    this.markers = this.spotList.map(value =>
+      new L.Marker(
+        [value.latitude, value.longitude],
+        {icon: locationIcon}).bindPopup(value.name).on('click', () => this.onClickMarker(value) ).on('popupclose', () => this.onPopupClose()));
+
+    // refresh marker on map
+    this.addMarkers()
   }
 
   private centerMap() {
     // Create a LatLngBounds object to encompass all the marker locations
-    const bounds = L.latLngBounds(this.markerList.map(marker => marker.getLatLng()));
 
+  if(this.markerList.length > 0){
+      const bounds = L.latLngBounds(this.markerList.map(marker => marker.getLatLng()));
+
+      this.map.fitBounds(bounds);
+      return;
+    }
+
+    // no spots found ? set map view and bounds to Leipzig
+    const leipzigBounds = L.latLngBounds(
+      [51.297, 12.296],  // Southwest corner
+      [51.423, 12.504]   // Northeast corner
+    );
     // Fit the map view to the bounds
-    this.map.fitBounds(bounds);
+    this.map.fitBounds(leipzigBounds)
   }
 
   closeDialog(value: boolean) {
-    this.showDetails = value;
+    this.showSpotDetails = value;
   }
 
   onPopupClose() {
     this.selectedSpot = null;
-    this.showDetails = false
+    this.showSpotDetails = false
   }
 
   onClickMarker(spot: Spot): void {
     this.selectedSpot = spot
-    this.showDetails = true;
+    this.showSpotDetails = true;
   }
 
   toggleActions() {
@@ -146,7 +161,6 @@ export class MapViewComponent implements OnInit,  AfterViewInit {
 
   openCreateNewSpotDialog() {
     const dialogRef = this.dialog.open(AddSpotDialogComponent, {
-      data: "test",
       height: '620px',
       width: '520px',
       panelClass: 'custom-dialog-panel'
@@ -155,6 +169,7 @@ export class MapViewComponent implements OnInit,  AfterViewInit {
     this.showActions = false;
 
     dialogRef.afterClosed().subscribe(result => {
+
       // refresh map markers
       this.fetchSpotList();
     })
