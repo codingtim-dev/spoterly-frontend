@@ -55,4 +55,8 @@ export class LoginComponent {
       this.auth.login(cred);
     }
   }
+
+  hideAuth(value: boolean) {
+    this.authenticate.emit(value);
+  }
 }

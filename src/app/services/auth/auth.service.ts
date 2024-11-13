@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginModel } from '../../core/auth/LoginModel';
+import RegisterModel from '../../core/auth/RegisterModel';
 
 interface AuthResponse {
   authenticated: boolean;
@@ -24,6 +25,12 @@ export class AuthService {
         sessionStorage.setItem('user', JSON.stringify(res.user));
         this.authenticated = res.authenticated;
       }
+    });
+  }
+
+  register(cred: RegisterModel) {
+    this.http.post(this.baseUrl, cred).subscribe((res) => {
+      return res;
     });
   }
 

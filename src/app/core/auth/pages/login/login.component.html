@@ -5,7 +5,7 @@
     </mat-card-header>
     <mat-card-content>
       <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-        <input class="input-element" formControlName="username" placeholder="Enter your usernam">
+        <input class="input-element" formControlName="username" placeholder="Enter your username">
         <input class="input-element" formControlName="password" placeholder="Enter your Password">
         <button mat-flat-button type="submit">Login</button>
       </form>
@@ -13,7 +13,7 @@
       <div class="register-row">
         <p>You do not have an account yet?</p>
         <button (click)="showSignUpForm(true)" mat-button>Sign up</button>
-
+        <button (click)="hideAuth(false)" mat-button>Close</button>
       </div>
 
     </mat-card-content>

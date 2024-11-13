@@ -34,13 +34,20 @@ import { AuthService } from './services/auth/auth.service';
 export class AppComponent implements OnInit {
   title = 'spoterly-frontend';
   showSignUp = false;
+  showAuthDialog: boolean = false;
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isAuthenticated();
+  }
 
   showRegister(showSignUp: boolean) {
     this.showSignUp = showSignUp;
+  }
+
+  showAuthDialogs(showAuthDialog: boolean) {
+    this.showAuthDialog = showAuthDialog;
   }
 
   isAuthenticated() {

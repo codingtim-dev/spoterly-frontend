@@ -1,8 +1,8 @@
 <div class="main-content">
 
-  @if (!isAuthenticated()) {
+  @if (showAuthDialog) {
     @if (!showSignUp) {
-      <app-login (showSignUp)="showRegister($event)"></app-login>
+      <app-login (showSignUp)="showRegister($event)" (authenticate)="showAuthDialogs($event)"></app-login>
     } @else {
       <app-register (registerVis)="showRegister($event)"></app-register>
     }

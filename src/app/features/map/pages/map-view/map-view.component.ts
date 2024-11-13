@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import Spot from '../../models/Spot';
@@ -11,6 +11,7 @@ import { AddPostDialogComponent } from '../../../../components/add-post-dialog/a
 import { NgClass, NgIf } from '@angular/common';
 import { AddSpotDialogComponent } from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import { SpotService } from '../../../../services/spot/spot.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 const locationIcon = L.icon({
   iconUrl: 'assets/icons/Marker.svg',
@@ -36,11 +37,14 @@ const locationIcon = L.icon({
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss',
 })
-export class MapViewComponent implements AfterViewInit {
+export class MapViewComponent implements OnInit, AfterViewInit {
   selectedSpot: any;
   readonly dialog = inject(MatDialog);
   showSpotDetails = false;
   spotList: Spot[] = [];
+
+  userIsAuthenticated = false;
+
   showActions: boolean = false;
   private map!: L.Map;
   // async call to http get method, retrieving the spots from the database
@@ -52,7 +56,16 @@ export class MapViewComponent implements AfterViewInit {
   );
   markers: L.Marker[] = this.markerList;
 
-  constructor(private spotService: SpotService) {}
+  constructor(
+    private spotService: SpotService,
+    private authService: AuthService,
+  ) {}
+
+  ngOnInit() {}
+
+  showMapElements() {
+    return this.authService.isAuthenticated();
+  }
 
   // instantiate the map when the DOM is fully loaded
   ngAfterViewInit() {

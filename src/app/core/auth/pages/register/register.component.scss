@@ -8,7 +8,7 @@
 
   z-index: 9999;
 
-  background-color:  rgba(137, 137, 137, .24);
+  background-color: rgba(137, 137, 137, .24);
   backdrop-filter: blur(3px);
 
   display: flex;
@@ -22,7 +22,7 @@
     top: 50%;
     width: 500px;
     height: 680px;
-    padding: 68px 36px;
+    padding: 20px 36px;
     border-radius: 0;
 
     background-color: white;
@@ -41,16 +41,16 @@ mat-card-header {
 }
 
 .register-content {
-  padding-top: 50px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 
 mat-card-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   padding-top: 30px;
 
   form {
