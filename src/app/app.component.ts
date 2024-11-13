@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './features/navbar/navbar.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -31,18 +31,22 @@ import { AuthService } from './services/auth/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'spoterly-frontend';
   showSignUp = false;
-  showForm: boolean = true;
 
   constructor(private authService: AuthService) {}
+
+  ngOnInit() {}
 
   showRegister(showSignUp: boolean) {
     this.showSignUp = showSignUp;
   }
 
   isAuthenticated() {
-    return this.authService.isAuthenticated().subscribe((res) => res);
+    if (sessionStorage.getItem('auth')) {
+      return sessionStorage.getItem('auth');
+    }
+    return this.authService.isAuthenticated();
   }
 }

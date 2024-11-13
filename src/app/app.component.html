@@ -1,6 +1,6 @@
 <div class="main-content">
 
-  @if (isAuthenticated()) {
+  @if (!isAuthenticated()) {
     @if (!showSignUp) {
       <app-login (showSignUp)="showRegister($event)"></app-login>
     } @else {

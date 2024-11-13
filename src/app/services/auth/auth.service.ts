@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginModel } from '../../core/auth/LoginModel';
 
 interface AuthResponse {
@@ -12,7 +11,7 @@ interface AuthResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  authenticated = new BehaviorSubject<boolean>(false);
+  authenticated = false;
   private baseUrl: string = 'http://localhost:8080/auth/login';
 
   constructor(private http: HttpClient) {}
@@ -21,17 +20,18 @@ export class AuthService {
     this.http.post<any>(this.baseUrl, cred).subscribe((res) => {
       console.log(res);
       if (res) {
-        this.authenticated.next(res.authenticated);
-        console.log(this.authenticated.getValue());
+        sessionStorage.setItem('auth', res.authenticated);
+        sessionStorage.setItem('user', JSON.stringify(res.user));
+        this.authenticated = res.authenticated;
       }
     });
   }
 
-  isAuthenticated(): Observable<boolean> {
-    return this.authenticated.asObservable();
+  isAuthenticated() {
+    return this.authenticated;
   }
 
   logout(): void {
-    this.authenticated.next(false);
+    sessionStorage.clear();
   }
 }
