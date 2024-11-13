@@ -1,21 +1,15 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader, MatCardModule} from '@angular/material/card';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import {
-  MAT_FORM_FIELD_DEFAULT_OPTIONS,
-  MatFormField,
-  MatFormFieldModule,
-  MatHint,
-  MatLabel
-} from '@angular/material/form-field';
-import {MatInput, MatInputModule} from '@angular/material/input';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatButton} from '@angular/material/button';
-import {MatDivider} from '@angular/material/divider';
-import {MatIcon} from '@angular/material/icon';
-import {InputComponent} from '../../../../components/input/input.component';
-import {control} from 'leaflet';
-
-
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatDivider } from '@angular/material/divider';
+import { AuthService } from '../../../../services/auth/auth.service';
+import { LoginModel } from '../../LoginModel';
 
 @Component({
   selector: 'app-login',
@@ -27,26 +21,38 @@ import {control} from 'leaflet';
     MatCardHeader,
     MatCard,
     MatDivider,
-    MatButton
+    MatButton,
   ],
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-
-  form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-  })
-
+  loginForm: FormGroup;
   @Output() showSignUp = new EventEmitter<boolean>();
   @Output() authenticate = new EventEmitter<boolean>();
+  errorMessage: string = '';
 
+  constructor(
+    private auth: AuthService,
+    private fb: FormBuilder,
+  ) {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
+  }
 
   showSignUpForm(value: boolean) {
     this.showSignUp.emit(value);
   }
 
-
   onSubmit() {
-    console.warn(this.form.value);  }
+    if (this.loginForm.valid) {
+      const cred: LoginModel = {
+        username: this.loginForm.value.username,
+        password: this.loginForm.value.password,
+      };
+
+      this.auth.login(cred);
+    }
+  }
 }
