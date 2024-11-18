@@ -24,6 +24,15 @@ export class AuthService {
         sessionStorage.setItem('auth', res.authenticated);
         sessionStorage.setItem('user', JSON.stringify(res.user));
         this.authenticated = res.authenticated;
+
+
+        if(this.authenticated) {
+          window.alert("User successfully logged in");
+        }else {
+          window.alert("User cannot be logged in");
+        }
+
+
       }
     })
   }
