@@ -1,8 +1,14 @@
 <nav class="navbar">
 
   <img alt="application logo" height="41" ngSrc="assets/icons/application-logo-icon.svg" width="150">
-  <button [hidden]="showProfile()" class="small-icon-button" mat-icon-button>
-    <mat-icon class="icon" fontIcon="person"></mat-icon>
-  </button>
-
+  <ng-container *ngIf="showProfile()">
+    <button class="small-icon-button" mat-icon-button>
+      <mat-icon class="icon" fontIcon="person"></mat-icon>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="!showProfile()">
+    <button mat-flat-button (click)="toggleAuthForms()">
+      Sign in / Sign up
+    </button>
+  </ng-container>
 </nav>

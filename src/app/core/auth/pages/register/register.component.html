@@ -4,8 +4,6 @@
       <h1>Welcome to spoterly!</h1>
     </mat-card-header>
     <mat-card-content>
-
-
       <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
         <input class="input-element" formControlName="username" placeholder="Enter your username">
         <input class="input-element" formControlName="email" placeholder="Enter your E-Mail">
@@ -14,12 +12,11 @@
         <input class="input-element" formControlName="lastname" placeholder="Enter your last name">
         <button mat-flat-button type="submit">Sign up</button>
       </form>
-
-
       <mat-divider></mat-divider>
       <div class="register-row">
         <p>You do not have an account yet?</p>
-        <button (click)="showSignUpForm(false)" mat-button>Sign in</button>
+        <button (click)="showLoginForm()" mat-button>Sign in</button>
+        <button (click)="closeAuthDialogs()" mat-button>Close</button>
       </div>
     </mat-card-content>
 

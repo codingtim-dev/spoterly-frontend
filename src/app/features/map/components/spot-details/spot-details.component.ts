@@ -8,6 +8,8 @@ import {MatIcon} from '@angular/material/icon';
 import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import Spot from '../../models/Spot';
+import {SpotService} from '../../../../services/spot/spot.service';
+import {AuthService} from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'spot-details',
@@ -30,6 +32,12 @@ export class SpotDetailsComponent{
   @Output() isOpen = new EventEmitter<boolean>();
   previewSize: number = 4;
 
+  constructor(private authService: AuthService,) {
+  }
+
+  showActions() {
+    return this.authService.isAuthenticated
+  }
 
   // fetch 4 posts with the current spot id
   postsImages: any;

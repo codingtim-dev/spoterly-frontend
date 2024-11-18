@@ -146,7 +146,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(this.map);
 
-    //this.fetchSpotList()
+    this.fetchSpotList()
   }
 
   private addMarkers() {

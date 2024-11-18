@@ -27,8 +27,8 @@ import { LoginModel } from '../../LoginModel';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  @Output() showSignUp = new EventEmitter<boolean>();
-  @Output() authenticate = new EventEmitter<boolean>();
+  @Output() showSignUp = new EventEmitter<void>();
+  @Output() authenticate = new EventEmitter<void>();
   errorMessage: string = '';
 
   constructor(
@@ -41,8 +41,8 @@ export class LoginComponent {
     });
   }
 
-  showSignUpForm(value: boolean) {
-    this.showSignUp.emit(value);
+  showLoginForm() {
+    this.showSignUp.emit();
   }
 
   onSubmit() {
@@ -52,11 +52,13 @@ export class LoginComponent {
         password: this.loginForm.value.password,
       };
 
-      this.auth.login(cred);
+      this.auth.login(cred)
+      this.closeAuthDialogs()
+
     }
   }
 
-  hideAuth(value: boolean) {
-    this.authenticate.emit(value);
+  closeAuthDialogs() {
+    this.authenticate.emit();
   }
 }

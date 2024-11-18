@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AuthService } from './services/auth/auth.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -27,33 +28,32 @@ import { AuthService } from './services/auth/auth.service';
     MatInputModule,
     HttpClientModule,
     AngularSvgIconModule,
+    NgIf,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   title = 'spoterly-frontend';
-  showSignUp = false;
+
   showAuthDialog: boolean = false;
+  showLoginDialog: boolean = true;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.isAuthenticated();
+    this.showAuthDialog = !this.authService.isAuthenticated();
   }
 
-  showRegister(showSignUp: boolean) {
-    this.showSignUp = showSignUp;
+  closeAuthDialog() {
+    this.showAuthDialog = false;
   }
 
-  showAuthDialogs(showAuthDialog: boolean) {
-    this.showAuthDialog = showAuthDialog;
+  openAuthDialog() {
+    this.showAuthDialog = true;
   }
 
-  isAuthenticated() {
-    if (sessionStorage.getItem('auth')) {
-      return sessionStorage.getItem('auth');
-    }
-    return this.authService.isAuthenticated();
+  toggleAuthDialogs(){
+    this.showLoginDialog = !this.showLoginDialog;
   }
 }

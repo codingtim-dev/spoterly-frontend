@@ -33,8 +33,8 @@ import RegisterModel from '../../RegisterModel';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  @Output() registerVis = new EventEmitter<boolean>();
-  @Output() authenticate = new EventEmitter<boolean>();
+  @Output() registerVis = new EventEmitter<void>();
+  @Output() authenticate = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -49,8 +49,12 @@ export class RegisterComponent {
     });
   }
 
-  showSignUpForm(value: boolean) {
-    this.registerVis.emit(value);
+  showLoginForm() {
+    this.registerVis.emit();
+  }
+
+  closeAuthDialogs(){
+    this.authenticate.emit();
   }
 
   onSubmit() {

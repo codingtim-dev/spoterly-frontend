@@ -18,14 +18,14 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(cred: LoginModel) {
-    this.http.post<any>(this.baseUrl, cred).subscribe((res) => {
+    this.http.post<any>(this.baseUrl, cred).pipe().subscribe((res) => {
       console.log(res);
       if (res) {
         sessionStorage.setItem('auth', res.authenticated);
         sessionStorage.setItem('user', JSON.stringify(res.user));
         this.authenticated = res.authenticated;
       }
-    });
+    })
   }
 
   register(cred: RegisterModel) {
@@ -35,8 +35,15 @@ export class AuthService {
   }
 
   isAuthenticated() {
+    // check everytime before taking an action with authenticated user rights
+    const auth = sessionStorage.getItem("auth")
+
+    if (auth) {
+      auth == "true" ? this.authenticated = true : this.authenticated = false;
+    }
     return this.authenticated;
   }
+
 
   logout(): void {
     sessionStorage.clear();
