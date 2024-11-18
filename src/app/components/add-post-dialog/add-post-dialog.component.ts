@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -15,6 +15,10 @@ import {AsyncPipe, NgIf, NgStyle} from '@angular/common';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {mockSpotList} from '../../features/map/models/mockSpotList';
 import Spot from '../../features/map/models/Spot';
+import {PostService} from '../../services/post/post.service';
+import Post from '../../features/map/models/Post';
+import {AuthService} from '../../services/auth/auth.service';
+import {SpotService} from '../../services/spot/spot.service';
 
 const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -45,7 +49,7 @@ const ALLOWED_FILE_TYPES = [
   templateUrl: './add-post-dialog.component.html',
   styleUrl: './add-post-dialog.component.scss'
 })
-export class AddPostDialogComponent {
+export class AddPostDialogComponent implements OnInit{
 
   readonly dialogRef = inject(MatDialogRef<AddPostDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
@@ -55,10 +59,17 @@ export class AddPostDialogComponent {
   fileUrl!: string | null;
   uploadFile!: File | null;
   allowedFileTypes = ALLOWED_FILE_TYPES;
-
+  spotList: Spot[] = []
 
   onCloseClick() {
     this.dialogRef.close();
+  }
+
+  ngOnInit() {
+    this.spotService.getSpots().subscribe(response => {
+      this.spotList = response;
+      console.log(this.spotList);
+    })
   }
 
   uploadForm: FormGroup;
@@ -70,7 +81,7 @@ export class AddPostDialogComponent {
     }
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor( private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
       selectedSpot: ['', [Validators.required]],
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -100,13 +111,17 @@ export class AddPostDialogComponent {
 
   onSubmit() {
     if (this.uploadForm.valid) {
-      const formData = new FormData();
-      formData.append('title', this.uploadForm.get('title')?.value);
-      formData.append('description', this.uploadForm.get('description')?.value);
-      formData.append('file', this.uploadForm.get('file')?.value);
 
-      // Send form data to the backend
-      console.log('Form submitted', formData);
+      const post: Post = {
+        id: "1",
+        spot: this.uploadForm.get('selectedSpot')?.value,
+        author: this.authService.getUsername(),
+        title: this.uploadForm.get('title')?.value,
+        content: this.uploadForm.get('description')?.value,
+
+      }
+
+      console.log(post)
     } else {
       alert('Please fill out the form correctly.');
     }

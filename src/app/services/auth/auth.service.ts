@@ -43,6 +43,19 @@ export class AuthService {
     });
   }
 
+  getUsername(){
+    const userString = sessionStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      const username = user.username;
+      console.log(username);
+
+      return username;
+    }
+
+    return null;
+  }
+
   isAuthenticated() {
     // check everytime before taking an action with authenticated user rights
     const auth = sessionStorage.getItem("auth")
