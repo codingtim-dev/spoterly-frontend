@@ -1,13 +1,10 @@
-
 <div class="main-content">
 
-<!--&lt;!&ndash;    @if(!showSignUp){&ndash;&gt;-->
-<!--&lt;!&ndash;      <app-login (showSignUp)="showRegister($event)" (authenticate)="isAuthenticated($event)"></app-login>&ndash;&gt;-->
-<!--&lt;!&ndash;    } @else {&ndash;&gt;-->
-<!--&lt;!&ndash;      <app-register (registerVis)="showRegister($event)"></app-register>&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-<app-navbar></app-navbar>
+  @if (showAuthDialog) {
+    <app-login *ngIf="showLoginDialog" (authenticate)="closeAuthDialog()" (showSignUp)="toggleAuthDialogs()"></app-login>
+    <app-register *ngIf="!showLoginDialog" (authenticate)="closeAuthDialog()" (registerVis)="toggleAuthDialogs()"></app-register>
+  }
+  <app-navbar (authenticate)="openAuthDialog()"></app-navbar>
   <router-outlet></router-outlet>
 </div>
 

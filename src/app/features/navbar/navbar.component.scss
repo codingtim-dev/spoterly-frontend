@@ -25,4 +25,11 @@ nav {
       font-size: 24px !important;
     }
   }
+
+  button {
+
+    background: $secondary-color;
+    border-radius: 0;
+    color: black;
+  }
 }

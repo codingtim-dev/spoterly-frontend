@@ -1,10 +1,18 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatButton} from "@angular/material/button";
-import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {MatDivider} from "@angular/material/divider";
-import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
-import {MatInput, MatInputModule} from "@angular/material/input";
+import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { AuthService } from '../../../../services/auth/auth.service';
+import RegisterModel from '../../RegisterModel';
 
 @Component({
   selector: 'app-register',
@@ -18,29 +26,49 @@ import {MatInput, MatInputModule} from "@angular/material/input";
     MatCardHeader,
     MatCardContent,
     MatDivider,
-    MatLabel
+    MatLabel,
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  registerForm: FormGroup;
+  @Output() registerVis = new EventEmitter<void>();
+  @Output() authenticate = new EventEmitter<void>();
 
-  form: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+  ) {
+    this.registerForm = this.fb.group({
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      firstname: new FormControl('', Validators.required),
+      lastname: new FormControl('', Validators.required),
+    });
+  }
 
-  });
+  showLoginForm() {
+    this.registerVis.emit();
+  }
 
-  @Output() registerVis = new EventEmitter<boolean>();
-  @Output() authenticate = new EventEmitter<boolean>();
-
-  showSignUpForm(value: boolean) {
-    this.registerVis.emit(value);
+  closeAuthDialogs(){
+    this.authenticate.emit();
   }
 
   onSubmit() {
     // send register data to backend for signing in
-    console.warn(this.form.value);
+
+    const cred: RegisterModel = {
+      username: this.registerForm.value.username,
+      password: this.registerForm.value.password,
+      email: this.registerForm.value.email,
+      firstName: this.registerForm.value.firstname,
+      lastName: this.registerForm.value.lastname,
+    };
+
+    this.authService.register(cred);
+    console.warn(this.registerForm.value);
   }
 }
