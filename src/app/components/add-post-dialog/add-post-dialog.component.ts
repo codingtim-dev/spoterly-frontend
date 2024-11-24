@@ -19,6 +19,7 @@ import {PostService} from '../../services/post/post.service';
 import Post from '../../features/map/models/Post';
 import {AuthService} from '../../services/auth/auth.service';
 import {SpotService} from '../../services/spot/spot.service';
+import {ImageService} from '../../services/post/image.service';
 
 const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -81,7 +82,7 @@ export class AddPostDialogComponent implements OnInit{
     }
   }
 
-  constructor( private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
+  constructor(private imageService: ImageService, private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
       selectedSpot: ['', [Validators.required]],
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -105,15 +106,11 @@ export class AddPostDialogComponent implements OnInit{
     this.fileUrl = null;
   }
 
-  handleUploadFile() {
-    // logic to upload file
-  }
 
   onSubmit() {
     if (this.uploadForm.valid) {
 
       const post: Post = {
-        id: "1",
         spot: this.uploadForm.get('selectedSpot')?.value,
         author: this.authService.getUsername(),
         title: this.uploadForm.get('title')?.value,
@@ -121,7 +118,14 @@ export class AddPostDialogComponent implements OnInit{
 
       }
 
-      console.log(post)
+      this.imageService.uploadImage(this.uploadForm.get('file')?.value).subscribe(response => {
+        console.log(response);
+      })
+
+      // upload first the post then the image
+      this.postService.createPost(post).subscribe(response => {
+        console.log(response);
+      })
     } else {
       alert('Please fill out the form correctly.');
     }
