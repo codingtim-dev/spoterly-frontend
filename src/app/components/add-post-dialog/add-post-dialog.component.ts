@@ -116,24 +116,27 @@ export class AddPostDialogComponent implements OnInit {
   onSubmit() {
     if (this.uploadForm.valid) {
 
-      const author = this.authService.getUsername();
+      let imagedto: any;
+      let post;
+      this.imageService.uploadImage(this.uploadFile!).subscribe({
+        next: value => {
+          imagedto = value;
+          console.log(imagedto);
 
-      const post: Post = {
-        spot: this.uploadForm.get('selectedSpot')?.value,
-        author: author ? author : "",
-        title: this.uploadForm.get('title')?.value,
-        content: this.uploadForm.get('description')?.value,
+          post = {
+            spot_id: this.uploadForm.get('selectedSpot')?.value,
+            image_id: imagedto.id,
+            title: this.uploadForm.get('title')?.value,
+            content: this.uploadForm.get('description')?.value,
 
-      }
+          }
 
-      this.imageService.uploadImage(this.uploadForm.get('file')?.value).subscribe(response => {
-        console.log(response);
+          this.postService.createPost(post).subscribe(response => {
+            console.log(response);
+          })
+        }
       })
 
-      // upload first the post then the image
-      this.postService.createPost(post).subscribe(response => {
-        console.log(response);
-      })
     } else {
       alert('Please fill out the form correctly.');
     }

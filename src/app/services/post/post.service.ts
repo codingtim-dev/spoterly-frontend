@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import Post from '../../features/map/models/Post';
 import {AuthService} from '../auth/auth.service';
+import PostModel from '../../core/post/PostModel';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,11 @@ export class PostService {
     return this.http.get<Post>(`${this.baseUrl}/${id}`).pipe(
       catchError((err) => {console.log('Error fetching data:', err); throw  err})
     );
+  }
+
+  public getPostsBySpotId(id: string): Observable<PostModel[]> {
+    return this.http.get<PostModel[]>(`${this.baseUrl}/spot/${id}`).pipe(
+      catchError((err) => {console.log("Error fetching posts by spot id", err); throw  err})
+    )
   }
 }

@@ -1,8 +1,8 @@
 export default interface PostModel {
-  id: number;
-  authorId: string;
-  spotId: number;
-  imageId: number;
+  id: string;
+  spot_id: string;
+  author_id: string;
+  image_id: string;
   title: string;
   content: string;
 }

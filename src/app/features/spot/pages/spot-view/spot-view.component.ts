@@ -7,6 +7,8 @@ import PostModel from '../../../../core/post/PostModel';
 import {mockPostList} from '../../../../core/post/mockPostList';
 import {MatCard, MatCardContent} from '@angular/material/card';
 import {SpotService} from '../../../../services/spot/spot.service';
+import {PostService} from '../../../../services/post/post.service';
+import Post from '../../../map/models/Post';
 
 @Component({
   selector: 'app-spot-view',
@@ -29,7 +31,7 @@ export class SpotViewComponent implements OnDestroy, OnInit {
   spot: any;
   posts?: PostModel[]
 
-  constructor(private spotService: SpotService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private postService: PostService, private spotService: SpotService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.sub = this.route.paramMap.subscribe(paramMap => {
@@ -42,6 +44,13 @@ export class SpotViewComponent implements OnDestroy, OnInit {
       this.spot = result;
       console.log(this.spot);
     });
+
+    this.postService.getPostsBySpotId(this.id.toString()).subscribe({
+      next: (posts) => {
+        console.log(posts);
+        this.posts = posts;
+      }
+    })
 
 
     // TODO: Redirect to 404 page
