@@ -34,7 +34,6 @@ export class SpotService {
 
   public getSpotById(id: string): Observable<Spot> {
 
-    console.log(id)
     return this.http.get<Spot>(`${this.baseURl}/${id}`).pipe(
       catchError((err) => {console.log('Error fetching data:', err); throw  err})
     )
