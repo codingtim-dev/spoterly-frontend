@@ -3,4 +3,5 @@ export default interface Post {
   image_id: string;
   title: string;
   content: string;
+  imageUrl?: any;
 }

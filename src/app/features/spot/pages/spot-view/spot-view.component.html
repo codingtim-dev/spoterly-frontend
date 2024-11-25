@@ -24,6 +24,9 @@
   <div class="spot-post-list-container">
     <mat-card *ngFor="let post of posts" appearance="outlined" class="post-card">
       <mat-card-content>
+        <div class="image-container">
+          <img [src]="post.imageUrl">
+        </div>
         <div class="card-content">
               <span class="card-headline">
                 {{post.title}}

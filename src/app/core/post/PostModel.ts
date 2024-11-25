@@ -5,4 +5,5 @@ export default interface PostModel {
   image_id: string;
   title: string;
   content: string;
+  imageUrl?: any;
 }

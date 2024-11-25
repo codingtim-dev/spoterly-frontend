@@ -64,8 +64,16 @@
       mat-card-content {
         padding-left: 50px;
         position: relative;
+        display: flex;
       }
 
+      .image-container {
+        width: 50%;
+      }
+
+      .image-container img {
+        max-width: 100%;
+      }
 
       .card-content {
         width: 50%;

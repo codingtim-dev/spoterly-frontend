@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, Observable} from 'rxjs';
+import {catchError, map, Observable, of} from 'rxjs';
 import ImageDto from '../../components/add-post-dialog/models/ImageDto';
 
 @Injectable({
@@ -9,6 +9,7 @@ import ImageDto from '../../components/add-post-dialog/models/ImageDto';
 export class ImageService {
 
   private baseUrl = 'http://localhost:8080/api/images';
+  private cache: { [imageId: string]: any } = {};
 
   constructor(private http: HttpClient) { }
 
@@ -19,5 +20,23 @@ export class ImageService {
     return this.http.post(this.baseUrl, formData).pipe(
       catchError((err) => {console.log('Error uploading data:', err); throw  err})    );
 
+  }
+
+  getImageUrl(id: string) {
+
+    if(this.cache[id]){
+      return of(this.cache[id]);
+    }
+
+    const url = `${this.baseUrl}/${id}`;
+
+    return this.http.get(url, {responseType: 'blob'}).pipe(
+      map(blob => {
+        const imageUrl = URL.createObjectURL(blob);
+        this.cache[id] = imageUrl;
+        return imageUrl;
+      }),
+      catchError(() => "f")
+    );
   }
 }
