@@ -1,8 +1,8 @@
 export default interface Spot {
-  id: number;
+  id: string;
+  author_id: string;
   name: string,
   description: string,
   latitude: number,
   longitude: number,
-  city: string
 }

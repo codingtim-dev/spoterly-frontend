@@ -76,14 +76,14 @@ mat-card-content {
 
 
   button {
-    color: $primary-color;
+    color: $secondary-color;
   }
 }
 
 mat-form-field {
   &.form-input {
     ::ng-deep .mat-form-field-outline {
-      color: $primary-color !important;
+      color: $secondary-color !important;
     }
   }
 }
@@ -96,7 +96,7 @@ mat-form-field {
 
   &:focus {
   outline: none !important;
-  border: 2px solid $primary-color;
+  border: 2px solid $secondary-color;
 
 }
 }

@@ -43,7 +43,6 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
       firstname: new FormControl('', Validators.required),
       lastname: new FormControl('', Validators.required),
     });
@@ -63,7 +62,6 @@ export class RegisterComponent {
     const cred: RegisterModel = {
       username: this.registerForm.value.username,
       password: this.registerForm.value.password,
-      email: this.registerForm.value.email,
       firstName: this.registerForm.value.firstname,
       lastName: this.registerForm.value.lastname,
     };

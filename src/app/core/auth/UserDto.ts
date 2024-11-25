@@ -1,6 +1,6 @@
-export default interface RegisterModel {
+export default interface UserDto {
   username: string;
   firstName: string;
   lastName: string;
-  password: string;
+  role: any
 }
