@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import Post from '../../features/map/models/Post';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,8 @@ import Post from '../../features/map/models/Post';
 export class PostService {
 
 
-  private baseUrl: string = 'http://localhost:8080/posts';
-  constructor(private http: HttpClient) { }
+  private baseUrl: string = 'http://localhost:8080/api/posts';
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   public getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.baseUrl).pipe(
@@ -19,7 +20,11 @@ export class PostService {
   }
 
   public createPost(post: Post): Observable<Post> {
-    return this.http.post<Post>(this.baseUrl, post).pipe(
+
+    const username = this.auth.getUsername()
+
+
+    return this.http.post<Post>(`${this.baseUrl}/${username}/createPost`, post).pipe(
       catchError((err) => {console.log('Error fetching data:', err); throw  err})
     );
   }

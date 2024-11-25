@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginModel } from '../../core/auth/LoginModel';
 import RegisterModel from '../../core/auth/RegisterModel';
+import {jwtDecode} from 'jwt-decode';
 
 interface AuthResponse {
   authenticated: boolean;
@@ -13,61 +14,71 @@ interface AuthResponse {
 })
 export class AuthService {
   authenticated = false;
-  private baseUrl: string = 'http://localhost:8080/auth/login';
+  private baseUrl: string = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) {}
 
   login(cred: LoginModel) {
-    this.http.post<any>(this.baseUrl, cred).pipe().subscribe((res) => {
-      console.log(res);
+    this.http.post<any>(`${this.baseUrl}/login`, cred).pipe().subscribe((res) => {
       if (res) {
-        sessionStorage.setItem('auth', res.authenticated);
-        sessionStorage.setItem('user', JSON.stringify(res.user));
-        this.authenticated = res.authenticated;
+        const token = res.token;
+        this.storeToken(token);
 
-
-        if(this.authenticated) {
+        if(!this.isTokenExpired(token)) {
           window.alert("User successfully logged in");
         }else {
           window.alert("User cannot be logged in");
         }
-
-
       }
     })
   }
 
   register(cred: RegisterModel) {
-    this.http.post(this.baseUrl, cred).subscribe((res) => {
+    this.http.post(`${this.baseUrl}/register`, cred).subscribe((res) => {
       return res;
     });
   }
 
-  getUsername(){
-    const userString = sessionStorage.getItem('user');
-    if (userString) {
-      const user = JSON.parse(userString);
-      const username = user.username;
-      console.log(username);
-
-      return username;
-    }
-
-    return null;
+  storeToken(token: string) {
+    sessionStorage.setItem("authToken", token)
   }
 
   isAuthenticated() {
     // check everytime before taking an action with authenticated user rights
-    const auth = sessionStorage.getItem("auth")
 
-    if (auth) {
-      auth == "true" ? this.authenticated = true : this.authenticated = false;
+    const token = sessionStorage.getItem("authToken")
+
+    if(token && !this.isTokenExpired(token)) {
+      this.authenticated = true
     }
     return this.authenticated;
   }
 
 
   logout(): void {
-    sessionStorage.clear();
+    sessionStorage.removeItem("authToken");
+
+  }
+
+  getUsername(){
+    const token = sessionStorage.getItem("authToken");
+
+    if(!token) {
+      return null;
+    }
+
+    try {
+      const decode = jwtDecode(token);
+      return decode.sub || null;
+    }catch (error) {
+      console.error("Error decoding the token: ", error);
+      return null;
+    }
+  }
+
+
+  isTokenExpired(token: string): boolean {
+    const decoded: any = jwtDecode(token);
+    return (decoded.exp * 1000 ) < Date.now();
   }
 }

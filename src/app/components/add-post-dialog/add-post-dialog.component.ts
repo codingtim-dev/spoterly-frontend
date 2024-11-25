@@ -15,11 +15,11 @@ import {AsyncPipe, NgIf, NgStyle} from '@angular/common';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {mockSpotList} from '../../features/map/models/mockSpotList';
 import Spot from '../../features/map/models/Spot';
-import {PostService} from '../../services/post/post.service';
 import Post from '../../features/map/models/Post';
-import {AuthService} from '../../services/auth/auth.service';
-import {SpotService} from '../../services/spot/spot.service';
 import {ImageService} from '../../services/post/image.service';
+import {SpotService} from '../../services/spot/spot.service';
+import {AuthService} from '../../services/auth/auth.service';
+import {PostService} from '../../services/post/post.service';
 
 const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -50,33 +50,28 @@ const ALLOWED_FILE_TYPES = [
   templateUrl: './add-post-dialog.component.html',
   styleUrl: './add-post-dialog.component.scss'
 })
-export class AddPostDialogComponent implements OnInit{
+export class AddPostDialogComponent implements OnInit {
 
   readonly dialogRef = inject(MatDialogRef<AddPostDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
+
+  spotList: Spot[] = [];
 
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
   isUploading = false;
   fileUrl!: string | null;
   uploadFile!: File | null;
   allowedFileTypes = ALLOWED_FILE_TYPES;
-  spotList: Spot[] = []
+
 
   onCloseClick() {
     this.dialogRef.close();
   }
 
-  ngOnInit() {
-    this.spotService.getSpots().subscribe(response => {
-      this.spotList = response;
-      console.log(this.spotList);
-    })
-  }
-
   uploadForm: FormGroup;
 
-  displaySpotList(options: Spot[]): (id: number) => string {
-    return (id:number) => {
+  displaySpotList(options: Spot[]): (id: string) => string {
+    return (id:string) => {
       const correspondingOption = Array.isArray(options) ? options.find(value => value.id === id) : null;
       return correspondingOption ? correspondingOption.name : '';
     }
@@ -89,6 +84,17 @@ export class AddPostDialogComponent implements OnInit{
       description: ['', [Validators.required]],
       file: [null, [Validators.required]],
     });
+  }
+
+  ngOnInit() {
+    this.spotService.getSpots().subscribe({
+      next: (spots) => {
+        this.spotList = spots
+      },
+      error: (err) => {
+        console.error("Failed to load spots: ", err);
+      }
+    })
   }
 
   handleChange(event: any) {
@@ -110,9 +116,11 @@ export class AddPostDialogComponent implements OnInit{
   onSubmit() {
     if (this.uploadForm.valid) {
 
+      const author = this.authService.getUsername();
+
       const post: Post = {
         spot: this.uploadForm.get('selectedSpot')?.value,
-        author: this.authService.getUsername(),
+        author: author ? author : "",
         title: this.uploadForm.get('title')?.value,
         content: this.uploadForm.get('description')?.value,
 

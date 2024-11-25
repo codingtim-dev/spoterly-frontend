@@ -7,7 +7,6 @@ import { LoginComponent } from './core/auth/pages/login/login.component';
 import { RegisterComponent } from './core/auth/pages/register/register.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { HttpClientModule } from '@angular/common/http';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AuthService } from './services/auth/auth.service';
 import {NgIf} from '@angular/common';
@@ -26,7 +25,6 @@ import {NgIf} from '@angular/common';
     RegisterComponent,
     MatFormFieldModule,
     MatInputModule,
-    HttpClientModule,
     AngularSvgIconModule,
     NgIf,
   ],
