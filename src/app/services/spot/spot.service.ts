@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import Spot from '../../features/map/models/Spot';
 import CreateSpotModel from '../../features/map/models/CreateSpotModel';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,17 @@ import CreateSpotModel from '../../features/map/models/CreateSpotModel';
 export class SpotService {
 
 
-  public baseURl = "http://localhost:8080/spots";
+  public baseURl = "http://localhost:8080/api/spots";
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   public addSpot(spot: CreateSpotModel): Observable<Spot> {
-    return this.http.post<Spot>(this.baseURl, spot).pipe(
+
+    const username = this.auth.getUsername()
+    console.log(username)
+
+    return this.http.post<any>(`${this.baseURl}/${username}/createSpot`, spot).pipe(
       catchError((err) => {console.log('Error fetching data:', err); throw  err})
     );
   }

@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -15,6 +15,7 @@ import {AsyncPipe, NgIf, NgStyle} from '@angular/common';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {mockSpotList} from '../../features/map/models/mockSpotList';
 import Spot from '../../features/map/models/Spot';
+import {SpotService} from '../../services/spot/spot.service';
 
 const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -45,10 +46,12 @@ const ALLOWED_FILE_TYPES = [
   templateUrl: './add-post-dialog.component.html',
   styleUrl: './add-post-dialog.component.scss'
 })
-export class AddPostDialogComponent {
+export class AddPostDialogComponent implements OnInit {
 
   readonly dialogRef = inject(MatDialogRef<AddPostDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
+
+  spotList: Spot[] = [];
 
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
   isUploading = false;
@@ -63,20 +66,31 @@ export class AddPostDialogComponent {
 
   uploadForm: FormGroup;
 
-  displaySpotList(options: Spot[]): (id: number) => string {
-    return (id:number) => {
+  displaySpotList(options: Spot[]): (id: string) => string {
+    return (id:string) => {
       const correspondingOption = Array.isArray(options) ? options.find(value => value.id === id) : null;
       return correspondingOption ? correspondingOption.name : '';
     }
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private spotService: SpotService,private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
       selectedSpot: ['', [Validators.required]],
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
       file: [null, [Validators.required]],
     });
+  }
+
+  ngOnInit() {
+    this.spotService.getSpots().subscribe({
+      next: (spots) => {
+        this.spotList = spots
+      },
+      error: (err) => {
+        console.error("Failed to load spots: ", err);
+      }
+    })
   }
 
   handleChange(event: any) {

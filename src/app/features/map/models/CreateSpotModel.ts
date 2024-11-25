@@ -3,5 +3,4 @@ export default interface CreateSpotModel {
   description: string,
   latitude: number,
   longitude: number,
-  city: string
 }

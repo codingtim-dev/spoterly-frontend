@@ -8,7 +8,7 @@
            matInput
            formControlName="selectedSpot"
            [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySpotList(mockSpotList)" >
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySpotList(spotList)" >
       @for (option of mockSpotList; track option){
         <mat-option [value]="option.id">{{option.name}}</mat-option>
       }
