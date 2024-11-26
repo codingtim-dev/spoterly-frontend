@@ -37,6 +37,7 @@ mat-form-field {
   border: 1px solid $secondary-color;
 
   &:focus {
+    outline: none !important;
     border-radius: 0;
     border: 2px solid $secondary-color;
   }
@@ -52,7 +53,7 @@ mat-form-field {
   &:focus {
     outline: none !important;
     border: 2px solid $secondary-color;
-
+    border-radius: 0;
   }
 }
 
@@ -124,7 +125,7 @@ button[type="button"] {
 .eb-garamond-bold {
   font-family: "EB Garamond", serif;
   font-optical-sizing: auto;
-  font-weight: 800;
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -145,7 +146,7 @@ h1 {
 .inter-bold {
   font-family: "Inter", serif;
   font-optical-sizing: auto;
-  font-weight: 800;
+  font-weight: 600;
   font-style: normal;
 }
 

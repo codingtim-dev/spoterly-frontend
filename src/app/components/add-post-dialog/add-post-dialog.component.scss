@@ -1,9 +1,14 @@
 @import '../../../styles/variables';
 
-h2 {
-  color: $primary-color-2 !important;
-  font-weight: bold;
-  font-size: 36px !important;
+
+h1 {
+  margin-bottom: 20px;}
+.dialog-title {
+  font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-size: 2rem;
+  font-weight: 600;
+  font-style: normal;
 }
 
 form {
@@ -37,7 +42,7 @@ form {
   }
 
   p {
-    color: $primary-color-2;
+    color: $secondary-color-2;
   }
 
   button {
@@ -75,7 +80,7 @@ form {
     }
   }
   button {
-    background-color: $primary-color-2;
+    background-color: $secondary-color-2;
     border: none;
     border-radius: 0;
     color: $primary-color-V2;
