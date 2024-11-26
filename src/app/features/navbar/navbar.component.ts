@@ -14,11 +14,21 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class NavbarComponent {
   @Output() authenticate = new EventEmitter<void>();
+  username: string = "";
 
   constructor(private authService: AuthService) {}
 
+  getUsername(): void {
+    this.username = this.authService.getUsername() ? this.authService.getUsername()! : '';
+  }
+
   showProfile() {
-    return this.authService.isAuthenticated();
+
+    if(this.authService.isAuthenticated()) {
+      this.getUsername();
+      return true
+    }
+    return false
   }
 
   toggleAuthForms() {
