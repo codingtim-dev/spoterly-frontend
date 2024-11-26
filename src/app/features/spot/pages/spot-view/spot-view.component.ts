@@ -7,6 +7,15 @@ import PostModel from '../../../../core/post/PostModel';
 import {mockPostList} from '../../../../core/post/mockPostList';
 import {MatCard, MatCardContent} from '@angular/material/card';
 import {SpotService} from '../../../../services/spot/spot.service';
+import {PostService} from '../../../../services/post/post.service';
+import Post from '../../../map/models/Post';
+import {ImageService} from '../../../../services/post/image.service';
+import {ImageUrlPipe} from '../../../../pipes/ImageUrlPipe';
+
+interface IPost {
+  id: string;
+  imageUrl: string;
+}
 
 @Component({
   selector: 'app-spot-view',
@@ -17,7 +26,8 @@ import {SpotService} from '../../../../services/spot/spot.service';
     NgIf,
     MatCard,
     NgForOf,
-    MatCardContent
+    MatCardContent,
+    ImageUrlPipe
   ],
   templateUrl: './spot-view.component.html',
   styleUrl: './spot-view.component.scss'
@@ -29,7 +39,7 @@ export class SpotViewComponent implements OnDestroy, OnInit {
   spot: any;
   posts?: PostModel[]
 
-  constructor(private spotService: SpotService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private imageService: ImageService,private postService: PostService, private spotService: SpotService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.sub = this.route.paramMap.subscribe(paramMap => {
@@ -43,14 +53,24 @@ export class SpotViewComponent implements OnDestroy, OnInit {
       console.log(this.spot);
     });
 
+    this.postService.getPostsBySpotId(this.id.toString()).subscribe({
+      next: (posts) => {
+        this.posts = posts;
 
-    // TODO: Redirect to 404 page
+        this.posts.forEach(post => {
+          this.imageService.getImageUrl(post.image_id).subscribe(imageUrl => {
+            post.imageUrl = imageUrl;
+          })
+        })
 
+        console.log(this.posts);
+      }
+    })
   }
 
-  getPosts() {
-    // TODO: Create service for fetching posts from database
+  getImageFromPost(id: string) {
 
+    //return this.imageService.getImageUrl(id).subscribe()
   }
 
   ngOnDestroy() {

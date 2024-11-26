@@ -15,7 +15,11 @@ import {AsyncPipe, NgIf, NgStyle} from '@angular/common';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {mockSpotList} from '../../features/map/models/mockSpotList';
 import Spot from '../../features/map/models/Spot';
+import Post from '../../features/map/models/Post';
+import {ImageService} from '../../services/post/image.service';
 import {SpotService} from '../../services/spot/spot.service';
+import {AuthService} from '../../services/auth/auth.service';
+import {PostService} from '../../services/post/post.service';
 
 const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -73,7 +77,7 @@ export class AddPostDialogComponent implements OnInit {
     }
   }
 
-  constructor(private spotService: SpotService,private fb: FormBuilder) {
+  constructor(private imageService: ImageService, private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
       selectedSpot: ['', [Validators.required]],
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -108,19 +112,31 @@ export class AddPostDialogComponent implements OnInit {
     this.fileUrl = null;
   }
 
-  handleUploadFile() {
-    // logic to upload file
-  }
 
   onSubmit() {
     if (this.uploadForm.valid) {
-      const formData = new FormData();
-      formData.append('title', this.uploadForm.get('title')?.value);
-      formData.append('description', this.uploadForm.get('description')?.value);
-      formData.append('file', this.uploadForm.get('file')?.value);
 
-      // Send form data to the backend
-      console.log('Form submitted', formData);
+      let imagedto: any;
+      let post;
+      this.imageService.uploadImage(this.uploadFile!).subscribe({
+        next: value => {
+          imagedto = value;
+          console.log(imagedto);
+
+          post = {
+            spot_id: this.uploadForm.get('selectedSpot')?.value,
+            image_id: imagedto.id,
+            title: this.uploadForm.get('title')?.value,
+            content: this.uploadForm.get('description')?.value,
+
+          }
+
+          this.postService.createPost(post).subscribe(response => {
+            console.log(response);
+          })
+        }
+      })
+
     } else {
       alert('Please fill out the form correctly.');
     }

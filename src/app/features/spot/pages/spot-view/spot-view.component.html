@@ -16,7 +16,7 @@
         </tr>
         <tr>
           <td>Posts:</td>
-          <td class="right">0</td>
+          <td class="right">{{posts?.length}}</td>
         </tr>
       </table>
     </div>
@@ -24,12 +24,15 @@
   <div class="spot-post-list-container">
     <mat-card *ngFor="let post of posts" appearance="outlined" class="post-card">
       <mat-card-content>
+        <div class="image-container">
+          <img [src]="post.imageUrl">
+        </div>
         <div class="card-content">
               <span class="card-headline">
                 {{post.title}}
               </span><br>
           <span class="author">
-                von {{post.authorId}}
+                von {{post.author_id}}
               </span><br>
           <span class="card-description">
                 {{post.content}}
