@@ -19,7 +19,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #CCFF01;
+    color: #72383D;
 
     .material-icons {
       font-size: 24px !important;
@@ -27,9 +27,6 @@ nav {
   }
 
   button {
-
-    background: $secondary-color;
     border-radius: 0;
-    color: black;
   }
 }
