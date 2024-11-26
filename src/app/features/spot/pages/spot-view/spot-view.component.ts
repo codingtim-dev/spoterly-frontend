@@ -5,7 +5,7 @@ import Spot from '../../../map/models/Spot';
 import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import PostModel from '../../../../core/post/PostModel';
 import {mockPostList} from '../../../../core/post/mockPostList';
-import {MatCard, MatCardContent} from '@angular/material/card';
+import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
 import {SpotService} from '../../../../services/spot/spot.service';
 import {PostService} from '../../../../services/post/post.service';
 import Post from '../../../map/models/Post';
@@ -27,7 +27,8 @@ interface IPost {
     MatCard,
     NgForOf,
     MatCardContent,
-    ImageUrlPipe
+    ImageUrlPipe,
+    MatCardImage
   ],
   templateUrl: './spot-view.component.html',
   styleUrl: './spot-view.component.scss'
