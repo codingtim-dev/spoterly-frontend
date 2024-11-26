@@ -10,6 +10,9 @@ import {
 } from '@angular/material/dialog';
 import {SpotService} from '../../services/spot/spot.service';
 import CreateSpotModel from '../../features/map/models/CreateSpotModel';
+import {MatError} from '@angular/material/form-field';
+import {NgForOf, NgIf} from '@angular/common';
+import {validationSpots} from './validation/validation-spots';
 
 @Component({
   selector: 'app-add-spot-dialog',
@@ -20,7 +23,10 @@ import CreateSpotModel from '../../features/map/models/CreateSpotModel';
     MatDialogActions,
     MatDialogContent,
     MatDialogTitle,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatError,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './add-spot-dialog.component.html',
   styleUrl: './add-spot-dialog.component.scss'
@@ -39,10 +45,10 @@ export class AddSpotDialogComponent {
 
   constructor(private spotService: SpotService, private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required]],
-      longitude: ['', [Validators.required, Validators.min(0)]],
-      latitude: ['', [Validators.required, Validators.min(0)]],
+      name: ['', {validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)], updateOn: 'blur'}],
+      description: ['', {validators: [Validators.required, Validators.minLength(5), Validators.maxLength(255)], updateOn: 'blur'}],
+      longitude: ['', {validators: [Validators.required, Validators.min(0)], updateOn: 'blur'}],
+      latitude: ['', {validators: [Validators.required, Validators.min(0)], updateOn: 'blur'}],
     });
   }
 
@@ -66,4 +72,6 @@ export class AddSpotDialogComponent {
       alert('Please fill out the form correctly.');
     }
   }
+
+  protected readonly validationSpots = validationSpots;
 }

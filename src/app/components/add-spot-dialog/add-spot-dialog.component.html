@@ -1,10 +1,26 @@
-<h2 mat-dialog-title>Add a new Spot</h2>
+<h1 class="dialog-title" mat-dialog-title>Add a new Spot</h1>
 <mat-dialog-content>
   <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
     <input class="input-element" id="name" formControlName="name" placeholder="Enter Spot Name"/>
+    <ng-container *ngFor="let validation of validationSpots.name">
+      <mat-error class="error-message" *ngIf="uploadForm.get('name')?.hasError(validation.type) && (uploadForm.get('name')?.dirty || uploadForm.get('name')?.touched)">{{validation.message}}
+      </mat-error>
+    </ng-container>
     <input class="input-element" id="longitude" [min]="0" formControlName="longitude" type="number" placeholder="Enter Longitude"/>
-    <input class="input-element" id="latitude" [min]="0" formControlName="latitude" type="number" placeholder="Enter Longitude"/>
+    <ng-container *ngFor="let validation of validationSpots.coordinate">
+      <mat-error class="error-message" *ngIf="uploadForm.get('longitude')?.hasError(validation.type) && (uploadForm.get('longitude')?.dirty || uploadForm.get('longitude')?.touched)">{{validation.message}}
+      </mat-error>
+    </ng-container>
+    <input class="input-element" id="latitude" [min]="0" formControlName="latitude" type="number" placeholder="Enter Latitude"/>
+    <ng-container *ngFor="let validation of validationSpots.coordinate">
+      <mat-error class="error-message" *ngIf="uploadForm.get('latitude')?.hasError(validation.type) && (uploadForm.get('latitude')?.dirty || uploadForm.get('latitude')?.touched)">{{validation.message}}
+      </mat-error>
+    </ng-container>
     <textarea class="textarea-element" id="description" formControlName="description" placeholder="Enter your description"></textarea>
+    <ng-container *ngFor="let validation of validationSpots.description">
+      <mat-error class="error-message" *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)">{{validation.message}}
+      </mat-error>
+    </ng-container>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
