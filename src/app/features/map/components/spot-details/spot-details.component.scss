@@ -9,16 +9,18 @@
 
   mat-card-header {
     overflow: hidden;
-    background-color: black;
-    color: $secondary-color-3;
+    background-color: $secondary-color-4;
+    color: $secondary-color-2;
 
     padding: 35px 41px;
 
 
     mat-card-title {
-      font-size: 48px;
-      text-transform: uppercase;
-      font-weight: 1000;
+      font-family: "EB Garamond", serif;
+      font-optical-sizing: auto;
+      font-weight: 600;
+      font-style: normal;
+      font-size: 4rem;
     }
 
   }
@@ -30,7 +32,7 @@
     .description-container {
       padding: 0 41px 35px 41px ;
       width: 100%;
-      background-color: $secondary-color;
+      background-color: $secondary-color-3;
       color: $primary-color-V2;
       font-size: 16px;
 
@@ -50,7 +52,7 @@
       }
 
       button {
-        background-color: $primary-color-V2;
+        background-color: $secondary-color-2;
         border-radius: 0;
       }
 

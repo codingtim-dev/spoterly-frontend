@@ -31,7 +31,9 @@ nav {
     }
   }
 
-  button {
+  button[type="button"] {
     border-radius: 0;
+
+    background-color: $secondary-color;
   }
 }

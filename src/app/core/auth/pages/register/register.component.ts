@@ -67,8 +67,8 @@ export class RegisterComponent {
       const cred: RegisterModel = {
         username: this.registerForm.value.username,
         password: this.registerForm.value.password,
-        firstName: this.registerForm.value.firstname,
-        lastName: this.registerForm.value.lastname,
+        firstname: this.registerForm.value.firstname,
+        lastname: this.registerForm.value.lastname,
       };
 
       this.authService.register(cred);
