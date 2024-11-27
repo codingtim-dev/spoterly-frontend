@@ -27,6 +27,7 @@ import {NgIf} from '@angular/common';
     MatInputModule,
     AngularSvgIconModule,
     NgIf,
+    NavbarComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
