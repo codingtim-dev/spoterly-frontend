@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SpotViewComponent } from './spot-view.component';
+import {SpotViewComponent} from './spot-view.component';
 
 describe('SpotViewComponent', () => {
   let component: SpotViewComponent;
@@ -10,7 +10,7 @@ describe('SpotViewComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SpotViewComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(SpotViewComponent);
     component = fixture.componentInstance;

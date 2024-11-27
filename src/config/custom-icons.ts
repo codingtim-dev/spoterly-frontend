@@ -4,5 +4,5 @@ export interface CustomIcon {
 }
 
 export const customIcons: CustomIcon[] = [
-  { svg: 'search', path: 'assets/map-icon.svg' },
+  {svg: 'search', path: 'assets/map-icon.svg'},
 ];

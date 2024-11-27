@@ -1,14 +1,10 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {mockSpotList} from '../../../map/models/mockSpotList';
-import Spot from '../../../map/models/Spot';
 import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import PostModel from '../../../../core/post/PostModel';
-import {mockPostList} from '../../../../core/post/mockPostList';
 import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
 import {SpotService} from '../../../../services/spot/spot.service';
 import {PostService} from '../../../../services/post/post.service';
-import Post from '../../../map/models/Post';
 import {ImageService} from '../../../../services/post/image.service';
 import {ImageUrlPipe} from '../../../../pipes/ImageUrlPipe';
 
@@ -36,11 +32,12 @@ interface IPost {
 export class SpotViewComponent implements OnDestroy, OnInit {
 
   id: string = "";
-  private sub: any;
   spot: any;
   posts?: PostModel[]
+  private sub: any;
 
-  constructor(private imageService: ImageService,private postService: PostService, private spotService: SpotService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private imageService: ImageService, private postService: PostService, private spotService: SpotService, private route: ActivatedRoute, private router: Router) {
+  }
 
   ngOnInit() {
     this.sub = this.route.paramMap.subscribe(paramMap => {

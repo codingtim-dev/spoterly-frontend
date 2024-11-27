@@ -1,18 +1,18 @@
 <div class="details-container">
   <mat-card class="spot-card">
     <mat-card-header>
-      <mat-card-title class="eb-garamond-bold">{{spot.name}}</mat-card-title>
+      <mat-card-title class="eb-garamond-bold">{{ spot.name }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="description-container">
         <table>
           <tr>
             <td>Latitude:</td>
-            <td class="right">{{spot.latitude}}°</td>
+            <td class="right">{{ spot.latitude }}°</td>
           </tr>
           <tr>
             <td>Longitude:</td>
-            <td class="right">{{spot.longitude}}°</td>
+            <td class="right">{{ spot.longitude }}°</td>
           </tr>
           <tr>
             <td>Posts:</td>
@@ -24,8 +24,10 @@
         </button>
 
       </div>
-      <div class="post-list-container" [hidden]="showActions()">
-        <button mat-flat-button class="add-spot-button" (click)="openCreatePostDialog()"><mat-icon>add</mat-icon><span>Add A New Post</span></button>
+      <div [hidden]="showActions()" class="post-list-container">
+        <button (click)="openCreatePostDialog()" class="add-spot-button" mat-flat-button>
+          <mat-icon>add</mat-icon>
+          <span>Add A New Post</span></button>
       </div>
 
     </mat-card-content>

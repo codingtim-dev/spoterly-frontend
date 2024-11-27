@@ -14,7 +14,7 @@
 .details-card-container {
   position: absolute;
   z-index: 9999;
-  padding-right: $padding-component ;
+  padding-right: $padding-component;
   background-color: $primary-color-V2;
   height: calc(100vh - $navbar-height - $padding-component);
   width: 32%;
@@ -46,7 +46,7 @@
   transition: all .5s ease-in-out;
 }
 
-.button-rotate{
+.button-rotate {
   background-color: $secondary-color-2;
 
 }
@@ -76,7 +76,7 @@
     opacity: 0;
     font-weight: 500;
 
-    animation:  .5s ease-in-out forwards showActionButtons;
+    animation: .5s ease-in-out forwards showActionButtons;
   }
 
 }
@@ -86,7 +86,7 @@
   from {
     opacity: 0;
   }
-  to{
+  to {
     opacity: 1;
   }
 

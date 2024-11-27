@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LoginModel } from '../../core/auth/LoginModel';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {LoginModel} from '../../core/auth/LoginModel';
 import RegisterModel from '../../core/auth/RegisterModel';
 import {jwtDecode} from 'jwt-decode';
 
@@ -16,7 +16,8 @@ export class AuthService {
   authenticated = false;
   private baseUrl: string = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   login(cred: LoginModel) {
     this.http.post<any>(`${this.baseUrl}/login`, cred).pipe().subscribe((res) => {
@@ -24,9 +25,9 @@ export class AuthService {
         const token = res.token;
         this.storeToken(token);
 
-        if(!this.isTokenExpired(token)) {
+        if (!this.isTokenExpired(token)) {
           window.alert("User successfully logged in");
-        }else {
+        } else {
           window.alert("User cannot be logged in");
         }
       }
@@ -48,7 +49,7 @@ export class AuthService {
 
     const token = sessionStorage.getItem("authToken")
 
-    if(token && !this.isTokenExpired(token)) {
+    if (token && !this.isTokenExpired(token)) {
       this.authenticated = true
     }
     return this.authenticated;
@@ -60,17 +61,17 @@ export class AuthService {
 
   }
 
-  getUsername(){
+  getUsername() {
     const token = sessionStorage.getItem("authToken");
 
-    if(!token) {
+    if (!token) {
       return null;
     }
 
     try {
       const decode = jwtDecode(token);
       return decode.sub || null;
-    }catch (error) {
+    } catch (error) {
       console.error("Error decoding the token: ", error);
       return null;
     }
@@ -79,6 +80,6 @@ export class AuthService {
 
   isTokenExpired(token: string): boolean {
     const decoded: any = jwtDecode(token);
-    return (decoded.exp * 1000 ) < Date.now();
+    return (decoded.exp * 1000) < Date.now();
   }
 }

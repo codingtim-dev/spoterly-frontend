@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
-import {Observable, tap} from 'rxjs';
+import {HttpInterceptorFn} from '@angular/common/http';
+import {tap} from 'rxjs';
 
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
@@ -14,6 +13,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     req = req.clone({headers})
 
   }
-  return next(req).pipe(tap((response) => {console.log("response ", response)}));
+  return next(req).pipe(tap((response) => {
+    console.log("response ", response)
+  }));
 
 }

@@ -3,7 +3,7 @@
   <img alt="application logo" height="41" ngSrc="assets/icons/application-logo-icon.svg" width="150">
   <ng-container *ngIf="showProfile()">
     <div>
-      <h1 class="inter-bold"> Welcome {{username}} !</h1>
+      <h1 class="inter-bold"> Welcome {{ username }} !</h1>
       <button class="small-icon-button" mat-icon-button>
         <mat-icon class="icon" fontIcon="person"></mat-icon>
       </button>
@@ -11,7 +11,7 @@
 
   </ng-container>
   <ng-container *ngIf="!showProfile()">
-    <button type="button" mat-flat-button (click)="toggleAuthForms()">
+    <button (click)="toggleAuthForms()" mat-flat-button type="button">
       Sign in / Sign up
     </button>
   </ng-container>

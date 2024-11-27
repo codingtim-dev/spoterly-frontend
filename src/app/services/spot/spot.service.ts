@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import Spot from '../../features/map/models/Spot';
@@ -14,7 +14,8 @@ export class SpotService {
   public baseURl = "http://localhost:8080/api/spots";
 
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService) {
+  }
 
   public addSpot(spot: CreateSpotModel): Observable<Spot> {
 
@@ -22,20 +23,29 @@ export class SpotService {
     console.log(username)
 
     return this.http.post<any>(`${this.baseURl}/${username}/createSpot`, spot).pipe(
-      catchError((err) => {console.log('Error fetching data:', err); throw  err})
+      catchError((err) => {
+        console.log('Error fetching data:', err);
+        throw err
+      })
     );
   }
 
   public getSpots(): Observable<Spot[]> {
     return this.http.get<Spot[]>(this.baseURl).pipe(
-      catchError((err) => {console.log('Error fetching data:', err); throw  err})
+      catchError((err) => {
+        console.log('Error fetching data:', err);
+        throw err
+      })
     );
   }
 
   public getSpotById(id: string): Observable<Spot> {
 
     return this.http.get<Spot>(`${this.baseURl}/${id}`).pipe(
-      catchError((err) => {console.log('Error fetching data:', err); throw  err})
+      catchError((err) => {
+        console.log('Error fetching data:', err);
+        throw err
+      })
     )
   }
 }

@@ -7,7 +7,9 @@
   </button>
   <div *ngIf="showActions" class="actions-container">
     <button (click)="openCreateNewPostDialog()" class="action-button" mat-flat-button>Create a new Post</button>
-    <button (click)="openCreateNewSpotDialog()" class="action-button" mat-flat-button>Create a new Spot</button>
+    <button (click)="openCreateNewSpotDialog({latitude: 0, longitude: 0})" class="action-button" mat-flat-button>Create
+      a new Spot
+    </button>
   </div>
   <spot-details (isOpen)="closeDialog($event)" *ngIf="showSpotDetails" [spot]=selectedSpot
                 class="details-card-container"></spot-details>

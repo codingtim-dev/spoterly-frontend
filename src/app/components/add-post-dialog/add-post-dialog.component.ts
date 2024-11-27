@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -6,16 +6,14 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {inject} from '@angular/core';
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AsyncPipe, NgForOf, NgIf, NgStyle} from '@angular/common';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {mockSpotList} from '../../features/map/models/mockSpotList';
 import Spot from '../../features/map/models/Spot';
-import Post from '../../features/map/models/Post';
 import {ImageService} from '../../services/post/image.service';
 import {SpotService} from '../../services/spot/spot.service';
 import {AuthService} from '../../services/auth/auth.service';
@@ -61,33 +59,40 @@ export class AddPostDialogComponent implements OnInit {
 
   spotList: Spot[] = [];
 
-  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
+  @ViewChild('fileInput', {static: false}) fileInput!: ElementRef;
   isUploading = false;
   fileUrl!: string | null;
   uploadFile!: File | null;
   allowedFileTypes = ALLOWED_FILE_TYPES;
+  uploadForm: FormGroup;
+  protected readonly mockSpotList = mockSpotList;
+  protected readonly validationSpots = validationSpots;
+  protected readonly validationPosts = validationPosts;
 
+  constructor(private imageService: ImageService, private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
+    this.uploadForm = this.fb.group({
+      selectedSpot: ['', [Validators.required]],
+      title: ['', {
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        updateOn: 'blur'
+      }],
+      description: ['', {
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(255)],
+        updateOn: 'blur'
+      }],
+      file: [null, [Validators.required]],
+    });
+  }
 
   onCloseClick() {
     this.dialogRef.close();
   }
 
-  uploadForm: FormGroup;
-
   displaySpotList(options: Spot[]): (id: string) => string {
-    return (id:string) => {
+    return (id: string) => {
       const correspondingOption = Array.isArray(options) ? options.find(value => value.id === id) : null;
       return correspondingOption ? correspondingOption.name : '';
     }
-  }
-
-  constructor(private imageService: ImageService, private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
-    this.uploadForm = this.fb.group({
-      selectedSpot: ['', [Validators.required]],
-      title: ['', {validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)], updateOn: 'blur'}],
-      description: ['', {validators: [Validators.required, Validators.minLength(5), Validators.maxLength(255)], updateOn: 'blur'}],
-      file: [null, [Validators.required]],
-    });
   }
 
   ngOnInit() {
@@ -115,7 +120,6 @@ export class AddPostDialogComponent implements OnInit {
     this.uploadFile = null;
     this.fileUrl = null;
   }
-
 
   onSubmit() {
     if (this.uploadForm.valid) {
@@ -145,9 +149,4 @@ export class AddPostDialogComponent implements OnInit {
       alert('Please fill out the form correctly.');
     }
   }
-
-
-  protected readonly mockSpotList = mockSpotList;
-  protected readonly validationSpots = validationSpots;
-  protected readonly validationPosts = validationPosts;
 }
