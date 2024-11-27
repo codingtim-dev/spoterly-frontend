@@ -10,6 +10,14 @@ import {
 } from '@angular/material/dialog';
 import {SpotService} from '../../services/spot/spot.service';
 import CreateSpotModel from '../../features/map/models/CreateSpotModel';
+import {MatError} from '@angular/material/form-field';
+import {NgForOf, NgIf} from '@angular/common';
+import {validationSpots} from './validation/validation-spots';
+
+interface eventCoordinates {
+  latitude: number;
+  longitude: number;
+}
 
 @Component({
   selector: 'app-add-spot-dialog',
@@ -20,7 +28,10 @@ import CreateSpotModel from '../../features/map/models/CreateSpotModel';
     MatDialogActions,
     MatDialogContent,
     MatDialogTitle,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatError,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './add-spot-dialog.component.html',
   styleUrl: './add-spot-dialog.component.scss'
@@ -28,26 +39,33 @@ import CreateSpotModel from '../../features/map/models/CreateSpotModel';
 export class AddSpotDialogComponent {
 
   readonly dialogRef = inject(MatDialogRef<AddSpotDialogComponent>);
-  readonly data = inject(MAT_DIALOG_DATA);
+  readonly data: eventCoordinates = inject(MAT_DIALOG_DATA);
+  uploadForm: FormGroup;
+  protected readonly validationSpots = validationSpots;
+
+  constructor(private spotService: SpotService, private fb: FormBuilder) {
+
+    this.uploadForm = this.fb.group({
+      name: ['', {
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        updateOn: 'blur'
+      }],
+      description: ['', {
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(255)],
+        updateOn: 'blur'
+      }],
+      longitude: [this.data.longitude, {validators: [Validators.required, Validators.min(0)], updateOn: 'blur'}],
+      latitude: [this.data.latitude, {validators: [Validators.required, Validators.min(0)], updateOn: 'blur'}],
+    });
+  }
 
   onCloseClick(spot?: any) {
 
     spot ? this.dialogRef.close(spot) : this.dialogRef.close();
   }
 
-  uploadForm: FormGroup;
-
-  constructor(private spotService: SpotService, private fb: FormBuilder) {
-    this.uploadForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required]],
-      longitude: ['', [Validators.required, Validators.min(0)]],
-      latitude: ['', [Validators.required, Validators.min(0)]],
-    });
-  }
-
-  onSubmit(){
-    if(this.uploadForm.valid){
+  onSubmit() {
+    if (this.uploadForm.valid) {
 
       const spot: CreateSpotModel = {
         name: this.uploadForm.get('name')?.value ? this.uploadForm.get('name')?.value : '',
@@ -58,7 +76,7 @@ export class AddSpotDialogComponent {
 
       this.onCloseClick(spot);
       this.spotService.addSpot(spot).subscribe(value =>
-      console.log(value));
+        console.log(value));
 
       this.dialogRef.close();
 
