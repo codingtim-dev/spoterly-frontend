@@ -1,14 +1,37 @@
-<h2 mat-dialog-title>Add a new Spot</h2>
+<h1 class="dialog-title" mat-dialog-title>Add a new Spot</h1>
 <mat-dialog-content>
-  <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-    <input class="input-element" id="name" formControlName="title" placeholder="Enter Spot Name"/>
-    <input class="input-element" id="longitude" [min]="0" formControlName="longitude" type="number" placeholder="Enter Longitude"/>
-    <input class="input-element" id="latitude" [min]="0" formControlName="latitude" type="number" placeholder="Enter Longitude"/>
-    <textarea class="textarea-element" id="description" formControlName="description" placeholder="Enter your description"></textarea>
+  <form (ngSubmit)="onSubmit()" [formGroup]="uploadForm">
+    <input class="input-element" formControlName="name" id="name" placeholder="Enter Spot Name"/>
+    <ng-container *ngFor="let validation of validationSpots.name">
+      <mat-error *ngIf="uploadForm.get('name')?.hasError(validation.type) && (uploadForm.get('name')?.dirty || uploadForm.get('name')?.touched)"
+                 class="error-message">{{ validation.message }}
+      </mat-error>
+    </ng-container>
+    <input [min]="0" class="input-element" formControlName="longitude" id="longitude" placeholder="Enter Longitude"
+           type="number"/>
+    <ng-container *ngFor="let validation of validationSpots.coordinate">
+      <mat-error *ngIf="uploadForm.get('longitude')?.hasError(validation.type) && (uploadForm.get('longitude')?.dirty || uploadForm.get('longitude')?.touched)"
+                 class="error-message">{{ validation.message }}
+      </mat-error>
+    </ng-container>
+    <input [min]="0" class="input-element" formControlName="latitude" id="latitude" placeholder="Enter Latitude"
+           type="number"/>
+    <ng-container *ngFor="let validation of validationSpots.coordinate">
+      <mat-error *ngIf="uploadForm.get('latitude')?.hasError(validation.type) && (uploadForm.get('latitude')?.dirty || uploadForm.get('latitude')?.touched)"
+                 class="error-message">{{ validation.message }}
+      </mat-error>
+    </ng-container>
+    <textarea class="textarea-element" formControlName="description" id="description"
+              placeholder="Enter your description"></textarea>
+    <ng-container *ngFor="let validation of validationSpots.description">
+      <mat-error *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)"
+                 class="error-message">{{ validation.message }}
+      </mat-error>
+    </ng-container>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button type="submit" (click)="onSubmit()">Publish</button>
-  <button mat-flat-button class="close-button" (click)="onCloseClick()">Close</button>
+  <button (click)="onSubmit()" mat-flat-button type="submit">Publish</button>
+  <button (click)="onCloseClick()" class="close-button" mat-flat-button>Close</button>
 
 </mat-dialog-actions>

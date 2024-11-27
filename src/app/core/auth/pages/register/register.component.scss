@@ -8,7 +8,7 @@
 
   z-index: 9999;
 
-  background-color:  rgba(137, 137, 137, .24);
+  background-color: rgba(137, 137, 137, .24);
   backdrop-filter: blur(3px);
 
   display: flex;
@@ -20,9 +20,9 @@
 
     position: absolute;
     top: 50%;
-    width: 500px;
-    height: 680px;
-    padding: 68px 36px;
+    width: 800px;
+    height: auto;
+    padding: 20px 36px;
     border-radius: 0;
 
     background-color: white;
@@ -40,23 +40,24 @@ mat-card-header {
   text-transform: uppercase;
 }
 
-.register-content {
-  padding-top: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 mat-card-content {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
   padding-top: 30px;
 
   form {
+    width: 50%;
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    .error-message {
+      color: red;
+    }
+
   }
 
 
@@ -77,13 +78,28 @@ mat-card-content {
 }
 
 .register-row {
-  width: 80%;
+  width: 50%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 
-  button {
-    color: $primary-color;
+
+  button[type="button"] {
+    background: $secondary-color-3;
+    border-radius: 0;
+    width: 40%;
+  }
+
+  .close-button {
+
+    border-radius: 0;
+    color: $secondary-color;
+    width: 40%;
+  }
+
+  button:hover {
+    background: $secondary-color-4;
   }
 }
 

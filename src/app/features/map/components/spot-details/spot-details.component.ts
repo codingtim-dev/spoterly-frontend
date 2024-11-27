@@ -7,6 +7,8 @@ import {RouterLink} from '@angular/router';
 import {MatIcon} from '@angular/material/icon';
 import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import Spot from '../../models/Spot';
+import {AuthService} from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'spot-details',
@@ -22,16 +24,21 @@ import {MatDialog} from '@angular/material/dialog';
   templateUrl: './spot-details.component.html',
   styleUrl: './spot-details.component.scss'
 })
-export class SpotDetailsComponent{
+export class SpotDetailsComponent {
 
-  @Input() spot: any;
+  @Input() spot!: Spot;
   readonly dialog = inject(MatDialog);
   @Output() isOpen = new EventEmitter<boolean>();
   previewSize: number = 4;
-
-
   // fetch 4 posts with the current spot id
   postsImages: any;
+
+  constructor(private authService: AuthService,) {
+  }
+
+  showActions() {
+    return this.authService.isAuthenticated
+  }
 
   closeDetails(value: boolean) {
     this.isOpen.emit(value);

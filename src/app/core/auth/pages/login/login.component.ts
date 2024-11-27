@@ -1,21 +1,12 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader, MatCardModule} from '@angular/material/card';
-import {
-  MAT_FORM_FIELD_DEFAULT_OPTIONS,
-  MatFormField,
-  MatFormFieldModule,
-  MatHint,
-  MatLabel
-} from '@angular/material/form-field';
-import {MatInput, MatInputModule} from '@angular/material/input';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {MatDivider} from '@angular/material/divider';
-import {MatIcon} from '@angular/material/icon';
-import {InputComponent} from '../../../../components/input/input.component';
-import {control} from 'leaflet';
-
-
+import {AuthService} from '../../../../services/auth/auth.service';
+import {LoginModel} from '../../LoginModel';
+import {MatError} from '@angular/material/form-field';
+import {NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -27,26 +18,67 @@ import {control} from 'leaflet';
     MatCardHeader,
     MatCard,
     MatDivider,
-    MatButton
+    MatButton,
+    MatError,
+    NgForOf,
+    NgIf,
   ],
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-
-  form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-  })
-
-  @Output() showSignUp = new EventEmitter<boolean>();
-  @Output() authenticate = new EventEmitter<boolean>();
-
-
-  showSignUpForm(value: boolean) {
-    this.showSignUp.emit(value);
+  loginForm: FormGroup;
+  @Output() showSignUp = new EventEmitter<void>();
+  @Output() authenticate = new EventEmitter<void>();
+  errorMessage: string = '';
+  account_validation_messages = {
+    'username': [
+      {type: 'required', message: 'Username is required'},
+      {type: 'minlength', message: 'Username must be at least 5 characters long'},
+      {type: 'maxlength', message: 'Username cannot be more than 25 characters long'},
+      {type: 'pattern', message: 'Your username must contain only numbers and letters'},
+      {type: 'validUsername', message: 'Your username has already been taken'}
+    ],
+    'password': [
+      {type: 'required', message: 'Password is required'},
+      {type: 'minlength', message: 'Password must be at least 5 characters long'},
+      {type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number'}
+    ]
   }
 
+  constructor(
+    private auth: AuthService,
+    private fb: FormBuilder,
+  ) {
+    this.loginForm = this.fb.group({
+      username: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        updateOn: 'blur'
+      }),
+      password: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(8), Validators.maxLength(20)],
+        updateOn: 'blur'
+      }),
+    });
+  }
+
+  showLoginForm() {
+    this.showSignUp.emit();
+  }
 
   onSubmit() {
-    console.warn(this.form.value);  }
+    if (this.loginForm.valid) {
+      const cred: LoginModel = {
+        username: this.loginForm.value.username,
+        password: this.loginForm.value.password,
+      };
+
+      this.auth.login(cred)
+      this.closeAuthDialogs()
+
+    }
+  }
+
+  closeAuthDialogs() {
+    this.authenticate.emit();
+  }
 }

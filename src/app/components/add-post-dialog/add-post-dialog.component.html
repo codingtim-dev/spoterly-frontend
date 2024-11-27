@@ -1,27 +1,50 @@
-<h2 mat-dialog-title class="dialog-title">Add a new Post</h2>
+<h1 class="dialog-title" mat-dialog-title>Add a new Post</h1>
 <mat-dialog-content>
-  <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-      <input class="input-element" id="title" formControlName="title" placeholder="Enter your title"/>
+  <form (ngSubmit)="onSubmit()" [formGroup]="uploadForm">
+    <input [matAutocomplete]="auto"
+           aria-label="Number"
+           class="input-element"
+           formControlName="selectedSpot"
+           matInput
+           placeholder="Pick one"
+           type="text">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySpotList(spotList)">
+      @for (option of spotList; track option) {
+        <mat-option [value]="option.id">{{ option.name }}</mat-option>
+      }
+    </mat-autocomplete>
+    <input class="input-element" formControlName="title" id="title" placeholder="Enter your title"/>
+    <ng-container *ngFor="let validation of validationPosts.title">
+      <mat-error *ngIf="uploadForm.get('title')?.hasError(validation.type) && (uploadForm.get('title')?.dirty || uploadForm.get('title')?.touched)"
+                 class="error-message">{{ validation.message }}
+      </mat-error>
+    </ng-container>
 
-      <textarea class="textarea-element" id="description" formControlName="description" placeholder="Enter your description"></textarea>
+    <textarea class="textarea-element" formControlName="description" id="description"
+              placeholder="Enter your description"></textarea>
+    <ng-container *ngFor="let validation of validationPosts.description">
+      <mat-error *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)"
+                 class="error-message">{{ validation.message }}
+      </mat-error>
+    </ng-container>
+    <div class="dropzone">
+      <input #fileInput (change)="handleChange($event)" [accept]="allowedFileTypes" class="file-select-button" formControlName="file"
+             id="file" type="file"/>
+      <p>Drag and drop <br/>
+        file here to upload <br/>
+        (PNG or JPG)
+      </p>
 
-      <div class="dropzone">
-        <input #fileInput class="file-select-button" type="file" id="file" formControlName="file" (change)="handleChange($event)" [accept]="allowedFileTypes"/>
-        <p>Drag and drop <br/>
-          file here to upload <br/>
-          (PNG or JPG)
-        </p>
+      <button (click)="fileInput.click()" mat-flat-button type="button"> Browse File</button>
+    </div>
 
-        <button type="button" (click)="fileInput.click()" mat-flat-button> Browse File</button>
-      </div>
-
-    <div class="preview-image-container" *ngIf="fileUrl && uploadFile">
-      <div class="image-preview"  [ngStyle]="{'background-image': 'url(' + fileUrl + ')'}"></div>
+    <div *ngIf="fileUrl && uploadFile" class="preview-image-container">
+      <div [ngStyle]="{'background-image': 'url(' + fileUrl + ')'}" class="image-preview"></div>
       <div class="preview">
-        <p>{{ uploadFile?.name }}</p>
+        <p>{{ uploadFile.name }}</p>
         <div class="preview-actions">
-<!--          <button mat-flat-button type="button" [disabled]="isUploading" (click)="handleUploadFile()">{{!isUploading ? 'UPLOADED' : 'UPLOADING...'}}</button>-->
-          <button mat-flat-button type="button" [disabled]="isUploading" (click)="handleRemoveFile()">REMOVE</button>
+          <!--          <button mat-flat-button type="button" [disabled]="isUploading" (click)="handleUploadFile()">{{!isUploading ? 'UPLOADED' : 'UPLOADING...'}}</button>-->
+          <button (click)="handleRemoveFile()" [disabled]="isUploading" mat-flat-button type="button">REMOVE</button>
         </div>
       </div>
     </div>
@@ -29,7 +52,7 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button type="submit" (click)="onSubmit()">Publish</button>
-  <button mat-flat-button class="close-button" (click)="onCloseClick()">Close</button>
+  <button (click)="onSubmit()" mat-flat-button type="submit">Publish</button>
+  <button (click)="onCloseClick()" class="close-button" mat-flat-button>Close</button>
 
 </mat-dialog-actions>

@@ -1,8 +1,21 @@
+
 <nav class="navbar">
+
   <img alt="application logo" height="41" ngSrc="assets/icons/application-logo-icon.svg" width="150">
-  <button [matMenuTriggerFor]="menu" class="small-icon-button" mat-icon-button>
-    <mat-icon class="icon" fontIcon="person"></mat-icon>
-  </button>
+  <ng-container *ngIf="showProfile()">
+    <div>
+      <h1 class="inter-bold"> Welcome {{ username }} !</h1>
+      <button [matMenuTriggerFor]="menu" class="small-icon-button" mat-icon-button>
+        <mat-icon class="icon" fontIcon="person"></mat-icon>
+      </button>
+    </div>
+
+  </ng-container>
+  <ng-container *ngIf="!showProfile()">
+    <button (click)="toggleAuthForms()" mat-flat-button type="button">
+      Sign in / Sign up
+    </button>
+  </ng-container>
   <mat-menu #menu="matMenu">
     <button [routerLink]="['/profile', 1]" mat-menu-item>Profile</button>
     <button mat-menu-item>Posts</button>

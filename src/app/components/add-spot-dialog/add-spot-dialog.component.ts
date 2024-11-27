@@ -1,7 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
-import Spot from '../../features/map/models/Spot';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -9,6 +8,16 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
+import {SpotService} from '../../services/spot/spot.service';
+import CreateSpotModel from '../../features/map/models/CreateSpotModel';
+import {MatError} from '@angular/material/form-field';
+import {NgForOf, NgIf} from '@angular/common';
+import {validationSpots} from './validation/validation-spots';
+
+interface eventCoordinates {
+  latitude: number;
+  longitude: number;
+}
 
 @Component({
   selector: 'app-add-spot-dialog',
@@ -19,7 +28,10 @@ import {
     MatDialogActions,
     MatDialogContent,
     MatDialogTitle,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatError,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './add-spot-dialog.component.html',
   styleUrl: './add-spot-dialog.component.scss'
@@ -27,36 +39,46 @@ import {
 export class AddSpotDialogComponent {
 
   readonly dialogRef = inject(MatDialogRef<AddSpotDialogComponent>);
-  readonly data = inject(MAT_DIALOG_DATA);
-
-  onCloseClick() {
-    this.dialogRef.close();
-  }
-
+  readonly data: eventCoordinates = inject(MAT_DIALOG_DATA);
   uploadForm: FormGroup;
+  protected readonly validationSpots = validationSpots;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private spotService: SpotService, private fb: FormBuilder) {
+
     this.uploadForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required]],
-      longitude: ['', [Validators.required, Validators.min(0)]],
-      latitude: ['', [Validators.required, Validators.min(0)]],
-
+      name: ['', {
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        updateOn: 'blur'
+      }],
+      description: ['', {
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(255)],
+        updateOn: 'blur'
+      }],
+      longitude: [this.data.longitude, {validators: [Validators.required, Validators.min(0)], updateOn: 'blur'}],
+      latitude: [this.data.latitude, {validators: [Validators.required, Validators.min(0)], updateOn: 'blur'}],
     });
   }
 
-  onSubmit(){
-    if(this.uploadForm.valid){
+  onCloseClick(spot?: any) {
 
-      const spot: Spot = {
-        title: this.uploadForm.get('title')?.value ? this.uploadForm.get('title')?.value : '',
+    spot ? this.dialogRef.close(spot) : this.dialogRef.close();
+  }
+
+  onSubmit() {
+    if (this.uploadForm.valid) {
+
+      const spot: CreateSpotModel = {
+        name: this.uploadForm.get('name')?.value ? this.uploadForm.get('name')?.value : '',
         description: this.uploadForm.get('description')?.value ? this.uploadForm.get('description')?.value : '',
         latitude: this.uploadForm.get('latitude')?.value ? this.uploadForm.get('latitude')?.value : 0,
         longitude: this.uploadForm.get('longitude')?.value ? this.uploadForm.get('longitude')?.value : 0,
-
       };
 
-      console.log(spot);
+      this.onCloseClick(spot);
+      this.spotService.addSpot(spot).subscribe(value =>
+        console.log(value));
+
+      this.dialogRef.close();
 
     } else {
       alert('Please fill out the form correctly.');
