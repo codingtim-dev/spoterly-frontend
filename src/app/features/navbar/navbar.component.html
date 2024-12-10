@@ -16,7 +16,7 @@
     </button>
   </ng-container>
   <mat-menu #menu="matMenu">
-    <button [routerLink]="['/profile', 1]" mat-menu-item>Your Profile</button>
+    <button [routerLink]="['/profile', username]" mat-menu-item>Your Profile</button>
     <button mat-menu-item>Liked Posts</button>
     <button (click)="logout()" class="logout-button" mat-menu-item>Logout</button>
   </mat-menu>
