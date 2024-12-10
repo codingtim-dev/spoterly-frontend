@@ -1,0 +1,25 @@
+<div class="content-container">
+  <h1>Your liked Posts</h1>
+
+  <div class="spot-post-list-container">
+    <mat-card
+      *ngFor="let post of likedPosts"
+      appearance="outlined"
+      class="post-card">
+      <mat-card-content>
+        <div class="image-container">
+          <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
+        </div>
+        <div class="card-content">
+          <span class="card-headline">{{ post.title }}</span>
+          <span class="author">von {{ post.author_id }}</span>
+          <p class="card-description">{{ post.content }}</p>
+          <button (click)="unlikePost(post.id)" extended mat-fab>
+            <mat-icon>favorite</mat-icon>
+            Unlike
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
