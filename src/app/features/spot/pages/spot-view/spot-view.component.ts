@@ -7,6 +7,10 @@ import {SpotService} from '../../../../services/spot/spot.service';
 import {PostService} from '../../../../services/post/post.service';
 import {ImageService} from '../../../../services/post/image.service';
 import {ImageUrlPipe} from '../../../../pipes/ImageUrlPipe';
+import {MatIcon} from '@angular/material/icon';
+import {MatFabButton} from '@angular/material/button';
+import {AccountService} from '../../../../services/account/account.service';
+import {AuthService} from '../../../../services/auth/auth.service';
 
 interface IPost {
   id: string;
@@ -24,7 +28,9 @@ interface IPost {
     NgForOf,
     MatCardContent,
     ImageUrlPipe,
-    MatCardImage
+    MatCardImage,
+    MatIcon,
+    MatFabButton
   ],
   templateUrl: './spot-view.component.html',
   styleUrl: './spot-view.component.scss'
@@ -34,9 +40,10 @@ export class SpotViewComponent implements OnDestroy, OnInit {
   id: string = "";
   spot: any;
   posts?: PostModel[]
+  usersLikedPosts?: string[];
   private sub: any;
 
-  constructor(private imageService: ImageService, private postService: PostService, private spotService: SpotService, private route: ActivatedRoute, private router: Router) {
+  constructor(private authService: AuthService, private accountService: AccountService, private imageService: ImageService, private postService: PostService, private spotService: SpotService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -64,6 +71,35 @@ export class SpotViewComponent implements OnDestroy, OnInit {
         console.log(this.posts);
       }
     })
+    const username = this.authService.getUsername();
+    if (username != null) {
+      this.accountService.getLikedPosts(username).subscribe((res) => {
+        res.map(post => {
+          this.usersLikedPosts?.push(post.id);
+
+          console.log(this.usersLikedPosts)
+        })
+      })
+
+    }
+
+  }
+
+  reloadLikedPosts() {
+    this.usersLikedPosts = [];
+    const username = this.authService.getUsername();
+    if (username != null) {
+      this.accountService.getLikedPosts(username).subscribe((res) => {
+        res.map(post => {
+          this.usersLikedPosts?.push(post.id);
+        })
+      })
+
+    }
+  }
+
+  isPostLiked(currpostId: string) {
+    return true
   }
 
   getImageFromPost(id: string) {
@@ -73,5 +109,23 @@ export class SpotViewComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  likePost(id: string) {
+    const username = this.authService.getUsername();
+    if (username != null) {
+      this.accountService.likePost(username, id).subscribe((res) => {
+      })
+
+    }
+  }
+
+  unlikePost(id: string) {
+    const username = this.authService.getUsername();
+    if (username != null) {
+      this.accountService.unlikePost(username, id).subscribe((res) => {
+      })
+
+    }
   }
 }

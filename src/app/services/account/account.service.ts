@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import UserModel from './Models/UserModel';
 import {catchError, Observable} from 'rxjs';
+import PostModel from '../../core/post/PostModel';
+import Spot from '../../features/map/models/Spot';
 
 interface UserDto {
   username: string;
@@ -32,30 +34,26 @@ export class AccountService {
   }
 
   likePost(username: string, postId: string) {
-    return this.http.post(`${this.baseURL}/${username}/likePost/${postId}`, postId);
+    return this.http.post(`${this.baseURL}/${username}/likePost/${postId}`, postId, {responseType: 'text' as 'json'});
   }
 
-  unlikePost(username: string, postId: string) {
-    return this.http.post(`${this.baseURL}/${username}/unlikePost/${postId}`, postId);
+  unlikePost(username: string, postId: string): Observable<void> {
+    return this.http.post<void>(`${this.baseURL}/${username}/unlikePost/${postId}`, postId, {responseType: 'text' as 'json'});
   }
 
   likeSpot(username: string, spotId: string) {
-    return this.http.post(`${this.baseURL}/${username}/likePost/${spotId}`, spotId)
+    return this.http.post(`${this.baseURL}/${username}/likePost/${spotId}`, spotId, {responseType: 'text' as 'json'})
   }
 
-  unlikeSpot(username: string, spotId: string) {
-    return this.http.post(`${this.baseURL}/${username}/unlikePost/${spotId}`, spotId)
+  unlikeSpot(username: string, spotId: string): Observable<string> {
+    return this.http.post<string>(`${this.baseURL}/${username}/unlikePost/${spotId}`, spotId, {responseType: 'text' as 'json'})
   }
 
-  getLikedPosts(username: string) {
-    this.http.get(`${this.baseURL}/${username}/likedPosts`).subscribe((res) => {
-      return res;
-    })
+  getLikedPosts(username: string): Observable<PostModel[]> {
+    return this.http.get<PostModel[]>(`${this.baseURL}/${username}/likedPosts`)
   }
 
-  getLikedSpots(username: string) {
-    this.http.get(`${this.baseURL}/${username}/likedSpots`).subscribe((res) => {
-      return res;
-    })
+  getLikedSpots(username: string): Observable<Spot[]> {
+    return this.http.get<Spot[]>(`${this.baseURL}/${username}/likedSpots`)
   }
 }

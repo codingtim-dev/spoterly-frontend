@@ -38,6 +38,18 @@
           <span class="card-description">
                 {{ post.content }}
               </span>
+          @if (!isPostLiked(post.id)) {
+
+            <button extended mat-fab (click)="likePost(post.id)">
+              <mat-icon>favorite</mat-icon>
+              Like
+            </button>
+          } @else {
+            <button extended mat-fab (click)="unlikePost(post.id)">
+              <mat-icon>favorite</mat-icon>
+              Unlike
+            </button>
+          }
         </div>
       </mat-card-content>
     </mat-card>
