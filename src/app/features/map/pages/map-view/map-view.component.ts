@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, inject} from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import Spot from '../../models/Spot';
@@ -42,34 +42,22 @@ interface eventCoordinates {
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss',
 })
-export class MapViewComponent implements OnInit, AfterViewInit {
+export class MapViewComponent implements AfterViewInit {
   selectedSpot: any;
   readonly dialog = inject(MatDialog);
   showSpotDetails = false;
   spotList: Spot[] = [];
 
-
-  userIsAuthenticated = false;
-
   showActions: boolean = false;
   targetMarker: any = null;
   private map!: L.Map;
-  // async call to http get method, retrieving the spots from the database
-  private markerList = this.spotList.map((value) =>
-    new L.Marker([value.latitude, value.longitude], {icon: locationIcon})
-      .bindPopup(value.name)
-      .on('click', () => this.onClickMarker(value))
-      .on('popupclose', () => this.onPopupClose()),
-  );
-  markers: L.Marker[] = this.markerList;
+  private markers: L.Marker[] = [];
+
 
   constructor(
     private spotService: SpotService,
     private authService: AuthService,
   ) {
-  }
-
-  ngOnInit() {
   }
 
   showMapElements() {
@@ -82,10 +70,14 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   }
 
   fetchSpotList() {
-    // fetch spots and put markers on map
+
+    if (this.markers.length > 0) {
+      this.markers = []
+    }
+
     this.spotService.getSpots().subscribe((data) => {
       data.map((value) => {
-        this.markerList.push(
+        this.markers.push(
           new L.Marker([value.latitude, value.longitude], {
             icon: locationIcon,
           })
@@ -95,7 +87,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
         );
       });
 
-      this.updateMarker();
+      this.addMarkersToMap()
       this.centerMap();
     });
   }
@@ -144,13 +136,17 @@ export class MapViewComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result) => {
 
-      if (result != null) {
-        // refresh map markers
-        this.fetchSpotList();
-      }
       if (this.targetMarker != null) {
         this.map.removeLayer(this.targetMarker);
       }
+
+      if (result != null) {
+        // refresh map markers
+        this.markers.push(this.targetMarker)
+        this.addMarkersToMap()
+        this.fetchSpotList();
+      }
+
     });
   }
 
@@ -164,45 +160,35 @@ export class MapViewComponent implements OnInit, AfterViewInit {
 
     this.map.on('click', (event) => {
 
-      // handle that users wants to add a spot while clicking on map
-      if (this.targetMarker !== null) {
-        this.map.removeLayer(this.targetMarker);
+      if (this.authService.isAuthenticated()) {
+        // handle that users wants to add a spot while clicking on map
+        if (this.targetMarker !== null) {
+          this.map.removeLayer(this.targetMarker);
+        }
+
+        // Add marker icon on map
+        this.targetMarker = L.marker([event.latlng.lat, event.latlng.lng], {icon: locationIcon}).addTo(this.map);
+
+        // Open create Spot dialog
+        this.openCreateNewSpotDialog({latitude: event.latlng.lat, longitude: event.latlng.lng})
       }
-
-      // Add marker icon on map
-      this.targetMarker = L.marker([event.latlng.lat, event.latlng.lng], {icon: locationIcon}).addTo(this.map);
-
-      // Open create Spot dialog
-      this.openCreateNewSpotDialog({latitude: event.latlng.lat, longitude: event.latlng.lng},)
 
     })
 
     this.fetchSpotList()
   }
 
-  private addMarkers() {
+  private addMarkersToMap() {
     // Add your markers to the map
-    this.markerList.forEach((marker) => marker.addTo(this.map));
-  }
-
-  private updateMarker() {
-    this.markers = this.spotList.map((value) =>
-      new L.Marker([value.latitude, value.longitude], {icon: locationIcon})
-        .bindPopup(value.name)
-        .on('click', () => this.onClickMarker(value))
-        .on('popupclose', () => this.onPopupClose()),
-    );
-
-    // refresh marker on map
-    this.addMarkers();
+    this.markers.forEach((marker) => marker.addTo(this.map));
   }
 
   private centerMap() {
     // Create a LatLngBounds object to encompass all the marker locations
 
-    if (this.markerList.length > 0) {
+    if (this.markers.length > 0) {
       const bounds = L.latLngBounds(
-        this.markerList.map((marker) => marker.getLatLng()),
+        this.markers.map((marker) => marker.getLatLng()),
       );
 
       this.map.fitBounds(bounds);

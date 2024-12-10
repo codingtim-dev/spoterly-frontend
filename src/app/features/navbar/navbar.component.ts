@@ -48,4 +48,9 @@ export class NavbarComponent {
   toggleAuthForms() {
     this.authenticate.emit();
   }
+
+  logout() {
+    this.authService.logout();
+  }
+
 }

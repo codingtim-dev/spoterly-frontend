@@ -1,4 +1,3 @@
-
 <nav class="navbar">
 
   <img alt="application logo" height="41" ngSrc="assets/icons/application-logo-icon.svg" width="150">
@@ -17,8 +16,8 @@
     </button>
   </ng-container>
   <mat-menu #menu="matMenu">
-    <button [routerLink]="['/profile', 1]" mat-menu-item>Profile</button>
-    <button mat-menu-item>Posts</button>
-    <button class="logout-button" mat-menu-item>Logout</button>
+    <button [routerLink]="['/profile', 1]" mat-menu-item>Your Profile</button>
+    <button mat-menu-item>Liked Posts</button>
+    <button (click)="logout()" class="logout-button" mat-menu-item>Logout</button>
   </mat-menu>
 </nav>
