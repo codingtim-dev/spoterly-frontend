@@ -3,12 +3,11 @@ import {AccountService} from '../../../../services/account/account.service';
 import {AuthService} from '../../../../services/auth/auth.service';
 import PostModel from '../../../../core/post/PostModel';
 import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
-import {NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ImageService} from '../../../../services/post/image.service';
-import {PostService} from '../../../../services/post/post.service';
-import {SpotService} from '../../../../services/spot/spot.service';
 import {MatIcon} from '@angular/material/icon';
 import {MatFabButton} from '@angular/material/button';
+import {forkJoin, map, Observable, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-liked-posts',
@@ -20,7 +19,8 @@ import {MatFabButton} from '@angular/material/button';
     NgForOf,
     NgIf,
     MatIcon,
-    MatFabButton
+    MatFabButton,
+    AsyncPipe
   ],
   templateUrl: './liked-posts.component.html',
   styleUrl: './liked-posts.component.scss'
@@ -28,51 +28,49 @@ import {MatFabButton} from '@angular/material/button';
 export class LikedPostsComponent implements OnInit {
 
 
-  username?: string | null;
-  likedPosts!: PostModel[];
-  hoveredPost: any;
+  username: string = "";
+  likedPosts$?: Observable<PostModel[]>;
 
-  constructor(private auth: AuthService, private accountService: AccountService, private imageService: ImageService, private postService: PostService, private spotService: SpotService,) {
+  constructor(private auth: AuthService, private accountService: AccountService, private imageService: ImageService) {
   }
 
   ngOnInit() {
     this.username = this.auth.getUsername();
 
-    if (this.username != null) {
-      this.accountService.getLikedPosts(this.username).subscribe((res) => {
-        this.likedPosts = res;
-
-        this.getImageUrlFromPost();
-      })
-    }
-
+    // fetch liked posts
+    this.likedPosts$ = this.accountService.getLikedPosts(this.username);
+    this.getImageUrlFromPost()
   }
 
-  reloadPosts() {
-    if (this.username != null) {
-      this.accountService.getLikedPosts(this.username).subscribe((res) => {
-        this.likedPosts = res;
+  reloadLikedPosts() {
 
-        this.getImageUrlFromPost();
-      })
-    }
+    this.likedPosts$ = this.accountService.getLikedPosts(this.username);
+    this.getImageUrlFromPost();
   }
+
 
   unlikePost(id: string) {
-    if (this.username != null) {
-      this.accountService.unlikePost(this.username, id).subscribe((res) => {
-        this.reloadPosts()
-      })
+    this.accountService.unlikePost(this.username, id).subscribe((res) => {
 
-    }
-  }
-
-  getImageUrlFromPost() {
-    this.likedPosts.forEach((post) => {
-      this.imageService.getImageUrl(post.image_id).subscribe((res) => {
-        post.imageUrl = res;
-      })
+      this.reloadLikedPosts()
     })
-
   }
+
+  getImageUrlFromPost(): void {
+    this.likedPosts$ = this.likedPosts$?.pipe(
+      switchMap(posts =>
+        forkJoin(
+          posts.map(post =>
+            this.imageService.getImageUrl(post.image_id).pipe(
+              map(imageUrl => ({
+                ...post,
+                imageUrl,
+              }))
+            )
+          )
+        )
+      )
+    );
+  }
+
 }

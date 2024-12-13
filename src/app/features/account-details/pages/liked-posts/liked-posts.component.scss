@@ -23,8 +23,8 @@
     align-items: center;
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     width: 100%;
-    max-width: 300px;
-    height: 250px;
+    max-width: 400px;
+    height: 400px;
     background: white;
 
     mat-card-content {
@@ -54,7 +54,7 @@
     .card-content {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: flex-start;
       flex: 0 0 0;
       padding: 16px;

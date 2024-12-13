@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LikedSpotsComponent } from './liked-spots.component';
+import {LikedSpotsComponent} from './liked-spots.component';
 
 describe('LikedSpotsComponent', () => {
   let component: LikedSpotsComponent;
@@ -10,7 +10,7 @@ describe('LikedSpotsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LikedSpotsComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(LikedSpotsComponent);
     component = fixture.componentInstance;

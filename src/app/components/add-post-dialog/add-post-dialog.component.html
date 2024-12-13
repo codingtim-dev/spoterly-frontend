@@ -15,20 +15,23 @@
     </mat-autocomplete>
     <input class="input-element" formControlName="title" id="title" placeholder="Enter your title"/>
     <ng-container *ngFor="let validation of validationPosts.title">
-      <mat-error *ngIf="uploadForm.get('title')?.hasError(validation.type) && (uploadForm.get('title')?.dirty || uploadForm.get('title')?.touched)"
-                 class="error-message">{{ validation.message }}
+      <mat-error
+        *ngIf="uploadForm.get('title')?.hasError(validation.type) && (uploadForm.get('title')?.dirty || uploadForm.get('title')?.touched)"
+        class="error-message">{{ validation.message }}
       </mat-error>
     </ng-container>
 
     <textarea class="textarea-element" formControlName="description" id="description"
               placeholder="Enter your description"></textarea>
     <ng-container *ngFor="let validation of validationPosts.description">
-      <mat-error *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)"
-                 class="error-message">{{ validation.message }}
+      <mat-error
+        *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)"
+        class="error-message">{{ validation.message }}
       </mat-error>
     </ng-container>
     <div class="dropzone">
-      <input #fileInput (change)="handleChange($event)" [accept]="allowedFileTypes" class="file-select-button" formControlName="file"
+      <input #fileInput (change)="handleChange($event)" [accept]="allowedFileTypes" class="file-select-button"
+             formControlName="file"
              id="file" type="file"/>
       <p>Drag and drop <br/>
         file here to upload <br/>

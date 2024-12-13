@@ -1,6 +1,7 @@
 <nav class="navbar">
 
-  <img alt="application logo" height="41" ngSrc="assets/icons/application-logo-icon.svg" width="150">
+  <img [routerLink]="['/home']" alt="application logo" height="41" ngSrc="assets/icons/application-logo-icon.svg"
+       width="150">
   <ng-container *ngIf="showProfile()">
     <div>
       <h1 class="inter-bold"> Welcome {{ username }} !</h1>
@@ -18,7 +19,7 @@
   <mat-menu #menu="matMenu">
     <button [routerLink]="['/profile', username]" mat-menu-item>Your Profile</button>
     <button [routerLink]="['/likedPosts']" mat-menu-item>Liked Posts</button>
-    <button [routerLink]="['/likedSpots']" mat-menu-item>Liked Spots</button>
+    <button [routerLink]="['/likedSpots']" disabled mat-menu-item>Liked Spots</button>
     <button (click)="logout()" class="logout-button" mat-menu-item>Logout</button>
   </mat-menu>
 </nav>

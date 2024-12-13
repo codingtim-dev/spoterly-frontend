@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import UserModel from './Models/UserModel';
-import {catchError, Observable} from 'rxjs';
+import {catchError, map, Observable} from 'rxjs';
 import PostModel from '../../core/post/PostModel';
 import Spot from '../../features/map/models/Spot';
 
@@ -49,9 +49,16 @@ export class AccountService {
     return this.http.post<string>(`${this.baseURL}/${username}/unlikePost/${spotId}`, spotId, {responseType: 'text' as 'json'})
   }
 
+  getLikedPostsIds(username: string): Observable<string[]> {
+    return this.http.get<PostModel[]>(`${this.baseURL}/${username}/likedPosts`).pipe(
+      map(posts => posts.map(post => post.id))
+    )
+  }
+
   getLikedPosts(username: string): Observable<PostModel[]> {
     return this.http.get<PostModel[]>(`${this.baseURL}/${username}/likedPosts`)
   }
+
 
   getLikedSpots(username: string): Observable<Spot[]> {
     return this.http.get<Spot[]>(`${this.baseURL}/${username}/likedSpots`)

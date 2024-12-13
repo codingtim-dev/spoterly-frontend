@@ -14,7 +14,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   }
   return next(req).pipe(tap((response) => {
-    console.log("response ", response)
+    //console.log("response ", response)
   }));
 
 }
