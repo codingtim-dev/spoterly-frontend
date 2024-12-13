@@ -14,6 +14,7 @@
           <span class="card-headline">{{ post.title }}</span>
           <span class="author">von {{ post.author_id }}</span>
           <p class="card-description">{{ post.content }}</p>
+          <span [routerLink]="['/spot', post.spot_id]">Go to Spot</span>
           <button (click)="unlikePost(post.id)" extended mat-fab>
             <mat-icon>favorite</mat-icon>
             Unlike

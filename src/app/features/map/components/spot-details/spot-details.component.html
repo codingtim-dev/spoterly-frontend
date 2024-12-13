@@ -16,7 +16,10 @@
           </tr>
           <tr>
             <td>Posts:</td>
-            <td class="right">0</td>
+            <ng-container *ngIf="posts$ | async as posts">
+              <td class="right">{{ posts.length }}</td>
+            </ng-container>
+
           </tr>
         </table>
         <button mat-flat-button>
@@ -24,10 +27,21 @@
         </button>
 
       </div>
-      <div [hidden]="showActions()" class="post-list-container">
-        <button (click)="openCreatePostDialog()" class="add-spot-button" mat-flat-button>
-          <mat-icon>add</mat-icon>
-          <span>Add A New Post</span></button>
+      <div class="post-list-container">
+
+        <ng-container *ngIf="posts$ | async as posts">
+          <mat-card
+            *ngFor="let post of posts$ | async"
+            [routerLink]="['/spot', spot.id]"
+            appearance="outlined"
+            class="post-card">
+            <mat-card-content>
+              <div class="image-container">
+                <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
       </div>
 
     </mat-card-content>

@@ -76,8 +76,9 @@
       align-items: center;
       transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
       width: 100%;
-      max-width: 400px;
-      height: 400px;
+
+      height: 700px;
+      //aspect-ratio: 2 / 3;
       background: white;
 
       mat-card-content {
@@ -109,7 +110,7 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-start;
-        flex: 0 0 0;
+        flex: 0 0 500px;
         padding: 16px;
         background: white;
         opacity: 0;
@@ -133,26 +134,34 @@
           font-size: 12px;
           color: $secondary-color-2;
         }
+
       }
 
       &:hover {
-        transform: scale(1.1);
+
         z-index: 2;
+
+        //.image-container {
+        //  width: 50%;
+        //
+        //}
+
+        width: 800px;
+        height: 700px;
 
         .image-container {
           width: 50%;
-
-          img {
-            transform: scale(1.1);
-          }
         }
 
+
         .card-content {
-          flex: 1;
+          flex-basis: 800px;
           opacity: 1;
           visibility: visible;
         }
       }
+
+
     }
   }
 

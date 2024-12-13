@@ -8,6 +8,7 @@ import {ImageService} from '../../../../services/post/image.service';
 import {MatIcon} from '@angular/material/icon';
 import {MatFabButton} from '@angular/material/button';
 import {forkJoin, map, Observable, switchMap} from 'rxjs';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-liked-posts',
@@ -20,7 +21,8 @@ import {forkJoin, map, Observable, switchMap} from 'rxjs';
     NgIf,
     MatIcon,
     MatFabButton,
-    AsyncPipe
+    AsyncPipe,
+    RouterLink
   ],
   templateUrl: './liked-posts.component.html',
   styleUrl: './liked-posts.component.scss'
@@ -47,7 +49,6 @@ export class LikedPostsComponent implements OnInit {
     this.likedPosts$ = this.accountService.getLikedPosts(this.username);
     this.getImageUrlFromPost();
   }
-
 
   unlikePost(id: string) {
     this.accountService.unlikePost(this.username, id).subscribe((res) => {
