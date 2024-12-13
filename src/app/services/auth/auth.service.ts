@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {LoginModel} from '../../core/auth/LoginModel';
 import RegisterModel from '../../core/auth/RegisterModel';
 import {jwtDecode} from 'jwt-decode';
+import {Router} from "@angular/router";
 
 interface AuthResponse {
   authenticated: boolean;
@@ -16,7 +17,7 @@ export class AuthService {
   authenticated = false;
   private baseUrl: string = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   login(cred: LoginModel) {
@@ -59,21 +60,24 @@ export class AuthService {
   logout(): void {
     sessionStorage.removeItem("authToken");
 
+    this.authenticated = false;
+    this.router.navigate(['/']);
+
   }
 
-  getUsername() {
+  getUsername(): string {
     const token = sessionStorage.getItem("authToken");
 
     if (!token) {
-      return null;
+      return "null";
     }
 
     try {
       const decode = jwtDecode(token);
-      return decode.sub || null;
+      return decode.sub || "null";
     } catch (error) {
       console.error("Error decoding the token: ", error);
-      return null;
+      return "";
     }
   }
 

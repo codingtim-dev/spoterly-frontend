@@ -7,26 +7,30 @@
       <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
         <input class="input-element" formControlName="username" placeholder="Enter your username">
         <ng-container *ngFor="let validation of account_validation_messages.username">
-          <mat-error *ngIf="registerForm.get('username')?.hasError(validation.type) && (registerForm.get('username')?.dirty || registerForm.get('username')?.touched)"
-                     class="error-message">{{ validation.message }}
+          <mat-error
+            *ngIf="registerForm.get('username')?.hasError(validation.type) && (registerForm.get('username')?.dirty || registerForm.get('username')?.touched)"
+            class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
         <input class="input-element" formControlName="password" placeholder="Enter your password">
         <ng-container *ngFor="let validation of account_validation_messages.password">
-          <mat-error *ngIf="registerForm.get('password')?.hasError(validation.type) && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
-                     class="error-message">{{ validation.message }}
+          <mat-error
+            *ngIf="registerForm.get('password')?.hasError(validation.type) && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
+            class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
         <input class="input-element" formControlName="firstname" placeholder="Enter your first name">
         <ng-container *ngFor="let validation of account_validation_messages.name">
-          <mat-error *ngIf="registerForm.get('firstname')?.hasError(validation.type) && (registerForm.get('firstname')?.dirty || registerForm.get('firstname')?.touched)"
-                     class="error-message">{{ validation.message }}
+          <mat-error
+            *ngIf="registerForm.get('firstname')?.hasError(validation.type) && (registerForm.get('firstname')?.dirty || registerForm.get('firstname')?.touched)"
+            class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
         <input class="input-element" formControlName="lastname" placeholder="Enter your last name">
         <ng-container *ngFor="let validation of account_validation_messages.name">
-          <mat-error *ngIf="registerForm.get('lastname')?.hasError(validation.type) && (registerForm.get('lastname')?.dirty || registerForm.get('lastname')?.touched)"
-                     class="error-message">{{ validation.message }}
+          <mat-error
+            *ngIf="registerForm.get('lastname')?.hasError(validation.type) && (registerForm.get('lastname')?.dirty || registerForm.get('lastname')?.touched)"
+            class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
         <button mat-flat-button type="submit">Sign up</button>

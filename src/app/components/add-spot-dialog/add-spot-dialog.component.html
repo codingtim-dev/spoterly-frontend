@@ -3,29 +3,33 @@
   <form (ngSubmit)="onSubmit()" [formGroup]="uploadForm">
     <input class="input-element" formControlName="name" id="name" placeholder="Enter Spot Name"/>
     <ng-container *ngFor="let validation of validationSpots.name">
-      <mat-error *ngIf="uploadForm.get('name')?.hasError(validation.type) && (uploadForm.get('name')?.dirty || uploadForm.get('name')?.touched)"
-                 class="error-message">{{ validation.message }}
+      <mat-error
+        *ngIf="uploadForm.get('name')?.hasError(validation.type) && (uploadForm.get('name')?.dirty || uploadForm.get('name')?.touched)"
+        class="error-message">{{ validation.message }}
       </mat-error>
     </ng-container>
     <input [min]="0" class="input-element" formControlName="longitude" id="longitude" placeholder="Enter Longitude"
            type="number"/>
     <ng-container *ngFor="let validation of validationSpots.coordinate">
-      <mat-error *ngIf="uploadForm.get('longitude')?.hasError(validation.type) && (uploadForm.get('longitude')?.dirty || uploadForm.get('longitude')?.touched)"
-                 class="error-message">{{ validation.message }}
+      <mat-error
+        *ngIf="uploadForm.get('longitude')?.hasError(validation.type) && (uploadForm.get('longitude')?.dirty || uploadForm.get('longitude')?.touched)"
+        class="error-message">{{ validation.message }}
       </mat-error>
     </ng-container>
     <input [min]="0" class="input-element" formControlName="latitude" id="latitude" placeholder="Enter Latitude"
            type="number"/>
     <ng-container *ngFor="let validation of validationSpots.coordinate">
-      <mat-error *ngIf="uploadForm.get('latitude')?.hasError(validation.type) && (uploadForm.get('latitude')?.dirty || uploadForm.get('latitude')?.touched)"
-                 class="error-message">{{ validation.message }}
+      <mat-error
+        *ngIf="uploadForm.get('latitude')?.hasError(validation.type) && (uploadForm.get('latitude')?.dirty || uploadForm.get('latitude')?.touched)"
+        class="error-message">{{ validation.message }}
       </mat-error>
     </ng-container>
     <textarea class="textarea-element" formControlName="description" id="description"
               placeholder="Enter your description"></textarea>
     <ng-container *ngFor="let validation of validationSpots.description">
-      <mat-error *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)"
-                 class="error-message">{{ validation.message }}
+      <mat-error
+        *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)"
+        class="error-message">{{ validation.message }}
       </mat-error>
     </ng-container>
   </form>
