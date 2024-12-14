@@ -160,7 +160,7 @@ export class MapViewComponent implements AfterViewInit {
 
     this.map.on('click', (event) => {
 
-      if (this.authService.isAuthenticated()) {
+      if (this.authService.isAuthenticated() && !this.showSpotDetails) {
         // handle that users wants to add a spot while clicking on map
         if (this.targetMarker !== null) {
           this.map.removeLayer(this.targetMarker);

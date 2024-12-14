@@ -1,9 +1,8 @@
-import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {AsyncPipe, NgForOf, NgIf, SlicePipe} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
-import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import Spot from '../../models/Spot';
 import {AuthService} from '../../../../services/auth/auth.service';
@@ -11,11 +10,11 @@ import {PostService} from '../../../../services/post/post.service';
 import PostModel from '../../../../core/post/PostModel';
 import {forkJoin, map, Observable, switchMap} from 'rxjs';
 import {ImageService} from '../../../../services/post/image.service';
+import {AddPostDialogComponent} from '../../../../components/add-post-dialog/add-post-dialog.component';
 
-
-interface spotCoordinates {
-  latitude: number;
-  longitude: number;
+interface selectedSpot {
+  id: string;
+  name: string;
 }
 
 @Component({
@@ -33,7 +32,7 @@ interface spotCoordinates {
   templateUrl: './spot-details.component.html',
   styleUrl: './spot-details.component.scss'
 })
-export class SpotDetailsComponent implements OnInit {
+export class SpotDetailsComponent implements OnInit, OnChanges {
 
   @Input() spot!: Spot;
   readonly dialog = inject(MatDialog);
@@ -53,6 +52,13 @@ export class SpotDetailsComponent implements OnInit {
     this.getImageUrlFromPost()
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+
+    this.posts$ = this.postService.getPostsBySpotId(this.spot.id);
+
+    this.getImageUrlFromPost()
+
+  }
 
   showPosts() {
     return this.authService.isAuthenticated();
@@ -62,9 +68,9 @@ export class SpotDetailsComponent implements OnInit {
     this.isOpen.emit(value);
   }
 
-  openCreatePostDialog(coordinates: spotCoordinates) {
-    const dialogRef = this.dialog.open(AddSpotDialogComponent, {
-      data: coordinates,
+  openCreatePostDialog(selectedSpot: selectedSpot) {
+    const dialogRef = this.dialog.open(AddPostDialogComponent, {
+      data: selectedSpot,
       height: '620px',
       width: '520px',
       panelClass: 'custom-dialog-panel'

@@ -168,6 +168,23 @@
 
 }
 
+.actions-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  gap: 16px;
+}
+
+button {
+  width: 50%;
+
+  background-color: $secondary-color-2;
+  color: $primary-color-V2 !important;
+  border-radius: 0;
+}
+
 
 .AuthErrorHint {
   width: 100%;

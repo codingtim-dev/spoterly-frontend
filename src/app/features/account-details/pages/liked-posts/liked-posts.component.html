@@ -14,12 +14,12 @@
           <h1 class="card-headline">{{ post.title }}</h1>
           <span class="author">von {{ post.author_id }}</span>
           <p class="card-description">{{ post.content }}</p>
-          <div>
-            <button (click)="unlikePost(post.id)" extended mat-fab>
+          <div class="actions-container">
+            <button (click)="unlikePost(post.id)" mat-button>
               <mat-icon>favorite</mat-icon>
               Unlike
             </button>
-            <button [routerLink]="['/spot', post.spot_id]" class="close-button" mat-button>
+            <button [routerLink]="['/spot', post.spot_id]" mat-button>
               Go to Spot
             </button>
           </div>

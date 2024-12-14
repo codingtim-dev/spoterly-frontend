@@ -6,12 +6,11 @@ import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
 import {SpotService} from '../../../../services/spot/spot.service';
 import {PostService} from '../../../../services/post/post.service';
 import {ImageService} from '../../../../services/post/image.service';
-import {ImageUrlPipe} from '../../../../pipes/ImageUrlPipe';
 import {MatIcon} from '@angular/material/icon';
-import {MatFabButton} from '@angular/material/button';
+import {MatButton, MatFabButton} from '@angular/material/button';
 import {AccountService} from '../../../../services/account/account.service';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {Observable} from 'rxjs';
+import {forkJoin, map, Observable, switchMap} from 'rxjs';
 
 interface IPost {
   id: string;
@@ -28,11 +27,11 @@ interface IPost {
     MatCard,
     NgForOf,
     MatCardContent,
-    ImageUrlPipe,
     MatCardImage,
     MatIcon,
     MatFabButton,
-    AsyncPipe
+    AsyncPipe,
+    MatButton
   ],
   templateUrl: './spot-view.component.html',
   styleUrl: './spot-view.component.scss'
@@ -41,7 +40,7 @@ export class SpotViewComponent implements OnDestroy, OnInit {
 
   id: string = "";
   spot: any;
-  posts?: PostModel[]
+  posts$?: Observable<PostModel[]>
   usersLikedPosts?: PostModel[];
   postIdsUserLiked$!: Observable<string[]>;
   private sub: any;
@@ -61,24 +60,36 @@ export class SpotViewComponent implements OnDestroy, OnInit {
       console.log("Spot selected: ", this.spot);
     });
 
-    this.postService.getPostsBySpotId(this.id.toString()).subscribe({
-      next: (posts) => {
-        this.posts = posts;
+    this.posts$ = this.postService.getPostsBySpotId(this.id.toString())
 
-        this.posts.forEach(post => {
-          this.imageService.getImageUrl(post.image_id).subscribe(imageUrl => {
-            post.imageUrl = imageUrl;
-          })
-        })
+    this.getImageUrlFromPost()
 
-        console.log("Posts retrieved: ", this.posts);
-      }
-    })
+
+    console.log("Posts retrieved: ", this.posts$);
+
+
     const username = this.authService.getUsername();
 
 
     this.postIdsUserLiked$ = this.accountService.getLikedPostsIds(username);
 
+  }
+
+  getImageUrlFromPost(): void {
+    this.posts$ = this.posts$?.pipe(
+      switchMap(posts =>
+        forkJoin(
+          posts.map(post =>
+            this.imageService.getImageUrl(post.image_id).pipe(
+              map(imageUrl => ({
+                ...post,
+                imageUrl,
+              }))
+            )
+          )
+        )
+      )
+    );
   }
 
   showPosts() {
