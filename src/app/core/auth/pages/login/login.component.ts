@@ -7,6 +7,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {LoginModel} from '../../LoginModel';
 import {MatError} from '@angular/material/form-field';
 import {NgForOf, NgIf} from '@angular/common';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -47,6 +48,7 @@ export class LoginComponent {
   constructor(
     private auth: AuthService,
     private fb: FormBuilder,
+    private toastr: ToastrService,
   ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', {
@@ -71,9 +73,15 @@ export class LoginComponent {
         password: this.loginForm.value.password,
       };
 
-      this.auth.login(cred)
-      this.closeAuthDialogs()
-
+      this.auth.login(cred).subscribe((response) => {
+        if (response.success) {
+          this.toastr.success(response.message);
+          // Navigate to the desired page or perform other actions
+          this.closeAuthDialogs()
+        } else {
+          this.toastr.error(response.message);
+        }
+      });
     }
   }
 

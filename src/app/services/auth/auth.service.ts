@@ -4,6 +4,8 @@ import {LoginModel} from '../../core/auth/LoginModel';
 import RegisterModel from '../../core/auth/RegisterModel';
 import {jwtDecode} from 'jwt-decode';
 import {Router} from "@angular/router";
+import {ToastrService} from 'ngx-toastr';
+import {catchError, map, Observable, of} from 'rxjs';
 
 interface AuthResponse {
   authenticated: boolean;
@@ -17,29 +19,42 @@ export class AuthService {
   authenticated = false;
   private baseUrl: string = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
   }
 
-  login(cred: LoginModel) {
-    this.http.post<any>(`${this.baseUrl}/login`, cred).pipe().subscribe((res) => {
-      if (res) {
+  login(cred: LoginModel): Observable<{ success: boolean; message: string }> {
+    return this.http.post<any>(`${this.baseUrl}/login`, cred).pipe(
+      map((res) => {
         const token = res.token;
         this.storeToken(token);
 
         if (!this.isTokenExpired(token)) {
-          window.alert("User successfully logged in");
+          return {success: true, message: "User is logged in successfully"};
         } else {
-          window.alert("User cannot be logged in");
+          return {success: false, message: "User cannot be logged in (token expired)"};
         }
-      }
-    }, (err) => {
-      console.log(err);
-    })
+      }),
+      catchError((err) => {
+        let errorMessage = "An unexpected error occurred.";
+        if (err.status === 404) {
+          errorMessage = "Wrong username or password.";
+        }
+        return of({success: false, message: errorMessage});
+      })
+    );
   }
+
 
   register(cred: RegisterModel) {
     this.http.post(`${this.baseUrl}/register`, cred).subscribe((res) => {
       return res;
+    }, (err) => {
+      if (err.status === 404) {
+        this.toastr.error(err.message);
+
+      }
+
+      return false
     });
   }
 
