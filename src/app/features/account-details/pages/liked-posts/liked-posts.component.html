@@ -11,8 +11,10 @@
           <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
         </div>
         <div class="card-content">
-          <h1 class="card-headline">{{ post.title }}</h1>
-          <span class="author">von {{ post.author_id }}</span>
+          <div class="header">
+            <h1 class="card-headline">{{ post.title }}</h1>
+            <p class="author">von {{ post.author_id }}</p>
+          </div>
           <p class="card-description">{{ post.content }}</p>
           <div class="actions-container">
             <button (click)="unlikePost(post.id)" mat-button>
