@@ -32,6 +32,8 @@ export class AuthService {
           window.alert("User cannot be logged in");
         }
       }
+    }, (err) => {
+      console.log(err);
     })
   }
 

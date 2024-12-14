@@ -4,6 +4,7 @@ import {catchError, Observable} from 'rxjs';
 import Spot from '../../features/map/models/Spot';
 import CreateSpotModel from '../../features/map/models/CreateSpotModel';
 import {AuthService} from '../auth/auth.service';
+import currBounds from '../../features/map/models/currBounds';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,16 @@ export class SpotService {
     );
   }
 
-  public getSpots(): Observable<Spot[]> {
+  public getSpots(params: currBounds | null): Observable<Spot[]> {
+
+    if (params) {
+      return this.http.get<Spot[]>(`${this.baseURl}?minLatitude=${params.minLatitude}&maxLatitude=${params.maxLatitude}&minLongitude=${params.minLongitude}&maxLongitude=${params.maxLongitude}`).pipe(
+        catchError((err) => {
+          console.log('Error fetching data:', err);
+          throw err
+        })
+      );
+    }
     return this.http.get<Spot[]>(this.baseURl).pipe(
       catchError((err) => {
         console.log('Error fetching data:', err);

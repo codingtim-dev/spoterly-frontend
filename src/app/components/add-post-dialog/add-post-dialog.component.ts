@@ -6,11 +6,11 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatError} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AsyncPipe, NgForOf, NgIf, NgStyle} from '@angular/common';
+import {NgForOf, NgIf, NgStyle} from '@angular/common';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {mockSpotList} from '../../features/map/models/mockSpotList';
 import Spot from '../../features/map/models/Spot';
@@ -33,11 +33,9 @@ const ALLOWED_FILE_TYPES = [
   imports: [
     MatDialogTitle,
     MatDialogContent,
-    MatFormField,
     MatDialogActions,
     MatInput,
     MatButton,
-    MatLabel,
     FormsModule,
     ReactiveFormsModule,
     NgIf,
@@ -45,7 +43,6 @@ const ALLOWED_FILE_TYPES = [
     MatAutocomplete,
     MatOption,
     MatAutocompleteTrigger,
-    AsyncPipe,
     MatError,
     NgForOf
   ],
@@ -96,7 +93,7 @@ export class AddPostDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.spotService.getSpots().subscribe({
+    this.spotService.getSpots(null).subscribe({
       next: (spots) => {
         this.spotList = spots
       },
