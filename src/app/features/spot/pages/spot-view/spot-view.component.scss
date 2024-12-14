@@ -108,7 +108,8 @@
       .card-content {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        gap: 30px;
+        justify-content: flex-start;
         align-items: flex-start;
         flex: 0 0 500px;
         padding: 16px;
@@ -119,7 +120,7 @@
 
         .card-headline {
           font-weight: bold;
-          font-size: 20px;
+          font-size: 30px;
           color: $secondary-color-2;
           margin-bottom: 8px;
         }
@@ -165,4 +166,12 @@
     }
   }
 
+}
+
+
+.AuthErrorHint {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

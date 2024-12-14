@@ -27,22 +27,36 @@
         </button>
 
       </div>
-      <div class="post-list-container">
 
-        <ng-container *ngIf="posts$ | async as posts">
-          <mat-card
-            *ngFor="let post of posts$ | async"
-            [routerLink]="['/spot', spot.id]"
-            appearance="outlined"
-            class="post-card">
-            <mat-card-content>
-              <div class="image-container">
-                <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </ng-container>
-      </div>
+      <ng-container *ngIf="showPosts(); else authHint">
+        <div class="post-list-container">
+
+          <ng-container *ngIf="posts$ | async as posts">
+            <mat-card
+              *ngFor="let post of posts | slice:0:2 "
+              [routerLink]="['/spot', spot.id]"
+              appearance="outlined"
+              class="post-card">
+              <mat-card-content>
+                <div class="image-container">
+                  <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+          <ng-container>
+            <button (click)="openCreatePostDialog({latitude: spot.latitude, longitude: spot.longitude})" mat-button>
+              <span class="eb-garamond-bold">Add New Post</span>
+            </button>
+          </ng-container>
+        </div>
+      </ng-container>
+      <ng-template #authHint>
+        <div class="AuthErrorHint">
+          <h1 class="eb-garamond-normal">Please sign in to see post from others!</h1>
+        </div>
+
+      </ng-template>
 
     </mat-card-content>
   </mat-card>

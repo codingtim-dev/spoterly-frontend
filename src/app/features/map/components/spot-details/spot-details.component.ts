@@ -1,10 +1,8 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {MatDivider} from '@angular/material/divider';
-import {MatButton, MatFabButton} from '@angular/material/button';
+import {AsyncPipe, NgForOf, NgIf, SlicePipe} from '@angular/common';
+import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
-import {MatIcon} from '@angular/material/icon';
 import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import Spot from '../../models/Spot';
@@ -14,19 +12,23 @@ import PostModel from '../../../../core/post/PostModel';
 import {forkJoin, map, Observable, switchMap} from 'rxjs';
 import {ImageService} from '../../../../services/post/image.service';
 
+
+interface spotCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
 @Component({
   selector: 'spot-details',
   standalone: true,
   imports: [
     MatCardModule,
     NgIf,
-    MatDivider,
     MatButton,
     RouterLink,
-    MatIcon,
     AsyncPipe,
-    MatFabButton,
-    NgForOf
+    NgForOf,
+    SlicePipe
   ],
   templateUrl: './spot-details.component.html',
   styleUrl: './spot-details.component.scss'
@@ -51,17 +53,18 @@ export class SpotDetailsComponent implements OnInit {
     this.getImageUrlFromPost()
   }
 
-  showActions() {
-    return this.authService.authenticated
+
+  showPosts() {
+    return this.authService.isAuthenticated();
   }
 
   closeDetails(value: boolean) {
     this.isOpen.emit(value);
   }
 
-  openCreatePostDialog() {
+  openCreatePostDialog(coordinates: spotCoordinates) {
     const dialogRef = this.dialog.open(AddSpotDialogComponent, {
-      data: "test",
+      data: coordinates,
       height: '620px',
       width: '520px',
       panelClass: 'custom-dialog-panel'

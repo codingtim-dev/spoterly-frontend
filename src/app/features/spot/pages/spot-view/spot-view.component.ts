@@ -76,8 +76,13 @@ export class SpotViewComponent implements OnDestroy, OnInit {
     })
     const username = this.authService.getUsername();
 
+
     this.postIdsUserLiked$ = this.accountService.getLikedPostsIds(username);
 
+  }
+
+  showPosts() {
+    return this.authService.isAuthenticated();
   }
 
   reloadLikedPosts() {

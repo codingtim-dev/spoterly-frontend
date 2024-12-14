@@ -22,41 +22,54 @@
       </table>
     </div>
   </div>
-  <div class="spot-post-list-container">
-    <mat-card *ngFor="let post of posts" appearance="outlined" class="post-card">
-      <mat-card-content>
-        <div class="image-container">
-          <img [src]="post.imageUrl" mat-card-image>
-        </div>
-        <div class="card-content">
-          <div>
-            <span class="card-headline eb-garamond-bold">
+  <ng-container *ngIf="showPosts(); else noPosts">
+    <div class="spot-post-list-container">
+
+      <mat-card *ngFor="let post of posts" appearance="outlined" class="post-card">
+
+        <mat-card-content>
+          <div class="image-container">
+            <img [src]="post.imageUrl" mat-card-image>
+          </div>
+          <div class="card-content">
+            <div>
+              <h1 class="card-headline eb-garamond-bold">
                 {{ post.title }}
-              </span>
-            <span class="author eb-garamond-normal">
+              </h1>
+              <span class="author eb-garamond-normal">
                 von {{ post.author_id }}
               </span>
-          </div>
+            </div>
 
-          <span class="card-description">
+            <span class="card-description">
                 {{ post.content }}
               </span>
-          <ng-container *ngIf="postIdsUserLiked$ | async as likedPosts">
-            <ng-container *ngIf="likedPosts.includes(post.id); else unlikeButton">
-              <button (click)="unlikePost(post.id)" extended mat-fab>
-                <mat-icon>favorite</mat-icon>
-                Unlike
-              </button>
+            <ng-container *ngIf="postIdsUserLiked$ | async as likedPosts">
+              <ng-container *ngIf="likedPosts.includes(post.id); else unlikeButton">
+                <button (click)="unlikePost(post.id)" extended mat-fab>
+                  <mat-icon>favorite</mat-icon>
+                  Unlike
+                </button>
+              </ng-container>
+              <ng-template #unlikeButton>
+                <button (click)="likePost(post.id)" extended mat-fab>
+                  <mat-icon>favorite</mat-icon>
+                  Like
+                </button>
+              </ng-template>
             </ng-container>
-            <ng-template #unlikeButton>
-              <button (click)="likePost(post.id)" extended mat-fab>
-                <mat-icon>favorite</mat-icon>
-                Like
-              </button>
-            </ng-template>
-          </ng-container>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+
+    </div>
+  </ng-container>
+
+  <ng-template #noPosts>
+    <div class="AuthErrorHint">
+      <h1 class="eb-garamond-bold">Please sign in to see the posts from others!</h1>
+    </div>
+
+  </ng-template>
 </div>

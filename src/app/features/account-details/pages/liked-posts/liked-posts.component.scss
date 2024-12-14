@@ -1,4 +1,5 @@
 @import '../../../../../styles/variables';
+@import '../../../../../styles/main';
 
 .content-container {
   padding: 16px;
@@ -7,6 +8,14 @@
     text-align: center;
   }
 }
+
+.close-button {
+
+  background-color: $secondary-color-3;
+  
+  border-radius: 0;
+}
+
 
 .spot-post-list-container {
   display: grid;
@@ -54,7 +63,9 @@
     .card-content {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 30px;
+
       align-items: flex-start;
       flex: 0 0 0;
       padding: 16px;
@@ -65,7 +76,7 @@
 
       .card-headline {
         font-weight: bold;
-        font-size: 20px;
+        font-size: 25px;
         color: $secondary-color-2;
         margin-bottom: 8px;
       }

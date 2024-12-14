@@ -21,7 +21,7 @@
       font-optical-sizing: auto;
       font-weight: 600;
       font-style: normal;
-      font-size: 4rem;
+      font-size: 4em;
     }
 
   }
@@ -35,7 +35,7 @@
       width: 100%;
       background-color: $secondary-color-3;
       color: $primary-color-V2;
-      font-size: 16px;
+      font-size: 1rem;
 
 
       table {
@@ -86,11 +86,12 @@
         background: $primary-color-V2;
         color: $secondary-color;
 
+
         border-radius: 0;
         border: 2px solid $secondary-color;
 
-        width: 100px;
-        height: 50px;
+        height: 300px;
+
 
         display: flex;
         flex-direction: column;
@@ -100,7 +101,7 @@
 
         span {
           width: 100%;
-          line-height: 40px;
+          font-size: 1.5rem;
         }
 
 
@@ -153,3 +154,12 @@
 
   }
 }
+
+
+.AuthErrorHint {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
