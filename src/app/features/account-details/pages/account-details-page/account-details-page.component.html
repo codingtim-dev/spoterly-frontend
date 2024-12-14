@@ -1,7 +1,17 @@
 <div class="page-container">
 
-  <h1 class="eb-garamond-bold">Your username: {{ this.accountDetails?.username }}</h1>
-  <h1 class="eb-garamond-bold">Your first name: {{ this.accountDetails?.firstName }}</h1>
-  <h1 class="eb-garamond-bold">Your last name: {{ this.accountDetails?.lastName }}</h1>
-  <h1 class="eb-garamond-bold">Your role: {{ this.accountDetails?.role }}</h1>
+  <mat-card>
+    <mat-card-header>
+      <h1 class="eb-garamond-bold">
+        User Profile
+      </h1>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="eb-garamond-bold">Your username: {{ this.accountDetails?.username }}</p>
+      <p class="eb-garamond-bold">Your first name: {{ this.accountDetails?.firstname }}</p>
+      <p class="eb-garamond-bold">Your last name: {{ this.accountDetails?.lastname }}</p>
+      <p class="eb-garamond-bold">Your role: {{ this.accountDetails?.role }}</p>
+    </mat-card-content>
+  </mat-card>
+
 </div>

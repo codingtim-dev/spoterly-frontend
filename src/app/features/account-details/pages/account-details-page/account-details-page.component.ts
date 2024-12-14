@@ -2,11 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {AccountService} from '../../../../services/account/account.service';
 import UserModel from '../../../../services/account/Models/UserModel';
+import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
 
 @Component({
   selector: 'app-account-details-page',
   standalone: true,
-  imports: [],
+  imports: [
+    MatCard,
+    MatCardHeader,
+    MatCardContent
+  ],
   templateUrl: './account-details-page.component.html',
   styleUrl: './account-details-page.component.scss'
 })
@@ -43,8 +48,8 @@ export class AccountDetailsPageComponent implements OnInit {
       this.accountService.getUser(this.username).subscribe((res) => {
           this.accountDetails = res;
 
-          this.accountDetails.firstName == null ? this.accountDetails.firstName = "No first name exists" : this.accountDetails.firstName;
-          this.accountDetails.lastName == null ? this.accountDetails.lastName = "No lastname name exists" : this.accountDetails.lastName;
+          this.accountDetails.firstname == null ? this.accountDetails.firstname = "No first name exists" : this.accountDetails.firstname;
+          this.accountDetails.lastname == null ? this.accountDetails.lastname = "No lastname name exists" : this.accountDetails.lastname;
 
           console.log(this.accountDetails)
         }

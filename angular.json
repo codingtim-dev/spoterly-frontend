@@ -38,7 +38,8 @@
               "./node_modules/leaflet/dist/leaflet.css",
               "src/styles/variables.scss",
               "src/styles/main.scss",
-              "src/styles/materialUI.scss"
+              "src/styles/materialUI.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },

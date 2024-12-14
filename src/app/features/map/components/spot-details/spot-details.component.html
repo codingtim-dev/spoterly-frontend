@@ -27,11 +27,12 @@
         </button>
 
       </div>
+
       <div class="post-list-container">
 
         <ng-container *ngIf="posts$ | async as posts">
           <mat-card
-            *ngFor="let post of posts$ | async"
+            *ngFor="let post of posts | slice:0:2 "
             [routerLink]="['/spot', spot.id]"
             appearance="outlined"
             class="post-card">
@@ -42,7 +43,13 @@
             </mat-card-content>
           </mat-card>
         </ng-container>
+        <ng-container *ngIf="showPosts()">
+          <button (click)="openCreatePostDialog({id: spot.id, name: spot.name})" mat-button>
+            <span class="eb-garamond-bold">Add New Post</span>
+          </button>
+        </ng-container>
       </div>
+
 
     </mat-card-content>
   </mat-card>

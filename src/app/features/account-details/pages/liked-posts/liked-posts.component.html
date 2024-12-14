@@ -1,5 +1,5 @@
 <div class="content-container">
-  <h1>Your liked Posts</h1>
+  <h1 class="eb-garamond-bold">Your liked Posts</h1>
 
   <div *ngIf="likedPosts$ | async as likedPosts" class="spot-post-list-container">
     <mat-card
@@ -11,14 +11,21 @@
           <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
         </div>
         <div class="card-content">
-          <span class="card-headline">{{ post.title }}</span>
-          <span class="author">von {{ post.author_id }}</span>
+          <div class="header">
+            <h1 class="card-headline">{{ post.title }}</h1>
+            <p class="author">von {{ post.author_id }}</p>
+          </div>
           <p class="card-description">{{ post.content }}</p>
-          <span [routerLink]="['/spot', post.spot_id]">Go to Spot</span>
-          <button (click)="unlikePost(post.id)" extended mat-fab>
-            <mat-icon>favorite</mat-icon>
-            Unlike
-          </button>
+          <div class="actions-container">
+            <button (click)="unlikePost(post.id)" mat-button>
+              <mat-icon>favorite</mat-icon>
+              Unlike
+            </button>
+            <button [routerLink]="['/spot', post.spot_id]" mat-button>
+              Go to Spot
+            </button>
+          </div>
+
         </div>
       </mat-card-content>
     </mat-card>

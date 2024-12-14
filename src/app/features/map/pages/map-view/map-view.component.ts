@@ -53,6 +53,8 @@ export class MapViewComponent implements AfterViewInit {
   private map!: L.Map;
   private markers: L.Marker[] = [];
 
+  private currentBounds: L.LatLngBounds | null = null;
+
 
   constructor(
     private spotService: SpotService,
@@ -69,13 +71,24 @@ export class MapViewComponent implements AfterViewInit {
     this.initMap();
   }
 
-  fetchSpotList() {
+  fetchSpotList(bounds: L.LatLngBounds) {
+
 
     if (this.markers.length > 0) {
+      this.markers.forEach((marker) => this.map.removeLayer(marker));
       this.markers = []
     }
 
-    this.spotService.getSpots().subscribe((data) => {
+    const params = {
+      minLatitude: bounds.getSouth(),
+      maxLatitude: bounds.getNorth(),
+      minLongitude: bounds.getWest(),
+      maxLongitude: bounds.getEast(),
+    };
+
+    this.spotService.getSpots(params).subscribe((data) => {
+
+      console.log(data);
       data.map((value) => {
         this.markers.push(
           new L.Marker([value.latitude, value.longitude], {
@@ -88,7 +101,7 @@ export class MapViewComponent implements AfterViewInit {
       });
 
       this.addMarkersToMap()
-      this.centerMap();
+
     });
   }
 
@@ -144,7 +157,7 @@ export class MapViewComponent implements AfterViewInit {
         // refresh map markers
         this.markers.push(this.targetMarker)
         this.addMarkersToMap()
-        this.fetchSpotList();
+        this.fetchSpotList(this.map.getBounds());
       }
 
     });
@@ -153,14 +166,23 @@ export class MapViewComponent implements AfterViewInit {
   private initMap() {
     const baseMapURl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     this.map = L.map('map');
+
+    this.centerMap();
+
     L.tileLayer(baseMapURl, {
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(this.map);
 
+
+    this.map.on('moveend', () => {
+      this.currentBounds = this.map.getBounds();
+      this.fetchSpotList(this.currentBounds);
+    });
+
     this.map.on('click', (event) => {
 
-      if (this.authService.isAuthenticated()) {
+      if (this.authService.isAuthenticated() && !this.showSpotDetails) {
         // handle that users wants to add a spot while clicking on map
         if (this.targetMarker !== null) {
           this.map.removeLayer(this.targetMarker);
@@ -175,7 +197,9 @@ export class MapViewComponent implements AfterViewInit {
 
     })
 
-    this.fetchSpotList()
+
+    this.currentBounds = this.map.getBounds();
+    this.fetchSpotList(this.currentBounds)
   }
 
   private addMarkersToMap() {

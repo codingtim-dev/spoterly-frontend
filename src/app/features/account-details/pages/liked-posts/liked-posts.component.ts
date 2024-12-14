@@ -6,7 +6,7 @@ import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ImageService} from '../../../../services/post/image.service';
 import {MatIcon} from '@angular/material/icon';
-import {MatFabButton} from '@angular/material/button';
+import {MatButton} from '@angular/material/button';
 import {forkJoin, map, Observable, switchMap} from 'rxjs';
 import {RouterLink} from '@angular/router';
 
@@ -20,9 +20,9 @@ import {RouterLink} from '@angular/router';
     NgForOf,
     NgIf,
     MatIcon,
-    MatFabButton,
     AsyncPipe,
-    RouterLink
+    RouterLink,
+    MatButton
   ],
   templateUrl: './liked-posts.component.html',
   styleUrl: './liked-posts.component.scss'
