@@ -2,9 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
-import {MatDivider} from '@angular/material/divider';
-import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
+import {MatError} from '@angular/material/form-field';
 import {AuthService} from '../../../../services/auth/auth.service';
 import RegisterModel from '../../RegisterModel';
 import {NgForOf, NgIf} from '@angular/common';
@@ -14,14 +12,10 @@ import {NgForOf, NgIf} from '@angular/common';
   standalone: true,
   imports: [
     MatCard,
-    MatFormField,
-    MatInput,
     ReactiveFormsModule,
     MatButton,
     MatCardHeader,
     MatCardContent,
-    MatDivider,
-    MatLabel,
     MatError,
     NgIf,
     NgForOf,
@@ -35,20 +29,20 @@ export class RegisterComponent {
   @Output() authenticate = new EventEmitter<void>();
   account_validation_messages = {
     'username': [
-      {type: 'required', message: 'Username is required'},
-      {type: 'minlength', message: 'Username must be at least 5 characters long'},
-      {type: 'maxlength', message: 'Username cannot be more than 25 characters long'},
-      {type: 'pattern', message: 'Your username must contain only numbers and letters'},
-      {type: 'validUsername', message: 'Your username has already been taken'}
+      {type: 'required', message: '*Username is required'},
+      {type: 'minlength', message: '*Username must be at least 5 characters long'},
+      {type: 'maxlength', message: '*Username cannot be more than 25 characters long'},
+      {type: 'pattern', message: '*Your username must contain only numbers and letters'},
+      {type: 'validUsername', message: '*Your username has already been taken'}
     ],
     'password': [
-      {type: 'required', message: 'Password is required'},
-      {type: 'minlength', message: 'Password must be at least 5 characters long'},
-      {type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number'}
+      {type: 'required', message: '*Password is required'},
+      {type: 'minlength', message: '*Password must be at least 8 characters long'},
+      {type: 'pattern', message: '*Your password must contain at least one uppercase, one lowercase, and one number'}
     ],
     'name': [
-      {type: 'pattern', message: 'First name is required'},
-      {type: 'minlength', message: 'Password must be at least 5 characters long'},
+      {type: 'pattern', message: '*First name is required'},
+      {type: 'minlength', message: '*Please enter your name'},
     ]
   }
 
@@ -58,7 +52,7 @@ export class RegisterComponent {
   ) {
     this.registerForm = this.fb.group({
       username: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(25)],
         updateOn: 'blur'
       }),
       password: new FormControl('', {
@@ -66,11 +60,11 @@ export class RegisterComponent {
         updateOn: 'blur'
       }),
       firstname: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        validators: [Validators.required, Validators.minLength(1), Validators.maxLength(20)],
         updateOn: 'blur'
       }),
       lastname: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        validators: [Validators.required, Validators.minLength(1), Validators.maxLength(20)],
         updateOn: 'blur'
       }),
     });

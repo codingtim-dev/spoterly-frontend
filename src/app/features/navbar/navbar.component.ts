@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
-import {MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgIf, NgOptimizedImage} from '@angular/common';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
@@ -12,7 +11,6 @@ import {AuthService} from '../../services/auth/auth.service';
   standalone: true,
   imports: [
     MatIcon,
-    MatButtonToggleGroup,
     MatIconButton,
     NgOptimizedImage,
     MatMenu,

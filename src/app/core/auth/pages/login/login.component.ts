@@ -29,19 +29,18 @@ export class LoginComponent {
   loginForm: FormGroup;
   @Output() showSignUp = new EventEmitter<void>();
   @Output() authenticate = new EventEmitter<void>();
-  errorMessage: string = '';
   account_validation_messages = {
     'username': [
-      {type: 'required', message: 'Username is required'},
-      {type: 'minlength', message: 'Username must be at least 5 characters long'},
-      {type: 'maxlength', message: 'Username cannot be more than 25 characters long'},
-      {type: 'pattern', message: 'Your username must contain only numbers and letters'},
-      {type: 'validUsername', message: 'Your username has already been taken'}
+      {type: 'required', message: '*Username is required'},
+      {type: 'minlength', message: '*Username must be at least 5 characters long'},
+      {type: 'maxlength', message: '*Username cannot be more than 25 characters long'},
+      {type: 'pattern', message: '*Your username must contain only numbers and letters'},
+      {type: 'validUsername', message: '*Your username has already been taken'}
     ],
     'password': [
-      {type: 'required', message: 'Password is required'},
-      {type: 'minlength', message: 'Password must be at least 5 characters long'},
-      {type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number'}
+      {type: 'required', message: '*Password is required'},
+      {type: 'minlength', message: '*Password must be at least 8 characters long'},
+      {type: 'pattern', message: '*Your password must contain at least one uppercase, one lowercase, and one number'}
     ]
   }
 
@@ -51,7 +50,7 @@ export class LoginComponent {
   ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(25)],
         updateOn: 'blur'
       }),
       password: new FormControl('', {

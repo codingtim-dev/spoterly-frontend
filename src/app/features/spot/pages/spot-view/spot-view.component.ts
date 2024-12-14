@@ -7,7 +7,7 @@ import {SpotService} from '../../../../services/spot/spot.service';
 import {PostService} from '../../../../services/post/post.service';
 import {ImageService} from '../../../../services/post/image.service';
 import {MatIcon} from '@angular/material/icon';
-import {MatButton, MatFabButton} from '@angular/material/button';
+import {MatButton} from '@angular/material/button';
 import {AccountService} from '../../../../services/account/account.service';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {forkJoin, map, Observable, switchMap} from 'rxjs';
@@ -29,7 +29,6 @@ interface IPost {
     MatCardContent,
     MatCardImage,
     MatIcon,
-    MatFabButton,
     AsyncPipe,
     MatButton
   ],
