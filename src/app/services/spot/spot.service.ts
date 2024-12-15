@@ -5,7 +5,7 @@ import Spot from '../../features/map/models/Spot';
 import CreateSpotModel from '../../features/map/models/CreateSpotModel';
 import {AuthService} from '../auth/auth.service';
 import currBounds from '../../features/map/models/currBounds';
-
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,10 @@ import currBounds from '../../features/map/models/currBounds';
 export class SpotService {
 
   public baseURl = "http://localhost:8080/api/spots";
-  private apiUrl = (window as any).env.apiUrl || 'http://localhost:8080/api/spots';
+  private apiBaseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient, private auth: AuthService) {
+    console.log('SpotService constructor', this.apiBaseUrl);
   }
 
   public addSpot(spot: CreateSpotModel): Observable<Spot> {
@@ -34,7 +35,7 @@ export class SpotService {
   public getSpots(params: currBounds | null): Observable<Spot[]> {
 
     if (params) {
-      return this.http.get<Spot[]>(`${this.apiUrl}?minLatitude=${params.minLatitude}&maxLatitude=${params.maxLatitude}&minLongitude=${params.minLongitude}&maxLongitude=${params.maxLongitude}`).pipe(
+      return this.http.get<Spot[]>(`${this.apiBaseUrl}?minLatitude=${params.minLatitude}&maxLatitude=${params.maxLatitude}&minLongitude=${params.minLongitude}&maxLongitude=${params.maxLongitude}`).pipe(
         catchError((err) => {
           console.log('Error fetching data:', err);
           throw err
