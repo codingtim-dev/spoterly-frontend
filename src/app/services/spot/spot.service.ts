@@ -12,11 +12,10 @@ import {environment} from '../../../environments/environment';
 })
 export class SpotService {
 
-  public baseURl = "http://localhost:8080/api/spots";
-  private apiBaseUrl = environment.apiBaseUrl;
+  private baseURl = environment.apiBaseUrl + "/api/spots";
 
   constructor(private http: HttpClient, private auth: AuthService) {
-    console.log('SpotService constructor', this.apiBaseUrl);
+    console.log('SpotService constructor', this.baseURl);
   }
 
   public addSpot(spot: CreateSpotModel): Observable<Spot> {
@@ -35,7 +34,7 @@ export class SpotService {
   public getSpots(params: currBounds | null): Observable<Spot[]> {
 
     if (params) {
-      return this.http.get<Spot[]>(`${this.apiBaseUrl}?minLatitude=${params.minLatitude}&maxLatitude=${params.maxLatitude}&minLongitude=${params.minLongitude}&maxLongitude=${params.maxLongitude}`).pipe(
+      return this.http.get<Spot[]>(`${this.baseURl}?minLatitude=${params.minLatitude}&maxLatitude=${params.maxLatitude}&minLongitude=${params.minLongitude}&maxLongitude=${params.maxLongitude}`).pipe(
         catchError((err) => {
           console.log('Error fetching data:', err);
           throw err

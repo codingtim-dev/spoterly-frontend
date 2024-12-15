@@ -4,6 +4,7 @@ import UserModel from './Models/UserModel';
 import {catchError, map, Observable} from 'rxjs';
 import PostModel from '../../core/post/PostModel';
 import Spot from '../../features/map/models/Spot';
+import {environment} from '../../../environments/environment';
 
 interface UserDto {
   username: string;
@@ -18,8 +19,8 @@ interface UserDto {
 })
 export class AccountService {
 
+  private baseURL = environment.apiBaseUrl + "/api/users";
 
-  private baseURL: string = "http://localhost:8080/api/users";
 
   constructor(private http: HttpClient) {
   }
