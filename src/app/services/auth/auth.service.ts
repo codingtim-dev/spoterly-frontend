@@ -6,6 +6,7 @@ import {jwtDecode} from 'jwt-decode';
 import {Router} from "@angular/router";
 import {ToastrService} from 'ngx-toastr';
 import {catchError, map, Observable, of} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 interface AuthResponse {
   authenticated: boolean;
@@ -17,7 +18,7 @@ interface AuthResponse {
 })
 export class AuthService {
   authenticated = false;
-  private baseUrl: string = 'http://localhost:8080/api/auth';
+  private baseUrl = environment.apiBaseUrl + "/api/auth";
 
   constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
   }
