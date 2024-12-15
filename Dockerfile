@@ -1,37 +1,35 @@
-# Verwenden Sie das offizielle Node-Image als Basis
 FROM node:20-alpine AS build
-
-# Arbeitsverzeichnis im Container festlegen
 WORKDIR /app
 
-# Package-Dateien kopieren und Abhängigkeiten installieren
+# Copy package files and install dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
-# Gesamten Projektordner kopieren
+# Copy project files
 COPY . .
 
-# Angular-Anwendung bauen
-RUN npm run build
+# Build the application
+ARG API_BASE_URL
+ENV API_BASE_URL=${API_BASE_URL:-http://localhost:8080}
 
-# Produktions-Image mit Nginx erstellen
+# Replace API_BASE_URL in environment.prod.ts
+RUN sed -i "s|apiBaseUrl: '.*'|apiBaseUrl: '${API_BASE_URL}'|g" src/environments/environment.prod.ts
+
+# Build with production configuration
+RUN npm run build -- --configuration=production
+
+# Use nginx to serve the application
 FROM nginx:alpine
 
-# Nginx-Standardkonfiguration entfernen
 RUN rm -rf /usr/share/nginx/html/*
 
-# Buildartefakte aus dem Build-Stage kopieren
 COPY --from=build /app/dist/spoterly-frontend/browser /usr/share/nginx/html
-
-# Nginx-Konfiguration kopieren
 COPY default.conf /etc/nginx/conf.d/default.conf
-
-# Entrypoint-Skript kopieren und ausführbar machen
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Standardport für Nginx
 EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
-# Entrypoint-Skript als Startpunkt verwenden
-ENTRYPOINT ["/entrypoint.sh"]
+
+
+
+
+
