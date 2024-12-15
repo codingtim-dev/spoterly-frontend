@@ -9,8 +9,6 @@ import {MatInputModule} from '@angular/material/input';
 import {AngularSvgIconModule} from 'angular-svg-icon';
 import {AuthService} from './services/auth/auth.service';
 import {NgIf} from '@angular/common';
-import {environment} from '../environments/environment';
-import {RuntimeEnvironmentService} from './services/runtime-environment.service';
 
 @Component({
   selector: 'app-root',
@@ -32,24 +30,16 @@ import {RuntimeEnvironmentService} from './services/runtime-environment.service'
 })
 export class AppComponent implements OnInit {
   title = 'spoterly-frontend';
-  backendUrl: string = environment.backendUrl; // Default from environment.ts
-
 
   showAuthDialog: boolean = false;
   showLoginDialog: boolean = true;
 
-  constructor(private authService: AuthService, private runtimeEnvService: RuntimeEnvironmentService) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
-    const runtimeBackendUrl = this.runtimeEnvService.getConfigValue('backendUrl');
-    if (runtimeBackendUrl) {
-      this.backendUrl = runtimeBackendUrl;
-    }
-    console.log('Backend URL:', this.backendUrl);
 
     this.showAuthDialog = !this.authService.isAuthenticated();
-
 
   }
 
