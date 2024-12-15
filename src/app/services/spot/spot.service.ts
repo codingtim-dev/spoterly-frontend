@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, Observable} from 'rxjs';
+import {catchError, map, Observable, of} from 'rxjs';
 import Spot from '../../features/map/models/Spot';
 import CreateSpotModel from '../../features/map/models/CreateSpotModel';
 import {AuthService} from '../auth/auth.service';
@@ -18,15 +18,25 @@ export class SpotService {
   constructor(private http: HttpClient, private auth: AuthService) {
   }
 
-  public addSpot(spot: CreateSpotModel): Observable<Spot> {
+  public addSpot(spot: CreateSpotModel): Observable<{ success: boolean; message: string }> {
 
     const username = this.auth.getUsername()
     console.log(username)
 
     return this.http.post<any>(`${this.baseURl}/${username}/createSpot`, spot).pipe(
+      map((res) => {
+        if (res) {
+          return {success: true, message: 'Spot created successfully.'};
+        }
+
+        return {success: false, message: 'An unexpected error occurred! Please try again!'};
+      }),
       catchError((err) => {
-        console.log('Error fetching data:', err);
-        throw err
+
+        let errMessage = 'Spot could not been created! Please try again!';
+
+
+        return of({success: false, message: errMessage});
       })
     );
   }

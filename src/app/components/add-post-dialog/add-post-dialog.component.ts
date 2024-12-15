@@ -20,6 +20,8 @@ import {AuthService} from '../../services/auth/auth.service';
 import {PostService} from '../../services/post/post.service';
 import {validationSpots} from '../add-spot-dialog/validation/validation-spots';
 import {validationPosts} from './validation/validation-posts';
+import {ToastrService} from 'ngx-toastr';
+import Image from '../../features/map/models/Image';
 
 const ALLOWED_FILE_TYPES = [
   'image/jpeg',
@@ -66,7 +68,7 @@ export class AddPostDialogComponent implements OnInit {
   protected readonly validationSpots = validationSpots;
   protected readonly validationPosts = validationPosts;
 
-  constructor(private imageService: ImageService, private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
+  constructor(private toastr: ToastrService, private imageService: ImageService, private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
       selectedSpot: ['', [Validators.required]],
       title: ['', {
@@ -121,24 +123,36 @@ export class AddPostDialogComponent implements OnInit {
   onSubmit() {
     if (this.uploadForm.valid) {
 
-      let imagedto: any;
+      let imagedto: Image;
       let post;
       this.imageService.uploadImage(this.uploadFile!).subscribe({
         next: value => {
-          imagedto = value;
-          console.log(imagedto);
 
-          post = {
-            spot_id: this.uploadForm.get('selectedSpot')?.value,
-            image_id: imagedto.id,
-            title: this.uploadForm.get('title')?.value,
-            content: this.uploadForm.get('description')?.value,
+          if (value.success) {
+            this.toastr.success(value.message);
+            imagedto = value.image!;
 
+            post = {
+              spot_id: this.uploadForm.get('selectedSpot')?.value,
+              image_id: imagedto.id,
+              title: this.uploadForm.get('title')?.value,
+              content: this.uploadForm.get('description')?.value,
+
+            }
+
+            this.postService.createPost(post).subscribe(result => {
+              if (result.success) {
+                this.toastr.success(result.message);
+                this.dialogRef.close();
+              } else {
+                this.toastr.error(result.message);
+              }
+            })
+          } else {
+            this.toastr.error(value.message);
           }
 
-          this.postService.createPost(post).subscribe(response => {
-            console.log(response);
-          })
+
         }
       })
 

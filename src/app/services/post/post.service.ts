@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, Observable} from 'rxjs';
+import {catchError, map, Observable, of} from 'rxjs';
 import Post from '../../features/map/models/Post';
 import {AuthService} from '../auth/auth.service';
 import PostModel from '../../core/post/PostModel';
@@ -25,15 +25,24 @@ export class PostService {
     );
   }
 
-  public createPost(post: Post): Observable<Post> {
+  public createPost(post: Post): Observable<{ success: boolean; message: string }> {
 
     const username = this.auth.getUsername()
 
 
     return this.http.post<Post>(`${this.baseUrl}/${username}/createPost`, post).pipe(
+      map((result) => {
+        if (result) {
+          return {success: true, message: 'Post created successfully.'};
+        }
+
+        return {success: false, message: 'An unexpected error occurred! Please try again!'};
+      }),
       catchError((err) => {
-        console.log('Error fetching data:', err);
-        throw err
+        let errMessage = 'Spot could not been created! Please try again!';
+
+
+        return of({success: false, message: errMessage});
       })
     );
   }
