@@ -6,14 +6,14 @@ import CreateSpotModel from '../../features/map/models/CreateSpotModel';
 import {AuthService} from '../auth/auth.service';
 import currBounds from '../../features/map/models/currBounds';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class SpotService {
 
-
   public baseURl = "http://localhost:8080/api/spots";
-
+  private apiUrl = (window as any).env.apiUrl || 'http://localhost:8080/api/spots';
 
   constructor(private http: HttpClient, private auth: AuthService) {
   }
@@ -34,7 +34,7 @@ export class SpotService {
   public getSpots(params: currBounds | null): Observable<Spot[]> {
 
     if (params) {
-      return this.http.get<Spot[]>(`${this.baseURl}?minLatitude=${params.minLatitude}&maxLatitude=${params.maxLatitude}&minLongitude=${params.minLongitude}&maxLongitude=${params.maxLongitude}`).pipe(
+      return this.http.get<Spot[]>(`${this.apiUrl}?minLatitude=${params.minLatitude}&maxLatitude=${params.maxLatitude}&minLongitude=${params.minLongitude}&maxLongitude=${params.maxLongitude}`).pipe(
         catchError((err) => {
           console.log('Error fetching data:', err);
           throw err
