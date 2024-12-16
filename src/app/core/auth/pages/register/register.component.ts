@@ -6,6 +6,7 @@ import {MatError} from '@angular/material/form-field';
 import {AuthService} from '../../../../services/auth/auth.service';
 import RegisterModel from '../../RegisterModel';
 import {NgForOf, NgIf} from '@angular/common';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -49,6 +50,7 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private toastr: ToastrService,
   ) {
     this.registerForm = this.fb.group({
       username: new FormControl('', {
@@ -89,8 +91,14 @@ export class RegisterComponent {
         lastname: this.registerForm.value.lastname,
       };
 
-      this.authService.register(cred);
-      console.warn(this.registerForm.value);
+      this.authService.register(cred).subscribe((response) => {
+        if (response.success) {
+          this.toastr.success(response.message);
+          this.showLoginForm();
+        } else {
+          this.toastr.error(response.message);
+        }
+      });
     }
   }
 }

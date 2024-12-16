@@ -46,17 +46,22 @@ export class AuthService {
   }
 
 
-  register(cred: RegisterModel) {
-    this.http.post(`${this.baseUrl}/register`, cred).subscribe((res) => {
-      return res;
-    }, (err) => {
-      if (err.status === 404) {
-        this.toastr.error(err.message);
+  register(cred: RegisterModel): Observable<{ success: boolean; message: string }> {
+    return this.http.post<any>(`${this.baseUrl}/register`, cred).pipe(
+      map((res) => {
+        console.log(res)
+        return {success: true, message: "User registered successfully."};
 
-      }
+      }),
+      catchError((err) => {
+        let errMessage = "An unexpected error occurred! Please try again!"
 
-      return false
-    });
+        if (err.status === 404) {
+          let errMessage = "User could not be registered. Please try again!"
+        }
+        return of({success: false, message: errMessage});
+      })
+    );
   }
 
   storeToken(token: string) {
@@ -79,6 +84,8 @@ export class AuthService {
     sessionStorage.removeItem("authToken");
 
     this.authenticated = false;
+
+    this.toastr.info("Logged out successfully.");
     this.router.navigate(['/']);
 
   }

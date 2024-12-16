@@ -161,3 +161,7 @@ form {
   }
 
 }
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: $primary-color-V2;
+}

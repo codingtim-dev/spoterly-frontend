@@ -11,6 +11,7 @@ import PostModel from '../../../../core/post/PostModel';
 import {forkJoin, map, Observable, switchMap} from 'rxjs';
 import {ImageService} from '../../../../services/post/image.service';
 import {AddPostDialogComponent} from '../../../../components/add-post-dialog/add-post-dialog.component';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 
 interface selectedSpot {
   id: string;
@@ -27,7 +28,8 @@ interface selectedSpot {
     RouterLink,
     AsyncPipe,
     NgForOf,
-    SlicePipe
+    SlicePipe,
+    MatProgressSpinner
   ],
   templateUrl: './spot-details.component.html',
   styleUrl: './spot-details.component.scss'

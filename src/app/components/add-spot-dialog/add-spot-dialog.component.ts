@@ -13,6 +13,7 @@ import CreateSpotModel from '../../features/map/models/CreateSpotModel';
 import {MatError} from '@angular/material/form-field';
 import {NgForOf, NgIf} from '@angular/common';
 import {validationSpots} from './validation/validation-spots';
+import {ToastrService} from 'ngx-toastr';
 
 interface eventCoordinates {
   latitude: number;
@@ -43,7 +44,7 @@ export class AddSpotDialogComponent {
   uploadForm: FormGroup;
   protected readonly validationSpots = validationSpots;
 
-  constructor(private spotService: SpotService, private fb: FormBuilder) {
+  constructor(private spotService: SpotService, private fb: FormBuilder, private toastr: ToastrService) {
 
     this.uploadForm = this.fb.group({
       name: ['', {
@@ -75,10 +76,15 @@ export class AddSpotDialogComponent {
       };
 
       this.onCloseClick(spot);
-      this.spotService.addSpot(spot).subscribe(value =>
-        console.log(value));
+      this.spotService.addSpot(spot).subscribe((result) => {
+        if (result.success) {
+          this.toastr.success(result.message);
+          this.dialogRef.close();
+        } else {
+          this.toastr.error(result.message);
+        }
+      })
 
-      this.dialogRef.close();
 
     } else {
       alert('Please fill out the form correctly.');

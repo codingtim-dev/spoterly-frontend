@@ -30,7 +30,7 @@
 
       <div class="post-list-container">
 
-        <ng-container *ngIf="posts$ | async as posts">
+        <ng-container *ngIf="posts$ | async as posts; else loading">
           <mat-card
             *ngFor="let post of posts | slice:0:2 "
             [routerLink]="['/spot', spot.id]"
@@ -43,6 +43,11 @@
             </mat-card-content>
           </mat-card>
         </ng-container>
+        <ng-template #loading>
+          <div class="uploader-status">
+            <mat-spinner></mat-spinner>
+          </div>
+        </ng-template>
         <ng-container *ngIf="showPosts()">
           <button (click)="openCreatePostDialog({id: spot.id, name: spot.name})" mat-button>
             <span class="eb-garamond-bold">Add New Post</span>
