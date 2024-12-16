@@ -83,6 +83,8 @@ export class AuthService {
     sessionStorage.removeItem("authToken");
 
     this.authenticated = false;
+
+    this.toastr.info("Logged out successfully.");
     this.router.navigate(['/']);
 
   }
