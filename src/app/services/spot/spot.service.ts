@@ -5,17 +5,17 @@ import Spot from '../../features/map/models/Spot';
 import CreateSpotModel from '../../features/map/models/CreateSpotModel';
 import {AuthService} from '../auth/auth.service';
 import currBounds from '../../features/map/models/currBounds';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpotService {
 
-
-  public baseURl = "http://localhost:8080/api/spots";
-
+  private baseURl = environment.apiBaseUrl + "/api/spots";
 
   constructor(private http: HttpClient, private auth: AuthService) {
+    console.log('SpotService constructor', this.baseURl);
   }
 
   public addSpot(spot: CreateSpotModel): Observable<{ success: boolean; message: string }> {

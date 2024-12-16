@@ -4,6 +4,7 @@ import {catchError, map, Observable, of} from 'rxjs';
 import Post from '../../features/map/models/Post';
 import {AuthService} from '../auth/auth.service';
 import PostModel from '../../core/post/PostModel';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import PostModel from '../../core/post/PostModel';
 export class PostService {
 
 
-  private baseUrl: string = 'http://localhost:8080/api/posts';
+  private baseUrl = environment.apiBaseUrl + "/api/posts";
 
   constructor(private http: HttpClient, private auth: AuthService) {
   }

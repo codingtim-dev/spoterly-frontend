@@ -38,7 +38,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.showAuthDialog = !this.authService.isAuthenticated();
+
   }
 
   closeAuthDialog() {

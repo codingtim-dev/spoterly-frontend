@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
 import Image from '../../features/map/models/Image';
+import {environment} from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
 
-  private baseUrl = 'http://localhost:8080/api/images';
+  private baseUrl = environment.apiBaseUrl + "/api/images";
   private cache: { [imageId: string]: any } = {};
 
   constructor(private http: HttpClient) {
