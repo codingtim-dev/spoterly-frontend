@@ -1,0 +1,62 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/main';
+
+
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - $navbar-height);
+  background-color: #f9f9f9;
+
+  .logo-container {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .guest-option {
+    margin-top: 30px;
+    cursor: pointer;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  button {
+    margin-top: 20px;
+    background-color: $secondary-color-2;
+    color: $primary-color-2;
+    border-radius: 0;
+    width: 40%;
+
+    &:hover {
+      background-color: $button-red-hover;
+      color: white;
+    }
+  }
+
+
+  .auth-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+  }
+}

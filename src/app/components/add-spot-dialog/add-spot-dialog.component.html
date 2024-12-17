@@ -1,14 +1,14 @@
-<h1 class="dialog-title" mat-dialog-title>Add a new Spot</h1>
+<h1 class="inter-bold-header" mat-dialog-title>Add a new Spot</h1>
 <mat-dialog-content>
   <form (ngSubmit)="onSubmit()" [formGroup]="uploadForm">
-    <input class="input-element" formControlName="name" id="name" placeholder="Enter Spot Name"/>
+    <input class="input-element" formControlName="name" id="name" placeholder="Enter Spot Name*"/>
     <ng-container *ngFor="let validation of validationSpots.name">
       <mat-error
         *ngIf="uploadForm.get('name')?.hasError(validation.type) && (uploadForm.get('name')?.dirty || uploadForm.get('name')?.touched)"
         class="error-message">{{ validation.message }}
       </mat-error>
     </ng-container>
-    <input [min]="0" class="input-element" formControlName="longitude" id="longitude" placeholder="Enter Longitude"
+    <input [min]="0" class="input-element" formControlName="longitude" id="longitude" placeholder="Enter Longitude*"
            type="number"/>
     <ng-container *ngFor="let validation of validationSpots.coordinate">
       <mat-error
@@ -16,7 +16,7 @@
         class="error-message">{{ validation.message }}
       </mat-error>
     </ng-container>
-    <input [min]="0" class="input-element" formControlName="latitude" id="latitude" placeholder="Enter Latitude"
+    <input [min]="0" class="input-element" formControlName="latitude" id="latitude" placeholder="Enter Latitude*"
            type="number"/>
     <ng-container *ngFor="let validation of validationSpots.coordinate">
       <mat-error
@@ -25,7 +25,7 @@
       </mat-error>
     </ng-container>
     <textarea class="textarea-element" formControlName="description" id="description"
-              placeholder="Enter your description"></textarea>
+              placeholder="Enter your description*"></textarea>
     <ng-container *ngFor="let validation of validationSpots.description">
       <mat-error
         *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)"

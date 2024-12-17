@@ -11,6 +11,14 @@
       a new Spot
     </button>
   </div>
+
+  <ng-container *ngIf="spotList$ | async as spots ">
+    <div class="spot-card-list-container">
+      <ng-container *ngFor="let spot of spots | slice:0:2">
+        <app-spot-card (openDetails)="openDetails($event)" [spot]="spot"></app-spot-card>
+      </ng-container>
+    </div>
+  </ng-container>
   <spot-details (isOpen)="closeDialog($event)" *ngIf="showSpotDetails" [spot]=selectedSpot
                 class="details-card-container"></spot-details>
 </div>

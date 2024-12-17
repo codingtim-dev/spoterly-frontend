@@ -42,7 +42,6 @@ export class AccountDetailsPageComponent implements OnInit {
   }
 
   getUserData() {
-    console.log(this.username)
     if (this.username != null) {
 
       this.accountService.getUser(this.username).subscribe((res) => {
@@ -51,7 +50,6 @@ export class AccountDetailsPageComponent implements OnInit {
           this.accountDetails.firstname == null ? this.accountDetails.firstname = "No first name exists" : this.accountDetails.firstname;
           this.accountDetails.lastname == null ? this.accountDetails.lastname = "No lastname name exists" : this.accountDetails.lastname;
 
-          console.log(this.accountDetails)
         }
       )
     }

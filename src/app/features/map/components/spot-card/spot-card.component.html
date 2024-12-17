@@ -1,0 +1,15 @@
+<mat-card class="spot-card">
+  <mat-card-header>
+    <span class="inter-bold">{{ spot.name }}</span>
+  </mat-card-header>
+  <mat-card-content>
+    <span class="description"> {{ spot.description }}</span>
+    <hr>
+    <button (click)="onOpenDetails(spot)" mat-flat-button type="button">
+      See more
+      <mat-icon
+        svgIcon="circleArrow"></mat-icon>
+
+    </button>
+  </mat-card-content>
+</mat-card>

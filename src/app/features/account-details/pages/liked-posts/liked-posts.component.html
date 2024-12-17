@@ -1,5 +1,5 @@
 <div class="content-container">
-  <h1 class="eb-garamond-bold">Your liked Posts</h1>
+  <h1 class="inter-bold-header">/Your liked Posts</h1>
 
   <div *ngIf="likedPosts$ | async as likedPosts" class="spot-post-list-container">
     <mat-card
@@ -12,10 +12,10 @@
         </div>
         <div class="card-content">
           <div class="header">
-            <h1 class="card-headline">{{ post.title }}</h1>
-            <p class="author">von {{ post.author_id }}</p>
+            <h1 class="card-headline inter-bold">{{ post.title }}</h1>
+            <p class="author inter-small">von {{ post.author_id }}</p>
           </div>
-          <p class="card-description">{{ post.content }}</p>
+          <p class="card-description inter-small">{{ post.content }}</p>
           <div class="actions-container">
             <button (click)="unlikePost(post.id)" mat-button>
               <mat-icon>favorite</mat-icon>

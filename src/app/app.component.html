@@ -1,5 +1,6 @@
 <div class="main-content">
 
+
   @if (showAuthDialog) {
     <app-login *ngIf="showLoginDialog" (authenticate)="closeAuthDialog()"
                (showSignUp)="toggleAuthDialogs()"></app-login>

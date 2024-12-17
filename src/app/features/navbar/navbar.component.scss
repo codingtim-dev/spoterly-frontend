@@ -1,12 +1,48 @@
 @import '../../../styles/variables';
 
+.darkNavBar {
+  background-color: $secondary-color-3;
+
+  .icon-container mat-icon {
+    fill: $primary-color-2;
+    cursor: pointer;
+
+  }
+
+  .ripple {
+    color: $primary-color-2;
+  }
+
+  .small-icon-button {
+
+    .material-icons {
+      color: $primary-color-2;
+      font-size: 30px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+
+}
+
+
 nav {
   width: 100%;
   height: $navbar-height;
-  padding: 20px $padding-component 0 $padding-component;
+  padding: 10px $padding-component 10px $padding-component;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  .icon-container mat-icon {
+    fill: black;
+    height: 41px;
+    width: 150px;
+    cursor: pointer;
+  }
+
 
   img {
     height: 30px;
@@ -25,10 +61,21 @@ nav {
   .small-icon-button {
 
     .material-icons {
+      color: $secondary-color-2;
       font-size: 30px !important;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+  }
+
+  .name {
+    cursor: pointer;
+    text-decoration: underline;
+
+    .icon {
+      height: 50px;
+      width: 50px;
     }
   }
 
@@ -37,4 +84,22 @@ nav {
 
     background-color: $secondary-color;
   }
+
+  mat-menu {
+    z-index: 9999;
+    border-radius: 0;
+
+
+  }
+
+  .mat-mdc-menu-panel.mat-menu {
+    border-radius: 0 !important;
+    background-color: $secondary-color;
+  }
+}
+
+::ng-deep .mat-menu {
+  border-radius: 0 !important;
+  background-color: $primary-color-2 !important;
+
 }

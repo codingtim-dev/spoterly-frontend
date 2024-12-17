@@ -1,0 +1,25 @@
+<div class="landing-page">
+  <div [@logoAnimation] class="logo-container">
+    <img
+      [routerLink]="['/home']"
+      alt="application logo"
+      height="41"
+      ngSrc="assets/icons/application-logo-icon.svg"
+      width="150">
+  </div>
+  <div [@contentFadeIn] class="content">
+    <p class="slogan inter-normal">Welcome to Spoterly - Explore. Discover. Connect.</p>
+    <span class="guest-option">Use the app as a <a [routerLink]="['/home']">Guest</a></span>
+    <button (click)="openAuthDialog()" class="try-button" mat-button>Try it out!</button>
+  </div>
+
+  @if (showAuthDialog) {
+    <div class="auth-container">
+      <app-login *ngIf="showLoginDialog" (authenticate)="closeAuthDialog()"
+                 (showSignUp)="toggleAuthDialogs()"></app-login>
+      <app-register *ngIf="!showLoginDialog" (authenticate)="closeAuthDialog()"
+                    (registerVis)="toggleAuthDialogs()"></app-register>
+    </div>
+
+  }
+</div>

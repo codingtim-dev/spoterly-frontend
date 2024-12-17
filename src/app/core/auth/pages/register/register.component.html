@@ -1,32 +1,32 @@
 <div class="overlay">
   <mat-card class="form-card">
     <mat-card-header>
-      <h1>Welcome to spoterly!</h1>
+      <h1 class="inter-bold-header">Welcome to spoterly!</h1>
     </mat-card-header>
     <mat-card-content>
       <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
-        <input class="input-element" formControlName="username" placeholder="Enter your username">
+        <input class="input-element" formControlName="username" placeholder="Enter your Username*">
         <ng-container *ngFor="let validation of account_validation_messages.username">
           <mat-error
             *ngIf="registerForm.get('username')?.hasError(validation.type) && (registerForm.get('username')?.dirty || registerForm.get('username')?.touched)"
             class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
-        <input class="input-element" formControlName="password" placeholder="Enter your password">
+        <input class="input-element" formControlName="password" placeholder="Enter your Password*">
         <ng-container *ngFor="let validation of account_validation_messages.password">
           <mat-error
             *ngIf="registerForm.get('password')?.hasError(validation.type) && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
             class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
-        <input class="input-element" formControlName="firstname" placeholder="Enter your first name">
+        <input class="input-element" formControlName="firstname" placeholder="Enter your First Name*">
         <ng-container *ngFor="let validation of account_validation_messages.name">
           <mat-error
             *ngIf="registerForm.get('firstname')?.hasError(validation.type) && (registerForm.get('firstname')?.dirty || registerForm.get('firstname')?.touched)"
             class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
-        <input class="input-element" formControlName="lastname" placeholder="Enter your last name">
+        <input class="input-element" formControlName="lastname" placeholder="Enter your Last Name*">
         <ng-container *ngFor="let validation of account_validation_messages.name">
           <mat-error
             *ngIf="registerForm.get('lastname')?.hasError(validation.type) && (registerForm.get('lastname')?.dirty || registerForm.get('lastname')?.touched)"
@@ -39,7 +39,7 @@
 
 
       <div class="register-row">
-        <p>You do not have an account yet?</p>
+        <p>You already have an account?</p>
         <button (click)="showLoginForm()" mat-flat-button type="button">Sign in</button>
         <button (click)="closeAuthDialogs()" class="close-button" mat-button>Close</button>
       </div>

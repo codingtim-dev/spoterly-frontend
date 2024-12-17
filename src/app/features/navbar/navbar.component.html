@@ -1,12 +1,15 @@
-<nav class="navbar">
+<nav [ngClass]="navBarClass">
+  <div [routerLink]="['/home']" class="icon-container">
+    <mat-icon svgIcon="logo"></mat-icon>
+  </div>
 
-  <img [routerLink]="['/home']" alt="application logo" height="41" ngSrc="assets/icons/application-logo-icon.svg"
-       width="150">
+
   <ng-container *ngIf="showProfile()">
     <div>
-      <h1 class="inter-bold"> Welcome {{ username }} !</h1>
-      <button [matMenuTriggerFor]="menu" class="small-icon-button" mat-icon-button>
-        <mat-icon class="icon" fontIcon="person"></mat-icon>
+      <h1 class="inter-bold ripple"> Welcome <span (click)="openAccountDetailsDialog()" class="name">{{ username }}! <mat-icon
+        svgIcon="circleArrow"></mat-icon></span></h1>
+      <button (click)="logout()" class="small-icon-button" mat-flat-button type="button">
+        Logout
       </button>
     </div>
 
@@ -16,7 +19,7 @@
       Sign in / Sign up
     </button>
   </ng-container>
-  <mat-menu #menu="matMenu">
+  <mat-menu #menu="matMenu" class="mat-menu">
     <button [routerLink]="['/profile', username]" mat-menu-item>Your Profile</button>
     <button [routerLink]="['/likedPosts']" mat-menu-item>Liked Posts</button>
     <button [routerLink]="['/likedSpots']" disabled mat-menu-item>Liked Spots</button>

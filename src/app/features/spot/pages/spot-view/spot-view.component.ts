@@ -52,20 +52,14 @@ export class SpotViewComponent implements OnDestroy, OnInit {
       this.id = paramMap.get('id')!;
     })
 
-    console.log(this.id);
 
     this.spotService.getSpotById(this.id.toString()).subscribe(result => {
       this.spot = result;
-      console.log("Spot selected: ", this.spot);
     });
 
     this.posts$ = this.postService.getPostsBySpotId(this.id.toString())
 
     this.getImageUrlFromPost()
-
-
-    console.log("Posts retrieved: ", this.posts$);
-
 
     const username = this.authService.getUsername();
 

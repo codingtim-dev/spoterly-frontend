@@ -1,4 +1,4 @@
-<h1 class="dialog-title" mat-dialog-title>Add a new Post</h1>
+<h1 class=" inter-bold-header" mat-dialog-title>Add a new Post</h1>
 <mat-dialog-content>
   <form (ngSubmit)="onSubmit()" [formGroup]="uploadForm">
     <input [matAutocomplete]="auto"
@@ -13,7 +13,7 @@
         <mat-option [value]="option.id">{{ option.name }}</mat-option>
       }
     </mat-autocomplete>
-    <input class="input-element" formControlName="title" id="title" placeholder="Enter your title"/>
+    <input class="input-element" formControlName="title" id="title" placeholder="Enter your title*"/>
     <ng-container *ngFor="let validation of validationPosts.title">
       <mat-error
         *ngIf="uploadForm.get('title')?.hasError(validation.type) && (uploadForm.get('title')?.dirty || uploadForm.get('title')?.touched)"
@@ -22,7 +22,7 @@
     </ng-container>
 
     <textarea class="textarea-element" formControlName="description" id="description"
-              placeholder="Enter your description"></textarea>
+              placeholder="Enter your description*"></textarea>
     <ng-container *ngFor="let validation of validationPosts.description">
       <mat-error
         *ngIf="uploadForm.get('description')?.hasError(validation.type) && (uploadForm.get('description')?.dirty || uploadForm.get('description')?.touched)"

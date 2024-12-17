@@ -1,6 +1,6 @@
 import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
-import {AsyncPipe, NgForOf, NgIf, SlicePipe} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage, SlicePipe} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
@@ -29,7 +29,8 @@ interface selectedSpot {
     AsyncPipe,
     NgForOf,
     SlicePipe,
-    MatProgressSpinner
+    MatProgressSpinner,
+    NgOptimizedImage
   ],
   templateUrl: './spot-details.component.html',
   styleUrl: './spot-details.component.scss'
@@ -81,7 +82,6 @@ export class SpotDetailsComponent implements OnInit, OnChanges {
     this.closeDetails(false);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Dialog was closed")
     })
   }
 

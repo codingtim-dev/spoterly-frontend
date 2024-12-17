@@ -1,7 +1,11 @@
 <div class="details-container">
   <mat-card class="spot-card">
     <mat-card-header>
-      <mat-card-title class="eb-garamond-bold">{{ spot.name }}</mat-card-title>
+      <mat-card-title class="inter-bold-header">/{{ spot.name }}   <img [routerLink]="['/spot', spot.id]"
+                                                                        alt="application logo"
+                                                                        height="50"
+                                                                        ngSrc="assets/icons/Arrow_circle.svg"
+                                                                        width="50"></mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="description-container">
@@ -22,10 +26,6 @@
 
           </tr>
         </table>
-        <button mat-flat-button>
-          <a [routerLink]="['/spot', spot.id]">See more</a>
-        </button>
-
       </div>
 
       <div class="post-list-container">
@@ -50,7 +50,7 @@
         </ng-template>
         <ng-container *ngIf="showPosts()">
           <button (click)="openCreatePostDialog({id: spot.id, name: spot.name})" mat-button>
-            <span class="eb-garamond-bold">Add New Post</span>
+            <span class="inter-bold-header">Add New Post</span>
           </button>
         </ng-container>
       </div>

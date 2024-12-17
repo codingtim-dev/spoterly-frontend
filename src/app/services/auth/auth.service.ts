@@ -49,7 +49,6 @@ export class AuthService {
   register(cred: RegisterModel): Observable<{ success: boolean; message: string }> {
     return this.http.post<any>(`${this.baseUrl}/register`, cred).pipe(
       map((res) => {
-        console.log(res)
         return {success: true, message: "User registered successfully."};
 
       }),

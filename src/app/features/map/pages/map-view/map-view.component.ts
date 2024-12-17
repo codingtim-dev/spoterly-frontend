@@ -2,16 +2,18 @@ import {AfterViewInit, Component, inject} from '@angular/core';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import Spot from '../../models/Spot';
-import {SpotDetailsComponent} from '../../components/spot-details/spot-details.component';
 import {FormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPostDialogComponent} from '../../../../components/add-post-dialog/add-post-dialog.component';
-import {NgClass, NgIf} from '@angular/common';
+import {AsyncPipe, NgClass, NgForOf, NgIf, SlicePipe} from '@angular/common';
 import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import {SpotService} from '../../../../services/spot/spot.service';
 import {AuthService} from '../../../../services/auth/auth.service';
+import {Observable} from 'rxjs';
+import {SpotCardComponent} from '../../components/spot-card/spot-card.component';
+import {SpotDetailsComponent} from '../../components/spot-details/spot-details.component';
 
 const locationIcon = L.icon({
   iconUrl: 'assets/icons/Marker.svg',
@@ -31,13 +33,17 @@ interface eventCoordinates {
   standalone: true,
   imports: [
     LeafletModule,
-    SpotDetailsComponent,
     FormsModule,
     MatIcon,
     MatIconButton,
     MatButton,
     NgIf,
     NgClass,
+    AsyncPipe,
+    NgForOf,
+    SpotCardComponent,
+    SlicePipe,
+    SpotDetailsComponent,
   ],
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss',
@@ -46,7 +52,7 @@ export class MapViewComponent implements AfterViewInit {
   selectedSpot: any;
   readonly dialog = inject(MatDialog);
   showSpotDetails = false;
-  spotList: Spot[] = [];
+  spotList$?: Observable<Spot[]>;
 
   showActions: boolean = false;
   targetMarker: any = null;
@@ -86,9 +92,10 @@ export class MapViewComponent implements AfterViewInit {
       maxLongitude: bounds.getEast(),
     };
 
-    this.spotService.getSpots(params).subscribe((data) => {
+    this.spotList$ = this.spotService.getSpots(params);
 
-      console.log(data);
+    this.spotList$.subscribe((data) => {
+
       data.map((value) => {
         this.markers.push(
           new L.Marker([value.latitude, value.longitude], {
@@ -119,6 +126,11 @@ export class MapViewComponent implements AfterViewInit {
     this.showSpotDetails = true;
   }
 
+  openDetails(spot: Spot): void {
+    this.selectedSpot = spot;
+    this.showSpotDetails = true;
+  }
+
   toggleActions() {
     this.showActions = !this.showActions;
   }
@@ -133,7 +145,6 @@ export class MapViewComponent implements AfterViewInit {
     this.showActions = false;
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog was closed');
     });
   }
 

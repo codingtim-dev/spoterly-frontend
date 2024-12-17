@@ -1,0 +1,68 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/main';
+
+
+.spot-card {
+  width: 300px;
+  background-color: $primary-color-2;
+  border-radius: 0;
+  box-shadow: none;
+
+  padding: 3px;
+
+  mat-card-header {
+    padding: 2px 8px;
+    font-size: 1.2em;
+    text-transform: uppercase;
+  }
+
+  mat-card-content {
+    padding: 0 0 12px 8px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+
+
+    button[type="button"] {
+      background: $secondary-color-3;
+      border-radius: 40px;
+      display: flex;
+
+      width: 50%;
+      align-items: center;
+    }
+
+    .description {
+      color: $secondary-color-3;
+    }
+
+
+    hr {
+      background-color: $secondary-color;
+      margin: 0;
+      width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .ripple {
+      background-color: $secondary-color-2;
+      border-radius: 40px;
+      width: 50%;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .span-click {
+
+
+      cursor: pointer;
+
+
+      mat-icon {
+        fill: black;
+      }
+    }
+  }
+}
