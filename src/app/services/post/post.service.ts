@@ -26,6 +26,34 @@ export class PostService {
     );
   }
 
+  public getPostByUsername(username: string): Observable<PostModel[]> {
+    return this.http.get<PostModel[]>(this.baseUrl + '/getPostsByUser/' + username).pipe(
+      catchError((err) => {
+        console.log('Error fetching data:', err);
+        throw err
+      })
+    )
+  }
+
+  public deletePost(id: string, username: string): Observable<{ success: boolean; message: string }> {
+    return this.http.post<any>(`${this.baseUrl}/${username}/deletePost/${id}`, id, {responseType: 'text' as 'json'}).pipe(
+      map((result) => {
+        if (result) {
+          return {success: true, message: "Post deleted successfully."};
+        }
+
+        return {success: false, message: 'An unexpected error occurred! Please try again!'};
+
+      }),
+      catchError((err) => {
+        console.log(err);
+        let errMessage = "Post could not been deleted."
+
+        return of({success: false, message: errMessage});
+      })
+    );
+  }
+
   public createPost(post: Post): Observable<{ success: boolean; message: string }> {
 
     const username = this.auth.getUsername()

@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AccountService} from '../../services/account/account.service';
-import {MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import {MatDialog, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
 import {AuthService} from '../../services/auth/auth.service';
 import {AsyncPipe, KeyValuePipe, NgForOf, NgIf, SlicePipe} from '@angular/common';
 import {forkJoin, map, Observable, switchMap} from 'rxjs';
@@ -9,6 +9,10 @@ import PostModel from '../../core/post/PostModel';
 import {ImageService} from '../../services/post/image.service';
 import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
 import {Router} from '@angular/router';
+import {PostService} from '../../services/post/post.service';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {DeletePostDialogComponent} from '../delete-post-dialog/delete-post-dialog.component';
 
 interface userData {
   username: string;
@@ -31,7 +35,9 @@ interface userData {
     MatCardContent,
     MatCardImage,
     NgIf,
-    SlicePipe
+    SlicePipe,
+    MatIconButton,
+    MatIcon
   ],
   templateUrl: './account-details-dialog.component.html',
   styleUrl: './account-details-dialog.component.scss'
@@ -39,6 +45,8 @@ interface userData {
 export class AccountDetailsDialogComponent implements OnInit {
 
   likedPosts$?: Observable<PostModel[]>;
+  userPosts$?: Observable<PostModel[]>;
+  readonly dialog: MatDialog = inject(MatDialog);
 
   username?: string | null;
   accountDetails: userData = {
@@ -50,7 +58,7 @@ export class AccountDetailsDialogComponent implements OnInit {
 
   protected readonly close = close;
 
-  constructor(private router: Router, private accountService: AccountService, private imageService: ImageService, private authService: AuthService, private dialogRef: MatDialogRef<AccountDetailsDialogComponent>,) {
+  constructor(private router: Router, private accountService: AccountService, private imageService: ImageService, private authService: AuthService, private dialogRef: MatDialogRef<AccountDetailsDialogComponent>, private postService: PostService,) {
   }
 
   onNavigate() {
@@ -64,12 +72,25 @@ export class AccountDetailsDialogComponent implements OnInit {
     this.getUserData();
 
     this.likedPosts$ = this.accountService.getLikedPosts(this.username);
+    this.userPosts$ = this.postService.getPostByUsername(this.username);
 
-    this.getImageUrlFromPost()
-  }
-
-  getImageUrlFromPost(): void {
     this.likedPosts$ = this.likedPosts$?.pipe(
+      switchMap(posts =>
+        forkJoin(
+          posts.map(post =>
+            this.imageService.getImageUrl(post.image_id).pipe(
+              map(imageUrl => ({
+                ...post,
+                imageUrl,
+              }))
+            )
+          )
+        )
+      )
+    );
+
+
+    this.userPosts$ = this.userPosts$?.pipe(
       switchMap(posts =>
         forkJoin(
           posts.map(post =>
@@ -97,5 +118,14 @@ export class AccountDetailsDialogComponent implements OnInit {
         }
       )
     }
+  }
+
+  openDeleteDialog(id: string) {
+    const dialogRef = this.dialog.open(DeletePostDialogComponent, {
+      data: id,
+      height: '320px',
+      width: '800px',
+      panelClass: 'custom-dialog-panel'
+    });
   }
 }

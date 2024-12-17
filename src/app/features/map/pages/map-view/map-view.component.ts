@@ -94,9 +94,20 @@ export class MapViewComponent implements AfterViewInit {
 
     this.spotList$ = this.spotService.getSpots(params);
 
+
+    // if (this.markers.length > 0 && this.spotList$) {
+    //
+    //
+    //   // TODO: Improve marker rendering
+    //   this.markers.forEach((marker) => this.map.removeLayer(marker));
+    //   this.markers = []
+    // }
+
+
     this.spotList$.subscribe((data) => {
 
       data.map((value) => {
+
         this.markers.push(
           new L.Marker([value.latitude, value.longitude], {
             icon: locationIcon,
@@ -193,7 +204,11 @@ export class MapViewComponent implements AfterViewInit {
 
     this.map.on('click', (event) => {
 
-      if (this.authService.isAuthenticated() && !this.showSpotDetails) {
+      if (!this.showSpotDetails) {
+        console.log('clicked');
+      }
+
+      if (this.authService.isAuthenticated()) {
         // handle that users wants to add a spot while clicking on map
         if (this.targetMarker !== null) {
           this.map.removeLayer(this.targetMarker);

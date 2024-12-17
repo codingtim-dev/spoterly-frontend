@@ -8,6 +8,7 @@ import {LoginModel} from '../../LoginModel';
 import {MatError} from '@angular/material/form-field';
 import {NgForOf, NgIf} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -49,6 +50,7 @@ export class LoginComponent {
     private auth: AuthService,
     private fb: FormBuilder,
     private toastr: ToastrService,
+    private router: Router,
   ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', {
@@ -78,6 +80,7 @@ export class LoginComponent {
           this.toastr.success(response.message);
           // Navigate to the desired page or perform other actions
           this.closeAuthDialogs()
+          this.router.navigate(['/home']);
         } else {
           this.toastr.error(response.message);
         }

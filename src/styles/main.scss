@@ -203,3 +203,12 @@ form {
 .mat-progress-spinner circle, .mat-spinner circle {
   stroke: $secondary-color !important;
 }
+
+.mat-dialog-container {
+  max-width: 100vw !important;
+}
+
+.cdk-overlay-pane {
+  max-width: none !important;
+
+}

@@ -13,23 +13,60 @@
       <span class="inter-normal">Your liked posts:</span>
       <span (click)="onNavigate()" class="inter-normal link">> See more</span>
     </div>
-
     <div class="post-container">
       <div *ngIf="likedPosts$ | async as likedPosts" class="spot-post-list-container">
-        <mat-card
-          *ngFor="let post of likedPosts | slice:0:3"
-          appearance="outlined"
-          class="post-card">
-          <mat-card-content>
-            <div class="image-container">
-              <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <ng-container *ngIf="likedPosts.length > 0; else NoLikedPosts">
+          <mat-card
+            *ngFor="let post of likedPosts | slice:0:3"
+            appearance="outlined"
+            class="post-card">
+            <mat-card-content>
+              <div class="image-container">
+                <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+        <ng-template #NoLikedPosts>
+          <span class="inter-normal">You have not liked any posts...</span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-post-container">
+    <div class="head-container">
+      <span class="inter-normal">Your posts:</span>
+      <!--      <span (click)="onNavigate()" class="inter-normal link">> See more</span>-->
+    </div>
+    <div class="post-container">
+      <div *ngIf="userPosts$ | async as posts" class="spot-post-list-container userpost">
+        <ng-container *ngIf="posts; else NoPost">
+          <mat-card
+            *ngFor="let post of posts"
+            appearance="outlined"
+            class="post-card">
+            <mat-card-content>
+              <div class="image-container">
+                <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
+              </div>
+              <div class="card-content">
+                <button (click)="openDeleteDialog(post.id)" class="delete" mat-icon-button type="button">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+        <ng-template #NoPost>
+          <span class="inter-normal">You have no posts...</span>
+        </ng-template>
 
       </div>
     </div>
   </div>
+
+
 </mat-dialog-content>
 
 

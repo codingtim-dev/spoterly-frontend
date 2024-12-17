@@ -50,6 +50,7 @@ mat-dialog-content {
       border-radius: 0;
       // otherwise the scaling and hover effect is buggy
       height: 200px;
+      width: 150px;
       background: white;
 
 
@@ -77,6 +78,43 @@ mat-dialog-content {
           height: 100%;
           object-fit: cover;
           transition: transform 0.3s ease;
+        }
+      }
+
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        height: 100%;
+        gap: 30px;
+        overflow: hidden;
+        align-items: center;
+        width: 0;
+        padding: 16px;
+        background: white;
+        opacity: 0;
+        visibility: hidden;
+        transition: flex 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+
+        .delete {
+          background-color: $secondary-color-2;
+        }
+
+      }
+
+      &:hover {
+
+        z-index: 2;
+
+        .image-container {
+          width: 0;
+        }
+
+        .card-content {
+          width: 100%;
+          opacity: 1;
+          visibility: visible;
         }
       }
     }
