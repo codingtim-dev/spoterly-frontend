@@ -53,6 +53,8 @@ export class SpotDetailsComponent implements OnInit, OnChanges {
     this.posts$ = this.postService.getPostsBySpotId(this.spot.id);
 
     this.getImageUrlFromPost()
+
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -84,6 +86,15 @@ export class SpotDetailsComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
     })
   }
+
+  getLength(): number {
+    this.posts$?.subscribe(posts => {
+      return posts.length
+    })
+
+    return 0
+  }
+
 
   getImageUrlFromPost(): void {
     this.posts$ = this.posts$?.pipe(

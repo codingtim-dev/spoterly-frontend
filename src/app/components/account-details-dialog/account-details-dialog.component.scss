@@ -33,6 +33,7 @@ mat-dialog-content {
     }
   }
 
+
   .post-container {
     padding-top: 16px;
     display: flex;
@@ -120,4 +121,16 @@ mat-dialog-content {
     }
   }
 
+}
+
+.user-post-container {
+  .head-container {
+    span {
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
+
+    }
+
+  }
 }

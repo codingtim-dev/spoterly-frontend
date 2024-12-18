@@ -102,3 +102,15 @@
   flex-direction: column;
   gap: 17px;
 }
+
+.login-hint {
+  color: $primary-color-2;
+  background-color: $secondary-color-2;
+
+  position: absolute;
+  padding: 12px 8px;
+  z-index: 500;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}

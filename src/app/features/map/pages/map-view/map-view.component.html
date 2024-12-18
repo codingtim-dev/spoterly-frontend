@@ -21,6 +21,12 @@
   </ng-container>
   <spot-details (isOpen)="closeDialog($event)" *ngIf="showSpotDetails" [spot]=selectedSpot
                 class="details-card-container"></spot-details>
+
+  <ng-container *ngIf="!showMapElements()">
+    <div class="login-hint">
+      <span class="inter-bold">Please sign in to get access to all features!</span>
+    </div>
+  </ng-container>
 </div>
 
 

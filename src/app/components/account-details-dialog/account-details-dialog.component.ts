@@ -57,6 +57,7 @@ export class AccountDetailsDialogComponent implements OnInit {
 
 
   protected readonly close = close;
+  protected readonly length = length;
 
   constructor(private router: Router, private accountService: AccountService, private imageService: ImageService, private authService: AuthService, private dialogRef: MatDialogRef<AccountDetailsDialogComponent>, private postService: PostService,) {
   }

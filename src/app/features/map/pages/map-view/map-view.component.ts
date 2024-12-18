@@ -142,6 +142,11 @@ export class MapViewComponent implements AfterViewInit {
     this.showSpotDetails = true;
   }
 
+  closeDetails() {
+    this.showSpotDetails = false;
+    this.selectedSpot = null;
+  }
+
   toggleActions() {
     this.showActions = !this.showActions;
   }
@@ -204,9 +209,7 @@ export class MapViewComponent implements AfterViewInit {
 
     this.map.on('click', (event) => {
 
-      if (!this.showSpotDetails) {
-        console.log('clicked');
-      }
+      this.closeDetails()
 
       if (this.authService.isAuthenticated()) {
         // handle that users wants to add a spot while clicking on map

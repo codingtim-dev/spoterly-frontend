@@ -41,26 +41,22 @@
     </div>
     <div class="post-container">
       <div *ngIf="userPosts$ | async as posts" class="spot-post-list-container userpost">
-        <ng-container *ngIf="posts; else NoPost">
-          <mat-card
-            *ngFor="let post of posts"
-            appearance="outlined"
-            class="post-card">
-            <mat-card-content>
-              <div class="image-container">
-                <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
-              </div>
-              <div class="card-content">
-                <button (click)="openDeleteDialog(post.id)" class="delete" mat-icon-button type="button">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </ng-container>
-        <ng-template #NoPost>
-          <span class="inter-normal">You have no posts...</span>
-        </ng-template>
+
+        <mat-card
+          *ngFor="let post of posts"
+          appearance="outlined"
+          class="post-card">
+          <mat-card-content>
+            <div class="image-container">
+              <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
+            </div>
+            <div class="card-content">
+              <button (click)="openDeleteDialog(post.id)" class="delete" mat-icon-button type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
       </div>
     </div>
