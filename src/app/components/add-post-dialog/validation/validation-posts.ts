@@ -4,8 +4,8 @@ export const validationPosts = {
   ],
   title: [
     {type: 'required', message: 'Title is required'},
-    {type: 'minlength', message: 'Title must be at least 5 characters long'},
-    {type: 'maxlength', message: 'Title must be less than 20 characters long'}
+    {type: 'minlength', message: 'Title must be at least 3 characters long'},
+    {type: 'maxlength', message: 'Title must be less than 35 characters long'}
   ],
   description: [
     {type: 'required', message: 'Description is required'},
