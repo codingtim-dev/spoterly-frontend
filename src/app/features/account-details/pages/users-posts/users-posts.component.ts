@@ -48,7 +48,7 @@ export class UsersPostsComponent {
 
   reloadUsersPosts() {
 
-    this.usersPosts$ = this.accountService.getLikedPosts(this.username);
+    this.usersPosts$ = this.postService.getPostByUsername(this.username);
     this.getImageUrlFromPost();
   }
 
