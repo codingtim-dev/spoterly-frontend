@@ -4,6 +4,7 @@
 mat-dialog-content {
   position: relative;
 
+
   hr {
     margin: 15px 0;
     display: block;
@@ -34,12 +35,13 @@ mat-dialog-content {
   }
 
 
-  .post-container {
-    padding-top: 16px;
-    display: flex;
-
-
+  .spot-post-list-container {
+    display: grid;
+    min-height: auto;
+    padding: 16px 0;
+    grid-template-columns: repeat( 4, minmax(22%, 1fr) );
     gap: 4%;
+
 
     .post-card {
       position: relative;
@@ -124,13 +126,15 @@ mat-dialog-content {
 }
 
 .user-post-container {
-  .head-container {
-    span {
-      display: flex;
-      justify-content: space-between;
-      text-transform: uppercase;
 
-    }
+  margin-top: 16px;
+
+  .head-container {
+
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+
 
   }
 }

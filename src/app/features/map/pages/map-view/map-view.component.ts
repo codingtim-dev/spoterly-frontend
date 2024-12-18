@@ -7,13 +7,13 @@ import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPostDialogComponent} from '../../../../components/add-post-dialog/add-post-dialog.component';
-import {AsyncPipe, NgClass, NgForOf, NgIf, SlicePipe} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import {SpotService} from '../../../../services/spot/spot.service';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {Observable} from 'rxjs';
-import {SpotCardComponent} from '../../components/spot-card/spot-card.component';
 import {SpotDetailsComponent} from '../../components/spot-details/spot-details.component';
+import {SpotCardComponent} from '../../components/spot-card/spot-card.component';
 
 const locationIcon = L.icon({
   iconUrl: 'assets/icons/Marker.svg',
@@ -39,10 +39,8 @@ interface eventCoordinates {
     MatButton,
     NgIf,
     NgClass,
-    AsyncPipe,
     NgForOf,
     SpotCardComponent,
-    SlicePipe,
     SpotDetailsComponent,
   ],
   templateUrl: './map-view.component.html',
@@ -56,11 +54,11 @@ export class MapViewComponent implements AfterViewInit {
 
   showActions: boolean = false;
   targetMarker: any = null;
+  visibleSpots: Spot[] = [];
   private map!: L.Map;
   private markers: L.Marker[] = [];
-
   private currentBounds: L.LatLngBounds | null = null;
-
+  private markersMap = new Map<string, L.Marker>();
 
   constructor(
     private spotService: SpotService,
@@ -78,13 +76,6 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   fetchSpotList(bounds: L.LatLngBounds) {
-
-
-    if (this.markers.length > 0) {
-      this.markers.forEach((marker) => this.map.removeLayer(marker));
-      this.markers = []
-    }
-
     const params = {
       minLatitude: bounds.getSouth(),
       maxLatitude: bounds.getNorth(),
@@ -94,33 +85,37 @@ export class MapViewComponent implements AfterViewInit {
 
     this.spotList$ = this.spotService.getSpots(params);
 
-
-    // if (this.markers.length > 0 && this.spotList$) {
-    //
-    //
-    //   // TODO: Improve marker rendering
-    //   this.markers.forEach((marker) => this.map.removeLayer(marker));
-    //   this.markers = []
-    // }
-
-
     this.spotList$.subscribe((data) => {
+      const newSpotIds = new Set(data.map((spot) => spot.id));
 
-      data.map((value) => {
-
-        this.markers.push(
-          new L.Marker([value.latitude, value.longitude], {
-            icon: locationIcon,
-          })
-            .bindPopup(value.name)
-            .on('click', () => this.onClickMarker(value))
-            .on('popupclose', () => this.onPopupClose()),
-        );
+      // Remove all markers which are not in the view anymore
+      this.markersMap.forEach((marker, id) => {
+        if (!newSpotIds.has(id)) {
+          this.map.removeLayer(marker);
+          this.markersMap.delete(id);
+        }
       });
 
-      this.addMarkersToMap()
+      data.forEach((spot) => {
+        if (!this.markersMap.has(spot.id)) {
+          const marker = new L.Marker([spot.latitude, spot.longitude], {
+            icon: locationIcon,
+          })
+            .bindPopup(spot.name)
+            .on('click', () => this.onClickMarker(spot))
+            .on('popupclose', () => this.onPopupClose());
 
+          this.markersMap.set(spot.id, marker);
+          marker.addTo(this.map);
+        }
+      });
+      
+      this.updateVisibleSpots(data);
     });
+  }
+
+  trackBySpotId(index: number, spot: Spot): string {
+    return spot.id;
   }
 
   closeDialog(value: boolean) {
@@ -188,6 +183,12 @@ export class MapViewComponent implements AfterViewInit {
       }
 
     });
+  }
+
+  private updateVisibleSpots(spots: Spot[]) {
+    this.visibleSpots = spots.filter((spot) =>
+      this.currentBounds?.contains([spot.latitude, spot.longitude])
+    );
   }
 
   private initMap() {

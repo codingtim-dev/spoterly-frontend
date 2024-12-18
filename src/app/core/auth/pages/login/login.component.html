@@ -12,7 +12,7 @@
             class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
-        <input class="input-element" formControlName="password" placeholder="Enter your Password*">
+        <input class="input-element" formControlName="password" placeholder="Enter your Password*" type="password">
         <ng-container *ngFor="let validation of account_validation_messages.password">
           <mat-error
             *ngIf="loginForm.get('password')?.hasError(validation.type) && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"

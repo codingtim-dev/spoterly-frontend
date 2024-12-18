@@ -6,8 +6,8 @@ import {AngularSvgIconModule} from 'angular-svg-icon';
 import {LoginComponent} from './core/auth/pages/login/login.component';
 import {RegisterComponent} from './core/auth/pages/register/register.component';
 import {NavbarComponent} from './features/navbar/navbar.component';
-import {RouterOutlet} from '@angular/router';
-import {NgIf} from '@angular/common';
+import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
+import {NgClass, NgIf} from '@angular/common';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 
@@ -24,6 +24,7 @@ import {DomSanitizer} from '@angular/platform-browser';
     NavbarComponent,
     RouterOutlet,
     NgIf,
+    NgClass,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -33,8 +34,10 @@ export class AppComponent implements OnInit {
 
   showAuthDialog: boolean = false;
   showLoginDialog: boolean = true;
+  theme = "main-content"
+  uuidRegex = /\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 
-  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private router: Router) {
 
     this.matIconRegistry.addSvgIcon(
       'logo',
@@ -46,9 +49,17 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
 
-    //this.showAuthDialog = !this.authService.isAuthenticated();
+        if (this.uuidRegex.test(event.urlAfterRedirects)) {
+          this.theme = 'main-container-dark';
+        } else {
+          this.theme = 'main-container';
+        }
 
+      }
+    });
   }
 
   closeAuthDialog() {

@@ -8,7 +8,7 @@ import Spot from '../../models/Spot';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {PostService} from '../../../../services/post/post.service';
 import PostModel from '../../../../core/post/PostModel';
-import {forkJoin, map, Observable, switchMap} from 'rxjs';
+import {forkJoin, map, Observable, of, switchMap} from 'rxjs';
 import {ImageService} from '../../../../services/post/image.service';
 import {AddPostDialogComponent} from '../../../../components/add-post-dialog/add-post-dialog.component';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
@@ -40,9 +40,6 @@ export class SpotDetailsComponent implements OnInit, OnChanges {
   @Input() spot!: Spot;
   readonly dialog = inject(MatDialog);
   @Output() isOpen = new EventEmitter<boolean>();
-  previewSize: number = 4;
-  // fetch 4 posts with the current spot id
-  postsImages: any;
   posts$?: Observable<PostModel[]>;
 
   constructor(private authService: AuthService, private postService: PostService, private imageService: ImageService) {
@@ -98,17 +95,20 @@ export class SpotDetailsComponent implements OnInit, OnChanges {
 
   getImageUrlFromPost(): void {
     this.posts$ = this.posts$?.pipe(
+      map(posts => posts || []),
       switchMap(posts =>
-        forkJoin(
-          posts.map(post =>
-            this.imageService.getImageUrl(post.image_id).pipe(
-              map(imageUrl => ({
-                ...post,
-                imageUrl,
-              }))
+        posts.length > 0
+
+          ? forkJoin(
+            posts.map(post =>
+              this.imageService.getImageUrl(post.image_id).pipe(
+                map(imageUrl => ({
+                  ...post,
+                  imageUrl,
+                }))
+              )
             )
-          )
-        )
+          ) : of([])
       )
     );
   }

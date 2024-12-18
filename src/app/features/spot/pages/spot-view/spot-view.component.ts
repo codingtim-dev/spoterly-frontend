@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import PostModel from '../../../../core/post/PostModel';
 import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
 import {SpotService} from '../../../../services/spot/spot.service';
@@ -10,7 +10,8 @@ import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {AccountService} from '../../../../services/account/account.service';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {forkJoin, map, Observable, switchMap} from 'rxjs';
+import {forkJoin, map, Observable, of, switchMap} from 'rxjs';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 
 interface IPost {
   id: string;
@@ -21,7 +22,6 @@ interface IPost {
   selector: 'app-spot-view',
   standalone: true,
   imports: [
-    NgOptimizedImage,
     RouterLink,
     NgIf,
     MatCard,
@@ -30,7 +30,8 @@ interface IPost {
     MatCardImage,
     MatIcon,
     AsyncPipe,
-    MatButton
+    MatButton,
+    MatProgressSpinner
   ],
   templateUrl: './spot-view.component.html',
   styleUrl: './spot-view.component.scss'
@@ -40,7 +41,6 @@ export class SpotViewComponent implements OnDestroy, OnInit {
   id: string = "";
   spot: any;
   posts$?: Observable<PostModel[]>
-  usersLikedPosts?: PostModel[];
   postIdsUserLiked$!: Observable<string[]>;
   private sub: any;
 
@@ -70,17 +70,20 @@ export class SpotViewComponent implements OnDestroy, OnInit {
 
   getImageUrlFromPost(): void {
     this.posts$ = this.posts$?.pipe(
+      map(posts => posts || []),
       switchMap(posts =>
-        forkJoin(
-          posts.map(post =>
-            this.imageService.getImageUrl(post.image_id).pipe(
-              map(imageUrl => ({
-                ...post,
-                imageUrl,
-              }))
+        posts.length > 0
+
+          ? forkJoin(
+            posts.map(post =>
+              this.imageService.getImageUrl(post.image_id).pipe(
+                map(imageUrl => ({
+                  ...post,
+                  imageUrl,
+                }))
+              )
             )
-          )
-        )
+          ) : of([])
       )
     );
   }

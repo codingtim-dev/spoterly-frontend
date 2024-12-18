@@ -1,7 +1,12 @@
 @import '../styles/variables';
 
 .main-content {
-
+  height: 100vh;
   background-color: $primary-color-2;
   width: 100%;
+}
+
+.main-container-dark {
+  height: 100vh;
+  background-color: $secondary-color-2;
 }
