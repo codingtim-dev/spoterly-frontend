@@ -13,14 +13,14 @@
 
 .details-card-container {
   position: absolute;
-  z-index: 9999;
-  padding-right: $padding-component;
-  background-color: $primary-color-V2;
-  height: calc(100vh - $navbar-height - $padding-component);
+  z-index: 550;
+  //padding-right: $padding-component;
+  background-color: $secondary-color-3;
+
   width: 32%;
-  top: 0;
-  bottom: 0;
-  right: 0;
+  top: 3%;
+  bottom: 4%;
+  right: 3%;
 }
 
 .show-actions-button {
@@ -29,11 +29,11 @@
   width: 70px;
   height: 70px;
   bottom: 60px;
-  right: 60px;
-  color: $primary-color-V2;
-  background: $secondary-color;
+  right: 3%;
+  color: $primary-color-2;
+  background: $secondary-color-2;
   border-radius: 0;
-  z-index: 9999;
+  z-index: 500;
 
   transition: all 1s ease-in-out;
 }
@@ -42,7 +42,7 @@
   height: 50px;
   width: 50px;
   font-size: 50px;
-  color: $primary-color-V2;
+  color: $primary-color-2;
   transition: all .5s ease-in-out;
 }
 
@@ -71,7 +71,7 @@
 
   button {
     background-color: white;
-    color: black;
+    color: $secondary-color-2;
     border-radius: 0;
     opacity: 0;
     font-weight: 500;
@@ -90,4 +90,27 @@
     opacity: 1;
   }
 
+}
+
+.spot-card-list-container {
+  position: absolute;
+  z-index: 500;
+  right: 3%;
+  top: 3%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.login-hint {
+  color: $primary-color-2;
+  background-color: $secondary-color-2;
+
+  position: absolute;
+  padding: 12px 8px;
+  z-index: 500;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
 }

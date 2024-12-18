@@ -2,11 +2,11 @@
 @import '../../../../../styles/main';
 
 .content-container {
-
+  padding-left: calc($padding-component + 30px);
 
   h1:first-child {
     font-size: 50px !important;
-    text-align: center;
+
   }
 }
 
@@ -23,14 +23,14 @@
     width: 50%;
 
     background-color: $secondary-color-2;
-    color: $primary-color-V2 !important;
+    color: $primary-color-2 !important;
     border-radius: 0;
   }
 }
 
 
 .spot-post-list-container {
-  padding: $padding-component;
+  padding: $padding-component 0 0 0;
   display: grid;
   grid-template-columns: repeat( 4, minmax(22%, 1fr) );
 
@@ -46,7 +46,8 @@
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     border-radius: 0;
     // otherwise the scaling and hover effect is buggy
-    height: 700px;
+    width: 300px;
+    height: 600px;
     background: white;
 
 

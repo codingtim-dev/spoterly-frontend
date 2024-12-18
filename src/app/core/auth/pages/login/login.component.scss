@@ -95,7 +95,8 @@ mat-card-content {
   }
 
   button:hover {
-    background: $secondary-color-4;
+    background: $button-red-hover;
+    color: white;
   }
 
 }

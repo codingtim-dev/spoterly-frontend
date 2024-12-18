@@ -15,13 +15,11 @@ export class SpotService {
   private baseURl = environment.apiBaseUrl + "/api/spots";
 
   constructor(private http: HttpClient, private auth: AuthService) {
-    console.log('SpotService constructor', this.baseURl);
   }
 
   public addSpot(spot: CreateSpotModel): Observable<{ success: boolean; message: string }> {
 
     const username = this.auth.getUsername()
-    console.log(username)
 
     return this.http.post<any>(`${this.baseURl}/${username}/createSpot`, spot).pipe(
       map((res) => {

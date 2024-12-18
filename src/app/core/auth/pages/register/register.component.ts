@@ -7,6 +7,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import RegisterModel from '../../RegisterModel';
 import {NgForOf, NgIf} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -51,6 +52,7 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private toastr: ToastrService,
+    private router: Router,
   ) {
     this.registerForm = this.fb.group({
       username: new FormControl('', {
@@ -92,9 +94,13 @@ export class RegisterComponent {
       };
 
       this.authService.register(cred).subscribe((response) => {
-        if (response.success) {
+        if (response.token) {
+
+
           this.toastr.success(response.message);
-          this.showLoginForm();
+          this.authService.storeToken(response.token);
+          this.closeAuthDialogs()
+          this.router.navigate(['/home']);
         } else {
           this.toastr.error(response.message);
         }

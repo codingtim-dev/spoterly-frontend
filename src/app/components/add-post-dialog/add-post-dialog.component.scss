@@ -1,18 +1,6 @@
 @import '../../../styles/variables';
 
 
-h1 {
-  margin-bottom: 20px;
-}
-
-.dialog-title {
-  font-family: "EB Garamond", serif;
-  font-optical-sizing: auto;
-  font-size: 2rem;
-  font-weight: 600;
-  font-style: normal;
-}
-
 form {
   padding: $padding-component 0;
   width: 100%;
@@ -28,7 +16,7 @@ form {
   display: flex;
   flex-direction: column;
   border: 2px dotted $secondary-color;
-  background-color: $primary-color-V2;
+  background-color: $primary-color-2;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -86,6 +74,6 @@ form {
     background-color: $secondary-color-2;
     border: none;
     border-radius: 0;
-    color: $primary-color-V2;
+    color: $primary-color-2;
   }
 }

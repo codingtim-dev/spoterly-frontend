@@ -1,0 +1,71 @@
+<h1 class="inter-bold-header" mat-dialog-title>Account Details</h1>
+
+<mat-dialog-content>
+  <hr>
+
+  <div *ngFor="let data of accountDetails | keyvalue" class="data-container">
+    <span>{{ data.key }}</span>
+    <input [readOnly]="true" [value]="data.value" class="input-element">
+  </div>
+  <hr>
+  <div class="liked-post-container">
+    <div class="head-container">
+      <span class="inter-normal">Your liked posts:</span>
+      <span (click)="onNavigate()" class="inter-normal link">> See more</span>
+    </div>
+    <div class="post-container">
+      <div *ngIf="likedPosts$ | async as likedPosts" class="spot-post-list-container">
+        <ng-container *ngIf="likedPosts.length > 0; else NoLikedPosts">
+          <mat-card
+            *ngFor="let post of likedPosts | slice:0:3"
+            appearance="outlined"
+            class="post-card">
+            <mat-card-content>
+              <div class="image-container">
+                <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+        <ng-template #NoLikedPosts>
+          <span class="inter-normal">You have not liked any posts...</span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-post-container">
+    <div class="head-container">
+      <span class="inter-normal">Your posts:</span>
+      <!--      <span (click)="onNavigate()" class="inter-normal link">> See more</span>-->
+    </div>
+    <div class="post-container">
+      <div *ngIf="userPosts$ | async as posts" class="spot-post-list-container userpost">
+
+        <mat-card
+          *ngFor="let post of posts"
+          appearance="outlined"
+          class="post-card">
+          <mat-card-content>
+            <div class="image-container">
+              <img [src]="post.imageUrl" alt="Post Image" mat-card-image>
+            </div>
+            <div class="card-content">
+              <button (click)="openDeleteDialog(post.id)" class="delete" mat-icon-button type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+    </div>
+  </div>
+
+
+</mat-dialog-content>
+
+
+
+
+

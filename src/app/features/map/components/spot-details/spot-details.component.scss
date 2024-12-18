@@ -1,28 +1,27 @@
 @import '../../../../../styles/variables';
+@import '../../../../../styles/main';
 
 .details-container > mat-card {
   z-index: 2;
-  height: 90vh;
-  overflow-y: scroll;
-  background: $primary-color-V2;
+  height: 100%;
+  background: $secondary-color-3;
   border-radius: 0;
   box-shadow: none;
 
 
   mat-card-header {
-    background-color: $secondary-color-4;
-    color: $secondary-color-2;
+    color: $primary-color-2;
 
     padding: 35px 41px;
 
 
     mat-card-title {
-      font-family: "EB Garamond", serif;
-      font-optical-sizing: auto;
-      font-weight: 600;
-      font-style: normal;
-      font-size: 4em;
-      line-height: 1em;
+      font-size: 3rem;
+    }
+
+
+    img {
+      cursor: pointer;
     }
 
   }
@@ -34,8 +33,7 @@
     .description-container {
       padding: 0 41px 35px 41px;
       width: 100%;
-      background-color: $secondary-color-3;
-      color: $primary-color-V2;
+      color: $primary-color-2;
       font-size: 1rem;
 
 
@@ -85,7 +83,7 @@
 
       button {
 
-        background: $primary-color-V2;
+        background: $secondary-color-3;
         color: $secondary-color;
 
 
@@ -123,7 +121,8 @@
         align-items: center;
         transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
         width: 100%;
-
+        border-radius: 0;
+        border: none;
         height: 300px;
 
         mat-card-content {
@@ -166,7 +165,7 @@
 }
 
 .mat-mdc-progress-spinner {
-  --mdc-circular-progress-active-indicator-color: #72383D;
+  --mdc-circular-progress-active-indicator-color: #FC3F49FF;
   color: $secondary-color-2;
 }
 

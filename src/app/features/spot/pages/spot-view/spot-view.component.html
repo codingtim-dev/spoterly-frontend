@@ -1,8 +1,9 @@
 <div *ngIf="spot" class="content-container">
   <div class="spot-header-container">
     <div class="col back">
-      <img [routerLink]="['/']" alt="back icon" height="25" ngSrc="assets/icons/arrow-back-icon.svg" width="25">
-      <h1 class="eb-garamond-bold">{{ spot.name }}</h1>
+      <img [routerLink]="['/home']" alt="back icon" height="25" src="assets/icons/arrow-back-icon.svg"
+           width="25">
+      <h1 class="inter-bold-header">/{{ spot.name }}</h1>
     </div>
     <div class=" information">
 
@@ -37,10 +38,10 @@
             </div>
             <div class="card-content">
               <div class="header">
-                <h1 class="card-headline eb-garamond-bold">
+                <h1 class="card-headline inter-bold">
                   {{ post.title }}
                 </h1>
-                <span class="author eb-garamond-normal">
+                <span class="author inter-small">
                 von {{ post.author_id }}
               </span>
               </div>
@@ -76,7 +77,7 @@
 
   <ng-template #noPosts>
     <div class="AuthErrorHint">
-      <h1 class="eb-garamond-bold">Please sign in to see the posts from others!</h1>
+      <h1 class="inter-bold-header">Please sign in to see the posts from others!</h1>
     </div>
 
   </ng-template>

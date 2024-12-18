@@ -1,18 +1,18 @@
 <div class="overlay">
   <mat-card class="form-card">
     <mat-card-header>
-      <h1>Welcome back to spoterly!</h1>
+      <h1 class="inter-bold-header">Welcome back to spoterly!</h1>
     </mat-card-header>
     <mat-card-content>
       <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-        <input class="input-element" formControlName="username" placeholder="Enter your username">
+        <input class="input-element" formControlName="username" placeholder="Enter your Username*">
         <ng-container *ngFor="let validation of account_validation_messages.username">
           <mat-error
             *ngIf="loginForm.get('username')?.hasError(validation.type) && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)"
             class="error-message">{{ validation.message }}
           </mat-error>
         </ng-container>
-        <input class="input-element" formControlName="password" placeholder="Enter your Password">
+        <input class="input-element" formControlName="password" placeholder="Enter your Password*">
         <ng-container *ngFor="let validation of account_validation_messages.password">
           <mat-error
             *ngIf="loginForm.get('password')?.hasError(validation.type) && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"

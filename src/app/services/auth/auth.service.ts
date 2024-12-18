@@ -46,11 +46,10 @@ export class AuthService {
   }
 
 
-  register(cred: RegisterModel): Observable<{ success: boolean; message: string }> {
+  register(cred: RegisterModel): Observable<{ success: boolean; message: string, token: string | null }> {
     return this.http.post<any>(`${this.baseUrl}/register`, cred).pipe(
       map((res) => {
-        console.log(res)
-        return {success: true, message: "User registered successfully."};
+        return {success: true, message: "User registered successfully.", token: res};
 
       }),
       catchError((err) => {
@@ -59,7 +58,7 @@ export class AuthService {
         if (err.status === 404) {
           let errMessage = "User could not be registered. Please try again!"
         }
-        return of({success: false, message: errMessage});
+        return of({success: false, message: errMessage, token: null});
       })
     );
   }

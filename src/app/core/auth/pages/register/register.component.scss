@@ -81,6 +81,7 @@ mat-card-content {
   width: 50%;
   display: flex;
   flex-direction: column;
+  gap: 20px;
   align-items: center;
   justify-content: center;
 
@@ -99,7 +100,8 @@ mat-card-content {
   }
 
   button:hover {
-    background: $secondary-color-4;
+    background: $button-red-hover;
+    color: white;
   }
 }
 
