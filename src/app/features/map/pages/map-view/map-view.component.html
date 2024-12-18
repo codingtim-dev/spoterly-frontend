@@ -12,9 +12,9 @@
     </button>
   </div>
 
-  <ng-container *ngIf="spotList$ | async as spots ">
+  <ng-container *ngIf="visibleSpots.length > 0;">
     <div class="spot-card-list-container">
-      <ng-container *ngFor="let spot of spots | slice:0:2">
+      <ng-container *ngFor="let spot of visibleSpots; trackBy: trackBySpotId">
         <app-spot-card (openDetails)="openDetails($event)" [spot]="spot"></app-spot-card>
       </ng-container>
     </div>

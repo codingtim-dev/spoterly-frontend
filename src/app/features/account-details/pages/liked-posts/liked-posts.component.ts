@@ -7,8 +7,9 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ImageService} from '../../../../services/post/image.service';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
-import {forkJoin, map, Observable, switchMap} from 'rxjs';
+import {forkJoin, map, Observable, of, switchMap} from 'rxjs';
 import {RouterLink} from '@angular/router';
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-liked-posts',
@@ -22,7 +23,8 @@ import {RouterLink} from '@angular/router';
     MatIcon,
     AsyncPipe,
     RouterLink,
-    MatButton
+    MatButton,
+    MatProgressSpinner
   ],
   templateUrl: './liked-posts.component.html',
   styleUrl: './liked-posts.component.scss'
@@ -59,17 +61,20 @@ export class LikedPostsComponent implements OnInit {
 
   getImageUrlFromPost(): void {
     this.likedPosts$ = this.likedPosts$?.pipe(
+      map(posts => posts || []),
       switchMap(posts =>
-        forkJoin(
-          posts.map(post =>
-            this.imageService.getImageUrl(post.image_id).pipe(
-              map(imageUrl => ({
-                ...post,
-                imageUrl,
-              }))
+        posts.length > 0
+
+          ? forkJoin(
+            posts.map(post =>
+              this.imageService.getImageUrl(post.image_id).pipe(
+                map(imageUrl => ({
+                  ...post,
+                  imageUrl,
+                }))
+              )
             )
-          )
-        )
+          ) : of([])
       )
     );
   }

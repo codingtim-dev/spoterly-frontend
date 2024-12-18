@@ -12,13 +12,11 @@ import {MatButton} from '@angular/material/button';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgForOf, NgIf, NgStyle} from '@angular/common';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
-import {mockSpotList} from '../../features/map/models/mockSpotList';
 import Spot from '../../features/map/models/Spot';
 import {ImageService} from '../../services/post/image.service';
 import {SpotService} from '../../services/spot/spot.service';
 import {AuthService} from '../../services/auth/auth.service';
 import {PostService} from '../../services/post/post.service';
-import {validationSpots} from '../add-spot-dialog/validation/validation-spots';
 import {validationPosts} from './validation/validation-posts';
 import {ToastrService} from 'ngx-toastr';
 import Image from '../../features/map/models/Image';
@@ -64,8 +62,7 @@ export class AddPostDialogComponent implements OnInit {
   uploadFile!: File | null;
   allowedFileTypes = ALLOWED_FILE_TYPES;
   uploadForm: FormGroup;
-  protected readonly mockSpotList = mockSpotList;
-  protected readonly validationSpots = validationSpots;
+
   protected readonly validationPosts = validationPosts;
 
   constructor(private toastr: ToastrService, private imageService: ImageService, private spotService: SpotService, private authService: AuthService, private postService: PostService, private fb: FormBuilder) {
@@ -76,7 +73,7 @@ export class AddPostDialogComponent implements OnInit {
         updateOn: 'blur'
       }],
       description: ['', {
-        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(255)],
+        validators: [Validators.maxLength(255)],
         updateOn: 'blur'
       }],
       file: [null, [Validators.required]],

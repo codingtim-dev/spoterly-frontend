@@ -52,7 +52,7 @@ export class AddSpotDialogComponent {
         updateOn: 'blur'
       }],
       description: ['', {
-        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(255)],
+        validators: [Validators.maxLength(255)],
         updateOn: 'blur'
       }],
       longitude: [this.data.longitude, {validators: [Validators.required, Validators.min(0)], updateOn: 'blur'}],

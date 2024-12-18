@@ -25,57 +25,69 @@
       </table>
     </div>
   </div>
-  <ng-container *ngIf="showPosts(); else noPosts">
+  <ng-container *ngIf="showPosts(); else AuthHint">
     <div class="spot-post-list-container">
-      <ng-container *ngIf="posts$ | async as posts">
-        <mat-card *ngFor="let post of posts" appearance="outlined" class="post-card">
-          <ng-container *ngIf="posts.length == 0">
-            <p>No posts here yet!</p>
-          </ng-container>
-          <mat-card-content>
-            <div class="image-container">
-              <img [src]="post.imageUrl" mat-card-image>
-            </div>
-            <div class="card-content">
-              <div class="header">
-                <h1 class="card-headline inter-bold">
-                  {{ post.title }}
-                </h1>
-                <span class="author inter-small">
+      <ng-container *ngIf="posts$ | async as posts; else loading">
+        <ng-container *ngIf="posts.length > 0; else noPosts">
+          <mat-card *ngFor="let post of posts" appearance="outlined" class="post-card">
+            <ng-container *ngIf="posts.length == 0">
+              <p>No posts here yet!</p>
+            </ng-container>
+            <mat-card-content>
+              <div class="image-container">
+                <img [src]="post.imageUrl" mat-card-image>
+              </div>
+              <div class="card-content">
+                <div class="header">
+                  <h1 class="card-headline inter-bold">
+                    {{ post.title }}
+                  </h1>
+                  <span class="author inter-small">
                 von {{ post.author_id }}
               </span>
-              </div>
-
-              <span class="card-description">
-                {{ post.content }}
-              </span>
-              <ng-container *ngIf="postIdsUserLiked$ | async as likedPosts">
-                <div class="actions-container">
-                  <ng-container *ngIf="likedPosts.includes(post.id); else unlikeButton">
-                    <button (click)="unlikePost(post.id)" mat-button>
-                      <mat-icon>favorite</mat-icon>
-                      Unlike
-                    </button>
-                  </ng-container>
-                  <ng-template #unlikeButton>
-                    <button (click)="likePost(post.id)" mat-button>
-                      <mat-icon>favorite</mat-icon>
-                      Like
-                    </button>
-                  </ng-template>
                 </div>
 
-              </ng-container>
-            </div>
-          </mat-card-content>
-        </mat-card>
+                <span class="card-description">
+                {{ post.content }}
+              </span>
+                <ng-container *ngIf="postIdsUserLiked$ | async as likedPosts">
+                  <div class="actions-container">
+                    <ng-container *ngIf="likedPosts.includes(post.id); else unlikeButton">
+                      <button (click)="unlikePost(post.id)" mat-button>
+                        <mat-icon>favorite</mat-icon>
+                        Unlike
+                      </button>
+                    </ng-container>
+                    <ng-template #unlikeButton>
+                      <button (click)="likePost(post.id)" mat-button>
+                        <mat-icon>favorite</mat-icon>
+                        Like
+                      </button>
+                    </ng-template>
+                  </div>
+                </ng-container>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+
       </ng-container>
-
-
     </div>
   </ng-container>
 
+  <ng-template #loading>
+    <div class="spinner-container AuthErrorHint">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+
   <ng-template #noPosts>
+    <div class="AuthErrorHint">
+      <h1 class="inter-bold-header ">Nothing here...</h1>
+    </div>
+  </ng-template>
+
+  <ng-template #AuthHint>
     <div class="AuthErrorHint">
       <h1 class="inter-bold-header">Please sign in to see the posts from others!</h1>
     </div>

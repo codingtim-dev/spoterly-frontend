@@ -4,7 +4,7 @@ import {AccountService} from '../../services/account/account.service';
 import {MatDialog, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
 import {AuthService} from '../../services/auth/auth.service';
 import {AsyncPipe, KeyValuePipe, NgForOf, NgIf, SlicePipe} from '@angular/common';
-import {forkJoin, map, Observable, switchMap} from 'rxjs';
+import {forkJoin, map, Observable, of, switchMap} from 'rxjs';
 import PostModel from '../../core/post/PostModel';
 import {ImageService} from '../../services/post/image.service';
 import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
@@ -13,6 +13,7 @@ import {PostService} from '../../services/post/post.service';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {DeletePostDialogComponent} from '../delete-post-dialog/delete-post-dialog.component';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 
 interface userData {
   username: string;
@@ -37,7 +38,8 @@ interface userData {
     NgIf,
     SlicePipe,
     MatIconButton,
-    MatIcon
+    MatIcon,
+    MatProgressSpinner
   ],
   templateUrl: './account-details-dialog.component.html',
   styleUrl: './account-details-dialog.component.scss'
@@ -45,7 +47,7 @@ interface userData {
 export class AccountDetailsDialogComponent implements OnInit {
 
   likedPosts$?: Observable<PostModel[]>;
-  userPosts$?: Observable<PostModel[]>;
+  userPosts$!: Observable<PostModel[]>;
   readonly dialog: MatDialog = inject(MatDialog);
 
   username?: string | null;
@@ -62,8 +64,13 @@ export class AccountDetailsDialogComponent implements OnInit {
   constructor(private router: Router, private accountService: AccountService, private imageService: ImageService, private authService: AuthService, private dialogRef: MatDialogRef<AccountDetailsDialogComponent>, private postService: PostService,) {
   }
 
-  onNavigate() {
+  navigateToLikedPosts() {
     this.router.navigate(['/likedPosts']);
+    this.dialogRef.close();
+  }
+
+  navigateToUsersPosts() {
+    this.router.navigate(['/usersPosts']);
     this.dialogRef.close();
   }
 
@@ -76,35 +83,44 @@ export class AccountDetailsDialogComponent implements OnInit {
     this.userPosts$ = this.postService.getPostByUsername(this.username);
 
     this.likedPosts$ = this.likedPosts$?.pipe(
+      map(posts => posts || []),
       switchMap(posts =>
-        forkJoin(
-          posts.map(post =>
-            this.imageService.getImageUrl(post.image_id).pipe(
-              map(imageUrl => ({
-                ...post,
-                imageUrl,
-              }))
+        posts.length > 0
+
+          ? forkJoin(
+            posts.map(post =>
+              this.imageService.getImageUrl(post.image_id).pipe(
+                map(imageUrl => ({
+                  ...post,
+                  imageUrl,
+                }))
+              )
             )
-          )
-        )
+          ) : of([])
       )
     );
 
+    this.userPosts$.subscribe(posts => console.log('User Posts:', posts));
 
-    this.userPosts$ = this.userPosts$?.pipe(
+
+    this.userPosts$ = this.postService.getPostByUsername(this.username).pipe(
+      map(posts => posts || []),
       switchMap(posts =>
-        forkJoin(
-          posts.map(post =>
-            this.imageService.getImageUrl(post.image_id).pipe(
-              map(imageUrl => ({
-                ...post,
-                imageUrl,
-              }))
+        posts.length > 0
+          ? forkJoin(
+            posts.map(post =>
+              this.imageService.getImageUrl(post.image_id).pipe(
+                map(imageUrl => ({
+                  ...post,
+                  imageUrl,
+                }))
+              )
             )
           )
-        )
+          : of([])
       )
     );
+
   }
 
   getUserData() {

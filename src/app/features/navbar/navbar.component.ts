@@ -30,6 +30,8 @@ export class NavbarComponent implements OnInit {
   uuidRegex = /\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
   fill = "#000000"
 
+  isSmartphone = false;
+
   readonly dialog: MatDialog = inject(MatDialog);
 
   constructor(private authService: AuthService, private router: Router) {
@@ -51,7 +53,7 @@ export class NavbarComponent implements OnInit {
 
   openAccountDetailsDialog(): void {
     const dialogRef = this.dialog.open(AccountDetailsDialogComponent, {
-      height: '800px',
+      height: '900px',
       width: '700px',
     });
 
