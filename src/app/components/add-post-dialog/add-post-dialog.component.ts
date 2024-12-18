@@ -69,7 +69,7 @@ export class AddPostDialogComponent implements OnInit {
     this.uploadForm = this.fb.group({
       selectedSpot: ['', [Validators.required]],
       title: ['', {
-        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(35)],
         updateOn: 'blur'
       }],
       description: ['', {
