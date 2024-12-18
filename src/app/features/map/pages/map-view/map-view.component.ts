@@ -7,7 +7,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPostDialogComponent} from '../../../../components/add-post-dialog/add-post-dialog.component';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf, SlicePipe} from '@angular/common';
 import {AddSpotDialogComponent} from '../../../../components/add-spot-dialog/add-spot-dialog.component';
 import {SpotService} from '../../../../services/spot/spot.service';
 import {AuthService} from '../../../../services/auth/auth.service';
@@ -42,6 +42,7 @@ interface eventCoordinates {
     NgForOf,
     SpotCardComponent,
     SpotDetailsComponent,
+    SlicePipe,
   ],
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss',
@@ -109,7 +110,7 @@ export class MapViewComponent implements AfterViewInit {
           marker.addTo(this.map);
         }
       });
-      
+
       this.updateVisibleSpots(data);
     });
   }
